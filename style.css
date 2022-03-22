@@ -1,0 +1,136 @@
+/* paw print background */
+
+.background-paws {
+  background-image: url("/images/paw-print-bg.jpg");
+}
+
+/* override bootstrap borders */
+
+.border-6 {
+  border-width: 6px !important;
+}
+
+.border-3 {
+  border-width: 3px !important;
+}
+
+/* Start of Profile Page CSS */
+
+.profile-head {
+  transform: translateY(5rem);
+}
+
+.cover {
+  background-color: black;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* end Profile Page CSS */
+
+/* Start Forum Page CSS*/
+
+.forum-card {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.forum-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0 solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+.forum-card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1rem;
+}
+
+.forum-wrapper {
+  position: relative;
+  height: calc(100vh - 3.5rem);
+  transition: transform 0.3s;
+}
+
+.forum-main,
+.forum-sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.forum-sidebar {
+  left: 0;
+  width: 235px;
+  border-right: 1px solid #cbd5e0;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.forum-main {
+  right: 0;
+  left: 235px;
+}
+
+.forum-main-footer,
+.forum-main-header,
+.forum-sidebar-footer,
+.forum-sidebar-header {
+  height: 3.5rem;
+  border-bottom: 1px solid #cbd5e0;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  flex-shrink: 0;
+}
+
+.forum-main-body,
+.forum-sidebar-body {
+  padding: 1rem;
+  overflow-y: auto;
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.forum-main-body .sticky-top,
+.forum-sidebar-body .sticky-top {
+  z-index: 999;
+}
+
+.forum-main-footer,
+.forum-main-header {
+  background-color: #fff;
+}
+
+.forum-main-footer,
+.forum-sidebar-footer {
+  border-top: 1px solid #cbd5e0;
+  border-bottom: 0;
+  height: auto;
+  min-height: 3.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .forum-sidebar {
+    left: -235px;
+  }
+  .forum-main {
+    left: 0;
+  }
+  .forum-expand .main-body {
+    overflow: hidden;
+  }
+  .forum-expand .forum-wrapper {
+    transform: translate3d(235px, 0, 0);
+  }
+}
+
+/* end Forum Page CSS */

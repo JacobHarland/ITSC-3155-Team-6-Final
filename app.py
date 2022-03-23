@@ -14,6 +14,12 @@ def forum():
 def post():
     return render_template('post.html')
 
-@app.route('/post_form', methods=['GET','POST'])
+@app.get('/post_form')
 def post_form():
     return render_template('post_form.html')
+
+@app.post('/post')
+def create_post():
+    # TODO: Add post to DB
+    # TODO: Redirect to post
+    return redirect('/post')

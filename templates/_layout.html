@@ -51,7 +51,7 @@
         >
           <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav me-auto mb-2 mb-lg-0">
             <a class="nav-link{{' active' if active_page == 'index'}}" {% if active_page == 'index' %}aria-current="page"{% endif %} href="/">Home</a>
             <a class="nav-link{{' active' if active_page == 'profile'}}" {% if active_page == 'profile' %}aria-current="page"{% endif %} href="/profile">My Profile</a>
@@ -71,7 +71,7 @@
 
     {% block body %}{% endblock %}
 
-    <footer class="bg-info text-lg-start fixed-bottom">
+    <footer class="bg-info text-lg-start">
       <div class="text-center p-3">&copy; 2022 Pet Pals</div>
     </footer>
   </body>

@@ -12,7 +12,7 @@ def get_profiles():
         return render_template('profile.html')
 
 @app.get('/profiles/<profile_id>')
-def get_profile_by_id( profile.profile_id ):
+def get_profile_by_id( profile_id ):
     return render_template('profile.html')
 
 @app.post('/profiles')

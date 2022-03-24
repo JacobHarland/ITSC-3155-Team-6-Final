@@ -46,10 +46,15 @@
                     </div>
 
                     <div class="text-center pt-1 mb-0 pb-0">
-                        <button class="btn btn-info btn-block mb-3" type="button">Create Account</button>
+                        {{ form.submit(class="btn btn-info btn-block mb-3") }}
                     </div>
 
                 </form>
+            </div>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Already have an account? <a class="ml-2" href="{{ url_for('login') }}">Sign in</a>
+                </small>
             </div>
         </div>
     </div>

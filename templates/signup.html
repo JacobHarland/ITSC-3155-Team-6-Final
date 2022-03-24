@@ -1,0 +1,61 @@
+{% extends '_layout.html' %}
+
+{% set title = 'Login' %}
+{% set active_page = 'Login' %}
+
+{% block body %}
+
+<!--Signup Form-->
+<section class="h-100 background-paws" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+        <div class="card rounded-3 text-black border border-info border-6">
+            <div class="card-body p-md-5 mx-md-4">
+                <div class="text-center">
+                    <img src="/static/images/logo.jpeg" alt="logo">
+                    <h4 class="mt-1 mb-5 pb-1">Where your Pet meets new Pals</h4>
+                </div>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <h2 class="text-center m-5">Account Registration</h2>
+
+                    <div class="form-outline mb-4">
+                        {{ form.fullname(class="form-control") }}
+                        {{ form.fullname.label(class="form-label") }}
+                    </div>
+
+
+                    <div class="form-outline mb-4">
+                        {{ form.username(class="form-control") }}
+                        {{ form.username.label(class="form-label") }}
+                    </div>
+
+
+                    <div class="form-outline mb-4">
+                        {{ form.email(class="form-control") }}
+                        {{ form.email.label(class="form-label") }}
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        {{ form.password(class="form-control") }}
+                        {{ form.password.label(class="form-label") }}
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        {{ form.confirm_password(class="form-control") }}
+                        {{ form.confirm_password.label(class="form-label") }}
+                    </div>
+
+                    <div class="text-center pt-1 mb-0 pb-0">
+                        <button class="btn btn-info btn-block mb-3" type="button">Create Account</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!--end Signup Form-->
+<script>document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });</script>
+{% endblock body %}

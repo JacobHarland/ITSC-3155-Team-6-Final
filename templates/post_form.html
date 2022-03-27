@@ -1,60 +1,89 @@
 {% extends '_layout.html' %}
 {% set title = 'New post' %}
-{% set active_page = 'post form' %}
+{% set active_page = 'post_form' %}
 
 {% block body %}
-
-
-    <!--New Post Form-->
-    <section class="h-100 background-paws">
-        <div class="container py-5 h-100">
-            <div class="card rounded-3 text-black border border-info border-6">
-                <div class="card-body p-md-5 mx-md-4">
-                    <div class="text-center">
-                        <img src="/images/logo.jpeg" alt="logo">
-                        <h5 class="mt-1 mb-4 pb-0">Where your Pet meets new Pals</h5>
-                    </div>
-                    <form>
-                        <div class="container text-center mb-4">
-                            <h1>Create New Post Form</h1>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Post Title</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Post Content</label>
-                            <textarea class="form-control" placeholder="Type your post here" rows="10"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlFile1">Attachments</label>
-                            <input type="file" class="form-control-file">
-                        </div>
-                        <div class="text-center pt-3 mb-0 pb-0">
-                            <button class="btn btn-info btn-block mb-3" type="button">Publish Post</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<section class="bg-image background-paws vh-100">
+  <div class="container py-5">
+    <div class="card rounded-3 border border-info border-6">
+      <div class="card-body p-md-5 mx-md-4">
+        <div class="text-center">
+          <img src="static/images/logo.jpeg" alt="Pet Pals" class="mb-1" />
+          <h5 class="mb-4">Where your Pet meets new Pals</h5>
         </div>
-    </section>
-    <!--end New Post Form-->
+        <h1 class="text-center mb-5">Create New Post Form</h1>
+        <form action="/post" method="post">
+          <!-- Title input -->
+          <div class="form-outline mb-4">
+            <input
+              type="text"
+              name="post-title"
+              id="post-title"
+              class="form-control"
+            />
+            <label for="post-title" class="form-label">Post Title</label>
+          </div>
 
+          <!-- Content input -->
+          <div class="form-outline mb-3">
+            <textarea
+              name="post-content"
+              id="post-content"
+              class="form-control"
+              rows="10"
+            ></textarea>
+            <label for="post-content" class="form-label">Post Content</label>
+          </div>
 
+          <!-- Attachment input -->
+          <div class="form-group mb-4">
+            <label for="post-attachment" class="form-label">Attachment</label>
+            <input
+              name="post-attachment"
+              id="post-attachment"
+              type="file"
+              class="form-control"
+            />
+          </div>
 
-    <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js "
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p "
-        crossorigin="anonymous "></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js "
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB "
-        crossorigin="anonymous "></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js "
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13 "
-        crossorigin="anonymous "></script>
+          <!-- Submit button -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-info btn-block mb-3">
+              Publish Post
+            </button>
+          </div>
 
-    <!-- Material Design for Bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/js/mdb.min.js "></script>
+          <!-- Old Input -->
+          <!-- Title input -->
+          <!-- <div class="form-group">
+            <label for="post-title">Post Title</label>
+            <input type="text" name="post-title" id="post-title" class="form-control">
+          </div> -->
 
+          <!-- Content input -->
+          <!-- <div class="form-group">
+            <label for="post-content">Post Content</label>
+            <textarea name="post-content" id="post-content" class="form-control" placeholder="Type your post here" rows="10"></textarea>
+          </div> -->
+
+          <!-- Attachment input -->
+          <!-- <div class="form-group">
+            <label for="post-attachment">Attachment</label>
+            <input name="post-attachment" id="post-attachment" type="file" class="form-control-file">
+          </div> -->
+
+          <!-- Submit button -->
+          <!-- <div class="text-center pt-3 mb-0 pb-0">
+            <button type="submit" class="btn btn-info btn-block mb-3">Publish Post</button>
+          </div> -->
+        </form>
+        <script>
+          document.querySelectorAll(".form-outline").forEach((formOutline) => {
+            new mdb.Input(formOutline).init();
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

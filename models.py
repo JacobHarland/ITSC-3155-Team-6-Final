@@ -25,3 +25,13 @@ class User(db.Model):
 
     def __repr__(self):
         return f"User({self.user_id}, {self.username}, {self.fullname}, {self.email})"
+
+
+class Forum_post(db.Model):
+    post_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    content = db.Column(db.String, nullable=False)
+    file = db.Column(db.BLOB, nullable=True)
+
+    def __repr__(self):
+        return f"Forum_post({self.post_id}, {self.title}, {self.content})"

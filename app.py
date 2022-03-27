@@ -30,6 +30,11 @@ def get_profile_by_id(profile_id):
     return render_template("profile.html", profile=profile)
 
 
+@app.get("/profiles/add")
+def get_profile_form():
+    return render_template("new_profile.html")
+
+
 @app.post("/profiles")
 def add_profile():
     name = request.form.get("name", "")

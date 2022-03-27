@@ -26,9 +26,28 @@ def get_profiles():
 
 @app.get("/profiles/<profile_id>")
 def get_profile_by_id(profile_id):
-    return render_template("profile.html")
+    profile = Profile.query.get_or_404(profile_id)
+    return render_template("profile.html", profile=profile)
 
 
 @app.post("/profiles")
 def add_profile():
     name = request.form.get("name", "")
+    owner_name = request.form.get("owner_name", "")
+    species = request.form.get("species", "")
+    subspecies = request.form.get("subspecies", "")
+    owner_phone = request.form.get("owner_phone", "")
+    color = request.form.get("color", "")
+
+    new_profile = Profile(
+        name=name,
+        owner_name=owner_name,
+        owner_phone=owner_phone,
+        species=species,
+        subspecies=subspecies,
+        color=color,
+    )
+    db.session.add(new_profile)
+    db.session.commit()
+
+    return redirect(f"/profiles/{new_profile.profile_id}")

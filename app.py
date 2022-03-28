@@ -10,6 +10,10 @@ app.config['SECRET_KEY'] = '3b05adb71fc2d58cb11457a257f37b35'
 def index():
     return render_template('index.html')
 
+@app.get('/faq')
+def faq():
+    return render_template('faq.html')
+
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     form = SignupForm()

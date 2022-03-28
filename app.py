@@ -6,6 +6,10 @@ app = Flask(__name__)
 # protects against modifying cookies and crosssite request forgery attacks
 app.config['SECRET_KEY'] = '3b05adb71fc2d58cb11457a257f37b35'
 
+@app.get('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     form = SignupForm()
@@ -16,8 +20,8 @@ def signup():
     return render_template('signup.html', form=form)
 
 @app.route('/login', methods=['GET','POST'])
-def index():
-    form =LoginForm()
+def login():
+    form = LoginForm()
     if form.validate_on_submit():
         # test data 
         if form.email.data == 'admin@blog.com' and form.password.data == 'password':

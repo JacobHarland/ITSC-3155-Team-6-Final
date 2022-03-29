@@ -9,11 +9,11 @@ app.config['SECRET_KEY'] = '3b05adb71fc2d58cb11457a257f37b35'
 
 @app.get('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', title="Home")
 
-@app.get('/faq')
-def faq():
-    return render_template('faq.html')
+@app.get("/about")
+def about():
+    return render_template('about.html', title="About Us")
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():

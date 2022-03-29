@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -18,13 +19,16 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
       rel="stylesheet"
     />
-    <!--Local CSS-->
+
+    <!--Custom CSS-->
     <link rel="stylesheet" href="/static/style.css">
+
     <!-- MDB JS -->
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
     ></script>
+
     <title>{{title}}</title>
   </head>
 
@@ -64,12 +68,23 @@
               <a class="nav-item nav-link" href="{{ url_for('about') }}">About Us</a>
             </button>
             <button type="button" class="btn btn-link btn-outline-white me-3">
-              Login/Sign up
+              <a class="nav-item nav-link" href="{{ url_for('signup') }}">Signup</a>
             </button>
           </div>
         </div>
       </div>
     </nav>
+    <!--Displays a flash message-->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <!--End flash message-->
 
     {% block body %}{% endblock %}
 

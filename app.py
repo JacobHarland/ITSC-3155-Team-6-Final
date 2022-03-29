@@ -1,4 +1,6 @@
 from flask import Flask, abort, redirect, render_template, request, flash, url_for
+from forms import SignupForm, LoginForm
+
 
 app = Flask(__name__)
 
@@ -13,26 +15,27 @@ def index():
 def faq():
     return render_template('faq.html')
 
-#@app.route('/signup', methods=['GET','POST'])
-#def signup():
-   # form = SignupForm()
-    # displays a message if data was sent
-   # if form.validate_on_submit():
-     #   flash(f'Account created for {form.username.data}!', 'success')
-     #   return redirect(url_for('index'))
-  #  return render_template('signup.html', form=form)
 
-#@app.route('/login', methods=['GET','POST'])
-#def login():
- #   form = LoginForm()
-  #  if form.validate_on_submit():
-   #     # test data 
-    #    if form.email.data == 'admin@blog.com' and form.password.data == 'password':
-     #       flash('You have been logged in!', 'success')
-      #      return redirect(url_for('index'))
-       # else: 
-        #    flash('Login failed, please try again', 'danger')
-    #return render_template('login.html', form=form)
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    form = SignupForm()
+    # displays a message if data was sent
+    if form.validate_on_submit():
+       flash(f'Account created for {form.username.data}!', 'success')
+       return redirect(url_for('index'))
+    return render_template('signup.html', form=form)
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # test data 
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('index'))
+        else: 
+            flash('Login failed, please try again', 'danger')
+    return render_template('login.html', form=form)
 
 @app.get('/forum')
 def forum():
@@ -51,3 +54,25 @@ def create_post():
     # TODO: Add post to DB
     # TODO: Redirect to post
     return redirect('/post')
+
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    form = SignupForm()
+    # displays a message if data was sent
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('index'))
+    return render_template('signup.html', form=form)
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # test data 
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('index'))
+        else: 
+            flash('Login failed, please try again', 'danger')
+    return render_template('login.html', form=form)
+

@@ -40,6 +40,10 @@ def login():
 def forum():
     return render_template('forum.html')
 
+@app.get('/post')
+def post():
+    return render_template('post.html')
+
 @app.get('/post_form')
 def post_form():
     return render_template('post_form.html')

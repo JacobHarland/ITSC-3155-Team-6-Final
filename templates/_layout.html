@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="/static/style.css">
 
     <!-- MDB JS -->
+    <!-- This should probably have a defer attribute so it does not run until the body is parsed -->
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
@@ -74,6 +75,7 @@
         </div>
       </div>
     </nav>
+    <!-- Great use of flash! -->
     <!--Displays a flash message-->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}

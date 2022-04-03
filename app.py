@@ -4,6 +4,7 @@ from forms import SignupForm, LoginForm
 
 app = Flask(__name__)
 
+# Should make this an env var so it can be different in production and not committed to GitHub
 # protects against modifying cookies and crosssite request forgery attacks
 app.config['SECRET_KEY'] = '3b05adb71fc2d58cb11457a257f37b35'
 
@@ -48,6 +49,7 @@ def forum():
 def post():
     return render_template('post.html')
 
+# This may be cleaner with the route naming convention from the PPT
 @app.get('/post_form')
 def post_form():
     return render_template('post_form.html')

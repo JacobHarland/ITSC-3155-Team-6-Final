@@ -1,11 +1,7 @@
-from flask import Flask, abort, redirect, render_template, request, flash, url_for
-from forms import SignupForm, LoginForm
-
-
-app = Flask(__name__)
-
-# protects against modifying cookies and crosssite request forgery attacks
-app.config['SECRET_KEY'] = '3b05adb71fc2d58cb11457a257f37b35'
+from flask import redirect, render_template, flash, url_for
+from petpals import app
+from petpals.models import User, Post
+from petpals.forms import SignupForm, LoginForm
 
 @app.get('/')
 def index():

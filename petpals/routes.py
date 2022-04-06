@@ -3,6 +3,7 @@ from flask import redirect, render_template, flash, url_for
 from petpals import app, db, bcrypt
 from petpals.models import User, Post
 from petpals.forms import SignupForm, LoginForm
+from flask_login import login_user
 
 @app.get('/')
 def index():
@@ -34,12 +35,14 @@ def signup():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        # test data 
-        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
-            flash('You have been logged in!', 'success')
+        # searches database to see if email has been created or exists        
+        user = User.query.filter_by(email=form.email.data).first()
+        # checks if user exists and password verifies with db
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
             return redirect(url_for('index'))
-        else: 
-            flash('Login failed, please try again', 'danger')
+        else:
+            flash('Login failed, please check email and password', 'danger')
     return render_template('login.html', form=form)
 
 @app.get('/forum')

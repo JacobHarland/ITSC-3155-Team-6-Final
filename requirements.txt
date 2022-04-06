@@ -20,6 +20,7 @@ py==1.11.0
 pycodestyle==2.8.0
 pyparsing==3.0.7
 pytest==7.0.1
+python-dotenv==0.20.0
 SQLAlchemy==1.4.34
 toml==0.10.2
 tomli==2.0.1

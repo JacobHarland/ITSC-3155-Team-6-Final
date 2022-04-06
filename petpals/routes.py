@@ -1,5 +1,6 @@
+from encodings import utf_8
 from flask import redirect, render_template, flash, url_for
-from petpals import app
+from petpals import app, db, bcrypt
 from petpals.models import User, Post
 from petpals.forms import SignupForm, LoginForm
 
@@ -20,8 +21,13 @@ def signup():
     form = SignupForm()
     # displays a message if data was sent
     if form.validate_on_submit():
-       flash(f'Account created for {form.username.data}!', 'success')
-       return redirect(url_for('index'))
+        # bcrypt, hashes a password from form and decodes it as a string instead of bytes with utf-8
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Your account has been created. You are now able to login. Welcome to PetPals!', 'success')
+        return redirect(url_for('login'))
     return render_template('signup.html', form=form)
 
 @app.route('/login', methods=['GET','POST'])

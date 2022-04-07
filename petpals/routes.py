@@ -1,7 +1,9 @@
-from flask import redirect, render_template, flash, url_for
+from flask import flash, redirect, render_template, url_for
+
 from petpals import app
-from petpals.models import User, Post
-from petpals.forms import SignupForm, LoginForm
+from petpals.forms import LoginForm, SignupForm
+from petpals.models import Post, User
+
 
 @app.get('/')
 def index():
@@ -44,7 +46,7 @@ def forum():
 def post():
     return render_template('post.html')
 
-@app.get('/post_form')
+@app.get('/post/form')
 def post_form():
     return render_template('post_form.html')
 

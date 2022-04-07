@@ -14,10 +14,11 @@ secret_key = os.getenv('secretkey')
 connect = f'mysql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}'
 
 app = Flask(__name__)
+
+# Move to env
 # protects against modifying cookies and crosssite request forgery attacks
 app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = connect
 db = SQLAlchemy(app)
 
 from petpals import routes
-

@@ -3,7 +3,7 @@ from flask import redirect, render_template, flash, url_for
 from petpals import app, db, bcrypt
 from petpals.models import User, Post
 from petpals.forms import SignupForm, LoginForm
-from flask_login import login_user
+from flask_login import login_user, current_user, logout_user
 
 @app.get('/')
 def index():
@@ -19,6 +19,9 @@ def faq():
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
+    # if user is logged in, clicking signup redirects to home
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = SignupForm()
     # displays a message if data was sent
     if form.validate_on_submit():
@@ -33,6 +36,9 @@ def signup():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    # if user is logged in, clicking login redirects to home
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
         # searches database to see if email has been created or exists        
@@ -62,4 +68,9 @@ def create_post():
     # TODO: Add post to DB
     # TODO: Redirect to post
     return redirect('/post')
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 

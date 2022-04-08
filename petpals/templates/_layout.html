@@ -67,12 +67,19 @@
             <button type="button" class="btn btn-link text-dark px-3 me-2">
               <a class="nav-item nav-link" href="{{ url_for('about') }}">About Us</a>
             </button>
-            <button type="button" class="btn btn-link btn-outline-white me-3">
-              <a class="nav-item nav-link" href="{{ url_for('signup') }}">Signup</a>
-            </button>
-            <button type="button" class="btn btn-link btn-outline-white me-3">
-              <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
-            </button>
+            <!--If user is logged in only show logout, if not logged in show signup/login-->
+            {% if current_user.is_authenticated %}
+              <button type="button" class="btn btn-link btn-outline-white me-3">
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+              </button>
+            {% else %}
+              <button type="button" class="btn btn-link btn-outline-white me-3">
+                <a class="nav-item nav-link" href="{{ url_for('signup') }}">Signup</a>
+              </button>
+              <button type="button" class="btn btn-link btn-outline-white me-3">
+                <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+              </button>
+            {% endif %}
           </div>
         </div>
       </div>

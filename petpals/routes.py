@@ -82,9 +82,17 @@ def logout():
 def profile():
     return render_template('profile.html', title='Profile')
 
-@app.route('/profile/edit')
+@app.route('/profile/edit', methods=['GET','POST'])
 @login_required
 def edit_profile():
     form = UpdateAccountForm()
+    # updates user data
+    if form.validate_on_submit():
+        current_user.fullname = form.fullname.data
+        current_user.username = form.username.data 
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('profile'))
     image_file = url_for('static', filename='/images/profile_pictures/' + current_user.image_file)
     return render_template('edit_profile.html', title='Edit Profile', image_file=image_file, form=form)

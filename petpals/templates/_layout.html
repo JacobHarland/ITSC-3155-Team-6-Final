@@ -61,7 +61,9 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav me-auto mb-2 mb-lg-0">
             <a class="nav-link{{' active' if active_page == 'index'}}" {% if active_page == 'index' %}aria-current="page"{% endif %} href="/">Home</a>
-            <a class="nav-link{{' active' if active_page == 'profile'}}" {% if active_page == 'profile' %}aria-current="page"{% endif %} href="/profile">My Profile</a>
+            {% if current_user.is_authenticated %}
+              <a class="nav-link{{' active' if active_page == 'profile'}}" {% if active_page == 'profile' %}aria-current="page"{% endif %} href="/profile">My Profile</a>
+            {% endif %}
             <a class="nav-link{{' active' if active_page == 'forum'}}" {% if active_page == 'forum' %}aria-current="page"{% endif %} href="/forum">Forum</a>
           </div>
           <div class="d-flex align-items-center">

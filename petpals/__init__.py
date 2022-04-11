@@ -25,5 +25,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+# login_required needs to know where login route is.
+login_manager.login_view = 'login'
+# changes styling, info is bootstrap coloring
+login_manager.login_message_category = 'info'
 
 from petpals import routes

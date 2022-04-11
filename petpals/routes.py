@@ -1,5 +1,5 @@
 from flask import flash, redirect, render_template, url_for
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from petpals import app, db, bcrypt
 from petpals.forms import LoginForm, SignupForm
 from petpals.models import Post, User
@@ -73,3 +73,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', title='Profile')

@@ -1,3 +1,4 @@
+from fileinput import filename
 from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from petpals import app, db, bcrypt
@@ -80,3 +81,9 @@ def logout():
 @login_required
 def profile():
     return render_template('profile.html', title='Profile')
+
+@app.route('/profile/edit')
+@login_required
+def edit_profile():
+    image_file = url_for('static', filename='/images/profile_pictures/' + current_user.image_file)
+    return render_template('edit_profile.html', title='Edit Profile', image_file=image_file)

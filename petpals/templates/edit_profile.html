@@ -1,0 +1,36 @@
+{% extends "_layout.html" %}
+{% set title = 'Edit Profile' %}
+{% set active_page = 'edit_profile' %}
+{% block body %}
+    <div>
+        
+    </div>
+    <div class="row d-flex justify-content-center mt-3">
+<div class="col-xl-3 col-md-6 mb-4 mr-5">
+    <div class="card-flex bg-white border-0 rounded shadow text-center ml-0">
+        <img src="{{ image_file }}" width="200"
+            class="rounded-circle z-depth-2 mt-2 p-2 bg-info">
+        <div class="card-body text-center">
+            <h4 class="card-title mb-0">{{current_user.username}}</h4>
+            <h4 class="card-title mb-0">{{current_user.email}}</h4>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ image_file }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{current_user.username}}</h2>
+            <p class="text-secondary">{{current_user.email}}</p>
+        </div>
+    </div>
+    <!-- FORM HERE -->
+</div>
+
+<script>document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });</script>
+{% endblock body %}}

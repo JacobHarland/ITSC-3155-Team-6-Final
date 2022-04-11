@@ -2,7 +2,7 @@ from fileinput import filename
 from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from petpals import app, db, bcrypt
-from petpals.forms import LoginForm, SignupForm
+from petpals.forms import LoginForm, SignupForm, UpdateAccountForm
 from petpals.models import Post, User
 
 @app.get('/')
@@ -85,5 +85,6 @@ def profile():
 @app.route('/profile/edit')
 @login_required
 def edit_profile():
+    form = UpdateAccountForm()
     image_file = url_for('static', filename='/images/profile_pictures/' + current_user.image_file)
-    return render_template('edit_profile.html', title='Edit Profile', image_file=image_file)
+    return render_template('edit_profile.html', title='Edit Profile', image_file=image_file, form=form)

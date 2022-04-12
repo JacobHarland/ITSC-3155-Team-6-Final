@@ -96,6 +96,10 @@ def save_picture(form_picture):
     picture_path = os.path.join(app.root_path, 'static/images/profile_pictures', picture_filename)
     form_picture.save(picture_path)
 
+    prev_picture = os.path.join(app.root_path, 'static/images/profile_pictures', current_user.image_file)
+    if os.path.exists(prev_picture) and current_user.image_file != 'default.jpg':
+        os.remove(prev_picture)
+
     return picture_filename
 
 @app.route('/profile/edit', methods=['GET','POST'])

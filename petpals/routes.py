@@ -1,5 +1,3 @@
-import os
-import secrets
 from fileinput import filename
 from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required

@@ -1,5 +1,5 @@
-from flask import flash, redirect, render_template, url_for
-from flask_login import login_user, current_user, logout_user
+from flask import flash, redirect, render_template, url_for, request
+from flask_login import login_user, current_user, logout_user, login_required
 from petpals import app, db, bcrypt
 from petpals.forms import LoginForm, SignupForm
 from petpals.models import Post, User
@@ -45,7 +45,10 @@ def login():
         # checks if user exists and password verifies with db
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('index'))
+            # gets the page the user was trying to access 
+            next_page = request.args.get('next')
+            # ternary operator, if next page exists redirect to it, otherwise to index
+            return redirect(next_page) if next_page else redirect(url_for('index'))
         else:
             flash('Login failed, please check email and password', 'danger')
     return render_template('login.html', form=form)
@@ -73,3 +76,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', title='Profile')

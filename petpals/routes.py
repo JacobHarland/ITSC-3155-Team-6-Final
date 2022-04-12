@@ -1,3 +1,5 @@
+import os
+import secrets
 from fileinput import filename
 from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
@@ -82,12 +84,31 @@ def logout():
 def profile():
     return render_template('profile.html', title='Profile')
 
+def save_picture(form_picture):
+    # random name for each file uploaded
+    random_hex = secrets.token_hex(8)
+    # _ for unused variables
+    # returns and splits the text and file type of the file uploaded by user
+    _, f_ext = os.path.splitext(form_picture.filename)
+    # combine random hex with file extension in order to save it
+    picture_filename = random_hex + f_ext
+    # path of location to save the file
+    picture_path = os.path.join(app.root_path, 'static/images/profile_pictures', picture_filename)
+    form_picture.save(picture_path)
+
+    return picture_filename
+
 @app.route('/profile/edit', methods=['GET','POST'])
 @login_required
 def edit_profile():
     form = UpdateAccountForm()
     # updates user data
     if form.validate_on_submit():
+        # calls method save_picture to save picture and give filename
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            # image_file is name in models.py
+            current_user.image_file = picture_file
         current_user.fullname = form.fullname.data
         current_user.username = form.username.data 
         current_user.email = form.email.data

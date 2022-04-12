@@ -1,5 +1,5 @@
-from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from petpals.models import User
@@ -10,16 +10,12 @@ class SignupForm(FlaskForm):
                             validators=[DataRequired(),Length(min=1, max=50)])
     username = StringField('Username',
                             validators=[DataRequired(), Length(min=2, max=18)])
-
     email = StringField('Email',
                             validators=[DataRequired(), Email()])
-    
     password = PasswordField('Password',
                             validators=[DataRequired(), Length(min=8, max=32)])
-
     confirm_password = PasswordField('Confirm Password',
                             validators=[DataRequired(), EqualTo('password')])
-    
     submit = SubmitField('Sign Up')
 
     # Validation to make sure users cannot have same username
@@ -40,12 +36,9 @@ class SignupForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
-    
     password = PasswordField('Password',
                             validators=[DataRequired(), Length(min=8, max=32)])
-
     remember = BooleanField('Remember Me')
-
     submit = SubmitField('Login')
 
 class UpdateAccountForm(FlaskForm):
@@ -53,12 +46,11 @@ class UpdateAccountForm(FlaskForm):
                             validators=[DataRequired(),Length(min=1, max=50)])
     username = StringField('Username',
                             validators=[DataRequired(), Length(min=2, max=18)])
-
     email = StringField('Email',
                             validators=[DataRequired(), Email()])
-
+    picture = FileField('Update Profile Picture',
+                            validators=[FileAllowed(['jpg', 'png'])])
     biography = TextAreaField('Bio')
-    
     submit = SubmitField('Update')
 
     # Validation to make sure users cannot have same username

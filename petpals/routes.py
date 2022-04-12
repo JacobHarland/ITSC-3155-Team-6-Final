@@ -91,6 +91,7 @@ def edit_profile():
         current_user.fullname = form.fullname.data
         current_user.username = form.username.data 
         current_user.email = form.email.data
+        current_user.biography = form.biography.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('profile'))
@@ -99,5 +100,6 @@ def edit_profile():
         form.fullname.data = current_user.fullname
         form.username.data = current_user.username
         form.email.data = current_user.email
+        form.biography.data = current_user.biography
     image_file = url_for('static', filename='/images/profile_pictures/' + current_user.image_file)
     return render_template('edit_profile.html', title='Edit Profile', image_file=image_file, form=form)

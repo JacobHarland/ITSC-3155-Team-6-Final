@@ -58,6 +58,28 @@
                             {% endif %}
                             {{ form.email.label(class="form-label") }}
                         </div>
+
+
+                            <div class="form-outline mb-5">
+                                {% if form.biography.errors %}
+                                    {{ form.biography(class="form-control", rows="5" + (" is-invalid" if form.biography.errors else "")) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.biography.errors %}
+                                        <span class="">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.biography(class="form-control", rows="5") }}
+                                {% endif %}
+                                {{ form.biography.label(class="form-label") }}
+                            </div>
+
+                            <!--TODO Attatchment button-->
+                            <div class="form-group">
+                                <label for="exampleFormControlFile1">Attachments</label>
+                                <input type="file" class="form-control-file">
+                            </div>
+
                         <div class="text-center pt-1 mb-0 pb-0">
                             {{ form.submit(class="btn btn-info btn-block mb-3") }}
                         </div>  

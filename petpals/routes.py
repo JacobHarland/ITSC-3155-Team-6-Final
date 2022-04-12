@@ -1,8 +1,10 @@
+from fileinput import filename
 from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from petpals import app, db, bcrypt
-from petpals.forms import LoginForm, SignupForm
+from petpals.forms import LoginForm, SignupForm, UpdateAccountForm
 from petpals.models import Post, User
+from petpals.utils import save_picture
 
 @app.get('/')
 def index():
@@ -26,7 +28,7 @@ def signup():
     if form.validate_on_submit():
         # bcrypt, hashes a password from form and decodes it as a string instead of bytes with utf-8
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(fullname=form.fullname.data, username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created. You are now able to login. Welcome to PetPals!', 'success')
@@ -80,3 +82,31 @@ def logout():
 @login_required
 def profile():
     return render_template('profile.html', title='Profile')
+
+
+@app.route('/profile/edit', methods=['GET','POST'])
+@login_required
+def edit_profile():
+    form = UpdateAccountForm()
+    # updates user data
+    if form.validate_on_submit():
+        # calls method save_picture to save picture and give filename
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            # image_file is name in models.py
+            current_user.image_file = picture_file
+        current_user.fullname = form.fullname.data
+        current_user.username = form.username.data 
+        current_user.email = form.email.data
+        current_user.biography = form.biography.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('profile'))
+    # auto populates fields with users current information
+    elif request.method == 'GET':
+        form.fullname.data = current_user.fullname
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        form.biography.data = current_user.biography
+    image_file = url_for('static', filename='/images/profile_pictures/' + current_user.image_file)
+    return render_template('edit_profile.html', title='Edit Profile', image_file=image_file, form=form)

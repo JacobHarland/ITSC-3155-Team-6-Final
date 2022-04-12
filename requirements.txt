@@ -20,6 +20,7 @@ Jinja2==3.0.3
 MarkupSafe==2.1.0
 mysqlclient==2.1.0
 packaging==21.3
+Pillow==9.1.0
 pluggy==1.0.0
 py==1.11.0
 pycodestyle==2.8.0

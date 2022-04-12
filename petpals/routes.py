@@ -1,5 +1,6 @@
 import os
 import secrets
+from PIL import Image
 from fileinput import filename
 from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
@@ -94,7 +95,16 @@ def save_picture(form_picture):
     picture_filename = random_hex + f_ext
     # path of location to save the file
     picture_path = os.path.join(app.root_path, 'static/images/profile_pictures', picture_filename)
-    form_picture.save(picture_path)
+
+    # Uses Pillow to resize the uploaded image to 125x125 pixels
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+
+    # original size image, may need later for profile page? 
+    # form_picture.save(picture_path)
+
+    i.save(picture_path)
 
     prev_picture = os.path.join(app.root_path, 'static/images/profile_pictures', current_user.image_file)
     if os.path.exists(prev_picture) and current_user.image_file != 'default.jpg':

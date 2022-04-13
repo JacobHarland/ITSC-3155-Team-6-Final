@@ -1,3 +1,4 @@
+from flask import Flask
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
@@ -26,7 +27,7 @@ class SignupForm(FlaskForm):
         if user:
             raise ValidationError('Username already in use. Please enter a different username.')
 
-    # Validation to make sure users cannot have same username
+    # Validation to make sure users cannot have same email
     def validate_email(self, email):
         # user = database query for email input to check if exists already. Is none if nothing found
         user = User.query.filter_by(email=email.data).first()
@@ -71,3 +72,22 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('Email already in use. Please enter a different email.')
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email',
+                            validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    # Validation to make sure email exists within database for password reset to occur
+    def validate_email(self, email):
+        # user = database query for email input to check if exists already. Is none if nothing found
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with the associated email.')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password',
+                            validators=[DataRequired(), Length(min=8, max=32)])
+    confirm_password = PasswordField('Confirm Password',
+                            validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')

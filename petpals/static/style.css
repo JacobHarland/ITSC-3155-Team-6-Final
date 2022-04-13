@@ -20,7 +20,15 @@
 /* Start of Profile Page CSS */
 
 .profile-head {
-  transform: translateY(5rem)
+  transform: translateY(1.5rem)
+}
+
+div.profile-gray {
+  --mdb-bg-opacity: 0.20;
+}
+
+.btn-light.hover-gray:hover {
+  background-color: lightgray !important;
 }
 
 .cover {

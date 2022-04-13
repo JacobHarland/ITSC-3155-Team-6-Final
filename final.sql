@@ -21,15 +21,15 @@ USE `final` ;
 -- Table `final`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `final`.`user` (
-  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(18) NOT NULL,
   `email` VARCHAR(120) NOT NULL,
   `password` VARCHAR(60) NOT NULL,
   `fullname` VARCHAR(18) NOT NULL,
   `image_file` VARCHAR(20) NULL DEFAULT NULL,
   `biography` TEXT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `user_id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB
@@ -39,20 +39,20 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `final`.`forum_post`
+-- Table `final`.`post`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `final`.`forum_post` (
+CREATE TABLE IF NOT EXISTS `final`.`post` (
   `post_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
   `content` TEXT NOT NULL,
   `file_path` VARCHAR(45) NULL DEFAULT NULL,
   `timestamp` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `forum_user_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `forum_user_id`),
-  INDEX `fk_forum_post_user_idx` (`forum_user_id` ASC) VISIBLE,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`post_id`, `user_id`),
+  INDEX `fk_forum_post_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_forum_post_user`
-    FOREIGN KEY (`forum_user_id`)
-    REFERENCES `final`.`user` (`user_id`)
+    FOREIGN KEY (`user_id`)
+    REFERENCES `final`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -69,19 +69,19 @@ CREATE TABLE IF NOT EXISTS `final`.`pet` (
   `subspecies` VARCHAR(45) NULL DEFAULT NULL,
   `name` VARCHAR(18) NOT NULL,
   `color` VARCHAR(45) NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `tagline` VARCHAR(150) NULL DEFAULT NULL,
   `image_file` VARCHAR(45) NULL DEFAULT NULL,
-  `prof_user_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   `biography` TEXT NOT NULL,
   `img1_path` VARCHAR(45) NULL DEFAULT NULL,
   `img2_path` VARCHAR(45) NULL DEFAULT NULL,
   `img3_path` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`profile_id`, `prof_user_id`),
-  INDEX `fk_profile_user1_idx` (`prof_user_id` ASC) VISIBLE,
+  PRIMARY KEY (`profile_id`, `user_id`),
+  INDEX `fk_profile_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_profile_user1`
-    FOREIGN KEY (`prof_user_id`)
-    REFERENCES `final`.`user` (`user_id`)
+    FOREIGN KEY (`user_id`)
+    REFERENCES `final`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

@@ -83,6 +83,7 @@ def logout():
 def reset_request():
     # if user is logged in, clicking reset password redirects to home
     if current_user.is_authenticated:
-    form = RequestResetForm()
+        form = RequestResetForm()
     return render_template('reset_request.html', title='Reset Password', form=form)
+    
 app.register_blueprint(profile_router)

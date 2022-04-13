@@ -50,4 +50,4 @@ class Profile(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
-        return f"Profile( {self.name}, {self.species}, {self.subspecies}, {self.color}, {self.tagline}, {self.biography})"
+        return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"

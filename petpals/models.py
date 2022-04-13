@@ -34,7 +34,7 @@ class Post(db.Model):
         return f"Post('{self.title}', '{self.date_posted}')"
 
 
-class Profile(db.Model):
+class Pet(db.Model):
     profile_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(18), nullable=False)
     species = db.Column(db.String(45), nullable=False)
@@ -46,6 +46,8 @@ class Profile(db.Model):
     img1_path = db.Column(db.String(45))
     img2_path = db.Column(db.String(45))
     img3_path = db.Column(db.String(45))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
-        return f"Profile( {self.name}, {self.species}, {self.subspecies}, {self.color}, {self.tagline}, {self.biography})"
+        return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"

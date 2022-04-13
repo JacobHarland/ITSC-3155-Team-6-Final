@@ -1,9 +1,9 @@
+from crypt import methods
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
-
 from petpals import app, bcrypt, db
 from petpals.blueprints.profile_blueprint import router as profile_router
-from petpals.forms import LoginForm, SignupForm
+from petpals.forms import LoginForm, SignupForm, RequestResetForm, ResetPasswordForm
 from petpals.models import Post, User
 
 
@@ -79,5 +79,10 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-
+@app.route('reset_password', methods=['GET', 'POST'])
+def reset_request():
+    # if user is logged in, clicking reset password redirects to home
+    if current_user.is_authenticated:
+    form = RequestResetForm()
+    return render_template('reset_request.html', title='Reset Password', form=form)
 app.register_blueprint(profile_router)

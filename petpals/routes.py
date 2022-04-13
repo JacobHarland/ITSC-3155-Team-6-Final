@@ -114,6 +114,13 @@ def reset_token(token):
         flash('Invalid or expired token', 'warning')
         return redirect(url_for('reset_request'))
     form = ResetPasswordForm
+    if form.validate_on_submit():
+        # bcrypt, hashes a password from form and decodes it as a string instead of bytes with utf-8
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Your password has been reset. You are now able to login. Welcome to PetPals!', 'success')
+        return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
 
 app.register_blueprint(profile_router)

@@ -89,7 +89,7 @@ def send_reset_email(user):
 If you did not make this request, ignore this email and no changes will be made
 '''
 
-@app.route('reset_password', methods=['GET', 'POST'])
+@app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
     # if user is logged in, clicking reset password redirects to home
     if current_user.is_authenticated:

@@ -83,7 +83,21 @@ def logout():
 def reset_request():
     # if user is logged in, clicking reset password redirects to home
     if current_user.is_authenticated:
-        form = RequestResetForm()
+        return redirect(url_for('index'))
+    form = RequestResetForm()
     return render_template('reset_request.html', title='Reset Password', form=form)
-    
+
+@app.route('/reset_password/<token>', methods=['Post', 'GET'])
+def reset_token(token):
+    # if user is logged in, redirects to home
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_token(token)
+    # if verify_reset_token returns none, then the token is invalid or expired
+    if user is None:
+        flash('Invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm
+    return render_template('reset_token.html', title='Reset Password', form=form)
+
 app.register_blueprint(profile_router)

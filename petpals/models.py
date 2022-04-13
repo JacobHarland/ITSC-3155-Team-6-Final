@@ -34,7 +34,7 @@ class Post(db.Model):
         return f"Post('{self.title}', '{self.date_posted}')"
 
 
-class Profile(db.Model):
+class Pet(db.Model):
     profile_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(18), nullable=False)
     species = db.Column(db.String(45), nullable=False)

@@ -1,6 +1,6 @@
-from crypt import methods
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
+from flask_mail import Message
 from petpals import app, bcrypt, db
 from petpals.blueprints.profile_blueprint import router as profile_router
 from petpals.forms import LoginForm, SignupForm, RequestResetForm, ResetPasswordForm
@@ -79,8 +79,15 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+# sends the email using Flask-Mail
 def send_reset_email(user):
-    pass
+    token = user.get_reset_token()
+    message = Message('Petpals Password Reset Request', sender='noreply@demo.com', recipients=[user.email])
+    message.body = f'''To reset your Petpals password, please visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+
+If you did not make this request, ignore this email and no changes will be made
+'''
 
 @app.route('reset_password', methods=['GET', 'POST'])
 def reset_request():

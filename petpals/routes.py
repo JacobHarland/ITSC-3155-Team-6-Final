@@ -79,6 +79,9 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+def send_reset_email(user):
+    pass
+
 @app.route('reset_password', methods=['GET', 'POST'])
 def reset_request():
     # if user is logged in, clicking reset password redirects to home
@@ -88,6 +91,9 @@ def reset_request():
     # gets the email of the user who submitted the password request
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent to reset your password.', 'info')
+        return redirect(url_for('login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
 
 @app.route('/reset_password/<token>', methods=['Post', 'GET'])

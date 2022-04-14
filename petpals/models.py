@@ -1,5 +1,5 @@
 from datetime import datetime
-from itsdangerous import JSONWebSignatureSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from petpals import app, db, login_manager
 from flask_login import UserMixin
 
@@ -21,17 +21,17 @@ class User(db.Model, UserMixin):
     posts = db.relationship("Post", backref="author", lazy=True)
 
     # creates a temporary password to log in a user
-    def get_reset_token(self, expires_seconds=1800):
-        s = Serializer(app.config['SECRET_KEY'], expires_seconds)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+    def get_reset_token(self):
+        s = Serializer(app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id})
     
     # tries to load created reset token, if exception return none, if no exception return user id
     @staticmethod
-    def verify_reset_token(token):
+    def verify_reset_token(token, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'])
-        try: 
-            user_id : s.loads(token)['user_id']
-        except:
+        try:
+            user_id=s.loads(token, expires_sec)['user_id']
+        except:  
             return None
         return User.query.get(user_id)
 

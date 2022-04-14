@@ -4,12 +4,12 @@
 
 {% block body %}
 
-<section class="h-100 background-paws" style="background-color: #eee;">
+<section class="h-100 background-paws" style="background-color: #eee">
   <div class="container py-5 h-100">
     <div class="card rounded-3 text-black border border-info border-6">
       <div class="card-body p-md-5 mx-md-4">
         <div class="text-center">
-                        <img src="{{ image_file }}" alt="logo">
+          <img src="{{ image_file }}" alt="logo" />
           <h4 class="card-title mb-0">{{current_user.fullname}}</h4>
           <h4 class="card-title mb-0">{{current_user.username}}</h4>
           <h4 class="card-title mb-0">{{current_user.email}}</h4>
@@ -33,7 +33,6 @@
             {{ form.fullname.label(class="form-label") }}
           </div>
 
-    
           <div class="form-outline mb-5">
             <!--If error occurs, print errors-->
             {% if form.username.errors %}
@@ -63,7 +62,6 @@
               {{ form.email.label(class="form-label") }}
           </div>
 
-
           <div class="form-outline mb-5">
             <!--If error occurs, print errors-->
             {% if form.biography.errors %}
@@ -79,23 +77,21 @@
             {{ form.biography.label(class="form-label") }}
           </div>
 
-
           <div class="form-outline mb-5">
-                                {{ form.picture.label() }} <br>
+            {{ form.picture.label() }} <br />
             {{ form.picture(class="form-control-file") }}
             <!--If error occurs, print errors-->
             {% if form.picture.errors %}
               {% for error in form.picture.errors %}
-                                        <span class="text-danger">{{ error }}</span></br>
+                <span class="text-danger">{{ error }}</span><br />
               {% endfor %}
             {% endif %}
           </div>
 
-
           <!--TODO Attatchment button-->
           <div class="form-group">
             <label for="exampleFormControlFile1">Attachments</label>
-                                <input type="file" class="form-control-file">
+            <input type="file" class="form-control-file" />
           </div>
 
           <div class="text-center pt-1 mb-0 pb-0">
@@ -107,7 +103,10 @@
   </div>
 </section>
 
-<script>document.querySelectorAll('.form-outline').forEach((formOutline) => {
+<script>
+  document.querySelectorAll(".form-outline").forEach((formOutline) => {
     new mdb.Input(formOutline).init();
-    });</script>
-{% endblock body %}}
+  });
+</script>
+
+{% endblock %}}

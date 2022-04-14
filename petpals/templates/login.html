@@ -4,13 +4,12 @@
 
 {% block body %}
 
-<!--Signup Form-->
-<section class="h-100 background-paws" style="background-color: #eee;">
+<section class="h-100 background-paws" style="background-color: #eee">
   <div class="container py-5 h-100">
     <div class="card rounded-3 text-black border border-info border-6">
       <div class="card-body p-md-5 mx-md-4">
         <div class="text-center">
-                    <img src="/static/images/logo.jpeg" alt="logo">
+          <img src="/static/images/logo.jpeg" alt="logo" />
           <h4 class="mt-1 mb-5 pb-1">Where your Pet meets new Pals</h4>
         </div>
         <form method="POST" action="" novalidate>
@@ -57,19 +56,22 @@
           <small class="text-muted ml-2">
             <a href="#">Forgot Password?</a>
           </small>
-
         </form>
       </div>
       <div class="border-top pt-3">
         <small class="text-muted">
-                    Need an account? <a class="ml-2" href="{{ url_for('signup') }}">Sign Up Now</a>
+          Need an account?
+          <a class="ml-2" href="{{ url_for('signup') }}">Sign Up Now</a>
         </small>
       </div>
     </div>
   </div>
 </section>
-<!--end Signup Form-->
-<script>document.querySelectorAll('.form-outline').forEach((formOutline) => {
+
+<script>
+  document.querySelectorAll(".form-outline").forEach((formOutline) => {
     new mdb.Input(formOutline).init();
-    });</script>
-{% endblock body %}
+  });
+</script>
+
+{% endblock %}

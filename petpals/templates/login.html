@@ -1,76 +1,75 @@
 {% extends '_layout.html' %}
-
-{% set title = 'Login' %}
-{% set active_page = 'Login' %}
+{% block title %}Login{% endblock %}
+{% set active_page = 'login' %}
 
 {% block body %}
 
 <!--Signup Form-->
 <section class="h-100 background-paws" style="background-color: #eee;">
-    <div class="container py-5 h-100">
-        <div class="card rounded-3 text-black border border-info border-6">
-            <div class="card-body p-md-5 mx-md-4">
-                <div class="text-center">
+  <div class="container py-5 h-100">
+    <div class="card rounded-3 text-black border border-info border-6">
+      <div class="card-body p-md-5 mx-md-4">
+        <div class="text-center">
                     <img src="/static/images/logo.jpeg" alt="logo">
-                    <h4 class="mt-1 mb-5 pb-1">Where your Pet meets new Pals</h4>
-                </div>
-                <form method="POST" action="" novalidate>
-                    {{ form.hidden_tag() }}
-                    <h2 class="text-center m-5">Login</h2>
-
-                    <div class="form-outline mb-5">
-                        {% if form.email.errors %}
-                            {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
-                            <div class="invalid-feedback">
-                                {% for error in form.email.errors %}
-                                <span class="">{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.email(class="form-control") }}
-                        {% endif %}
-                        {{ form.email.label(class="form-label") }}
-                    </div>
-
-                    <div class="form-outline mb-5">
-                        {% if form.password.errors %}
-                            {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else "")) }}
-                            <div class="invalid-feedback">
-                                {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.password(class="form-control") }}
-                        {% endif %}
-                        {{ form.password.label(class="form-label") }}
-                    </div>
-
-                    <div class="form-check">
-                        {{ form.remember(class="form-check-input") }}
-                        {{ form.remember.label(class="form-check-label") }}
-                    </div>
-
-                    <div class="text-center pt-1 mb-0 pb-0">
-                        {{ form.submit(class="btn btn-info btn-block mb-3") }}
-                    </div>
-
-                    <small class="text-muted ml-2">
-                        <a href="#">Forgot Password?</a>
-                    </small>
-
-                </form>
-            </div>
-            <div class="border-top pt-3">
-                <small class="text-muted">
-                    Need an account? <a class="ml-2" href="{{ url_for('signup') }}">Sign Up Now</a>
-                </small>
-            </div>
+          <h4 class="mt-1 mb-5 pb-1">Where your Pet meets new Pals</h4>
         </div>
+        <form method="POST" action="" novalidate>
+          {{ form.hidden_tag() }}
+          <h2 class="text-center m-5">Login</h2>
+
+          <div class="form-outline mb-5">
+            {% if form.email.errors %}
+              {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+              <div class="invalid-feedback">
+                {% for error in form.email.errors %}
+                  <span class="">{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.email(class="form-control") }}
+            {% endif %}
+            {{ form.email.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            {% if form.password.errors %}
+              {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else "")) }}
+              <div class="invalid-feedback">
+                {% for error in form.password.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.password(class="form-control") }}
+            {% endif %}
+            {{ form.password.label(class="form-label") }}
+          </div>
+
+          <div class="form-check">
+            {{ form.remember(class="form-check-input") }}
+            {{ form.remember.label(class="form-check-label") }}
+          </div>
+
+          <div class="text-center pt-1 mb-0 pb-0">
+            {{ form.submit(class="btn btn-info btn-block mb-3") }}
+          </div>
+
+          <small class="text-muted ml-2">
+            <a href="#">Forgot Password?</a>
+          </small>
+
+        </form>
+      </div>
+      <div class="border-top pt-3">
+        <small class="text-muted">
+                    Need an account? <a class="ml-2" href="{{ url_for('signup') }}">Sign Up Now</a>
+        </small>
+      </div>
     </div>
+  </div>
 </section>
 <!--end Signup Form-->
 <script>document.querySelectorAll('.form-outline').forEach((formOutline) => {
-        new mdb.Input(formOutline).init();
+    new mdb.Input(formOutline).init();
     });</script>
 {% endblock body %}

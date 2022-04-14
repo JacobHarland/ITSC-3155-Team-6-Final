@@ -1,5 +1,5 @@
 {% extends '_layout.html' %}
-{% set title = 'FAQ' %}
+{% block title %}FAQ{% endblock %}
 {% set active_page = 'faq' %}
 
 {% block body %}
@@ -133,13 +133,13 @@
                 </button>
               </div>
             </form>
-            <script>
-              document
-                .querySelectorAll(".form-outline")
-                .forEach((formOutline) => {
-                  new mdb.Input(formOutline).init();
-                });
-            </script>
+<script>
+  document
+    .querySelectorAll(".form-outline")
+    .forEach((formOutline) => {
+      new mdb.Input(formOutline).init();
+    });
+</script>
           </div>
         </div>
       </div>

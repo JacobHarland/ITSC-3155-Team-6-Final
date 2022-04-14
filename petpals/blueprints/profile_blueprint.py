@@ -44,7 +44,7 @@ def profile_user_edit():
         form.biography.data = current_user.biography
     image_file = url_for(
         'static', filename='/images/profile_pictures/' + current_user.image_file)
-    return render_template('edit_profile.html', title='Edit Profile', image_file=image_file, form=form)
+    return render_template('edit_profile.html', image_file=image_file, form=form)
 
 
 @router.route('/pet')

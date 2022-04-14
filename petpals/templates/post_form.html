@@ -1,5 +1,5 @@
 {% extends '_layout.html' %}
-{% set title = 'New post' %}
+{% block title %}New Post{% endblock %}
 {% set active_page = 'post_form' %}
 
 {% block body %}
@@ -77,11 +77,11 @@
             <button type="submit" class="btn btn-info btn-block mb-3">Publish Post</button>
           </div> -->
         </form>
-        <script>
-          document.querySelectorAll(".form-outline").forEach((formOutline) => {
-            new mdb.Input(formOutline).init();
-          });
-        </script>
+<script>
+  document.querySelectorAll(".form-outline").forEach((formOutline) => {
+    new mdb.Input(formOutline).init();
+  });
+</script>
       </div>
     </div>
   </div>

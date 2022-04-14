@@ -4,7 +4,7 @@ from petpals import db
 from petpals.forms import UpdateAccountForm
 from petpals.utils import save_picture
 
-router = Blueprint('profile', __name__, url_prefix='/profile')
+router = Blueprint('post_router', __name__, url_prefix='/profile')
 
 
 @router.route('/user')
@@ -35,7 +35,7 @@ def profile_user_edit():
         current_user.biography = form.biography.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('profile.profile_user'))
+        return redirect(url_for('profile_router.profile_user'))
     # auto populates fields with users current information
     elif request.method == 'GET':
         form.fullname.data = current_user.fullname

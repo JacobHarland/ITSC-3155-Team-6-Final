@@ -1,7 +1,7 @@
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 from flask_mail import Message
-from petpals import app, bcrypt, db
+from petpals import app, bcrypt, db, mail
 from petpals.blueprints.profile_blueprint import router as profile_router
 from petpals.forms import LoginForm, SignupForm, RequestResetForm, ResetPasswordForm
 from petpals.models import Post, User
@@ -88,6 +88,7 @@ def send_reset_email(user):
 
 If you did not make this request, ignore this email and no changes will be made
 '''
+    mail.send(message)
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():

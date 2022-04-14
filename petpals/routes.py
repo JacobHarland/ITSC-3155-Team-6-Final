@@ -82,13 +82,12 @@ def logout():
 # sends the email using Flask-Mail
 def send_reset_email(user):
     token = user.get_reset_token()
-    message = Message('Petpals Password Reset Request', sender='noreply@demo.com', recipients=[user.email])
-    message.body = f'''To reset your Petpals password, please visit the following link:
+    msg = Message('Password Reset Request', sender='noreply@demo.com', recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
 {url_for('reset_token', token=token, _external=True)}
-
-If you did not make this request, ignore this email and no changes will be made
+If you did not make this request then simply ignore this email and no changes will be made.
 '''
-    mail.send(message)
+    mail.send(msg)
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
@@ -104,7 +103,7 @@ def reset_request():
         return redirect(url_for('login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
 
-@app.route('/reset_password/<token>', methods=['Post', 'GET'])
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     # if user is logged in, redirects to home
     if current_user.is_authenticated:
@@ -114,7 +113,7 @@ def reset_token(token):
     if user is None:
         flash('Invalid or expired token', 'warning')
         return redirect(url_for('reset_request'))
-    form = ResetPasswordForm
+    form = ResetPasswordForm()
     if form.validate_on_submit():
         # bcrypt, hashes a password from form and decodes it as a string instead of bytes with utf-8
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')

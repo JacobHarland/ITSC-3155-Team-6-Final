@@ -4,7 +4,7 @@ from petpals import db
 from petpals.forms import UpdateAccountForm
 from petpals.utils import save_picture
 
-router = Blueprint('post_router', __name__, url_prefix='/profile')
+router = Blueprint('profile_router', __name__, url_prefix='/profile')
 
 
 @router.route('/user')

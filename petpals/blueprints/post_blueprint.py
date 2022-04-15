@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, url_for
 
-router = Blueprint('profile_router', __name__, url_prefix='/post')
+router = Blueprint('post_router', __name__, url_prefix='/post')
 
 
 @router.get('')

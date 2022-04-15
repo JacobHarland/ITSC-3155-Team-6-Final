@@ -15,9 +15,19 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(18), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     biography = db.Column(db.TEXT)
-    image_file = db.Column(db.String(20), nullable=False, default="default.jpg")
+    _image_file = db.Column('image_file', db.String(20))
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship("Post", backref="author", lazy=True)
+
+    @property
+    def image_file(self):
+        if self._image_file is None:
+            return 'default.jpg'
+        return self._image_file
+
+    @image_file.setter
+    def image_file(self, image_file):
+        self._image_file = image_file
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"

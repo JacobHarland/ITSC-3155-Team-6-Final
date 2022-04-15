@@ -19,6 +19,10 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship("Post", backref="author", lazy=True)
 
+    @property
+    def image_path(self):
+        return f'/static/images/profile_pictures/{self.image_file}'
+
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 

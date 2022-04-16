@@ -1,6 +1,6 @@
 {% extends '_layout.html' %}
-{% block title %}Signup{% endblock %}
-{% set active_page = 'signup' %}
+{% block title %}Edit Profile{% endblock %}
+{% set active_page = 'edit_profile' %}
 
 {% block body %}
 
@@ -9,14 +9,17 @@
     <div class="card rounded-3 text-black border border-info border-6">
       <div class="card-body p-md-5 mx-md-4">
         <div class="text-center">
-          <img src="/static/images/logo.jpeg" alt="logo" />
-          <h4 class="mt-1 mb-5 pb-1">Where your Pet meets new Pals</h4>
+          <img src="{{ image_file }}" alt="logo" />
+          <h4 class="card-title mb-0">{{current_user.fullname}}</h4>
+          <h4 class="card-title mb-0">{{current_user.username}}</h4>
+          <h4 class="card-title mb-0">{{current_user.email}}</h4>
         </div>
-        <form method="POST" action="" novalidate>
+        <form method="POST" action="" enctype="multipart/form-data" novalidate>
           {{ form.hidden_tag() }}
-          <h2 class="text-center m-5">Account Registration</h2>
+          <h2 class="text-center m-5">Account Info</h2>
 
           <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
             {% if form.fullname.errors %}
               {{ form.fullname(class="form-control" + (" is-invalid" if form.fullname.errors else "")) }}
               <div class="invalid-feedback">
@@ -31,6 +34,7 @@
           </div>
 
           <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
             {% if form.username.errors %}
               {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
               <div class="invalid-feedback">
@@ -40,61 +44,60 @@
               </div>
             {% else %}
               {{ form.username(class="form-control") }}
-            {% endif %}
-            {{ form.username.label(class="form-label") }}
+              {% endif %}
+              {{ form.username.label(class="form-label") }}
+          </div>
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.email.errors %}
+            {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}
+              <span class="">{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+              {{ form.email(class="form-control") }}
+              {% endif %}
+              {{ form.email.label(class="form-label") }}
           </div>
 
           <div class="form-outline mb-5">
-            {% if form.email.errors %}
-              {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+            <!--If error occurs, print errors-->
+            {% if form.biography.errors %}
+              {{ form.biography(class="form-control", rows="5" + (" is-invalid" if form.biography.errors else "")) }}
               <div class="invalid-feedback">
-                {% for error in form.email.errors %}
+                {% for error in form.biography.errors %}
                   <span class="">{{ error }}</span>
                 {% endfor %}
               </div>
             {% else %}
-              {{ form.email(class="form-control") }}
+              {{ form.biography(class="form-control", rows="5") }}
             {% endif %}
-            {{ form.email.label(class="form-label") }}
+            {{ form.biography.label(class="form-label") }}
           </div>
 
           <div class="form-outline mb-5">
-            {% if form.password.errors %}
-              {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else "")) }}
-              <div class="invalid-feedback">
-                {% for error in form.password.errors %}
-                  <span>{{ error }}</span>
-                {% endfor %}
-              </div>
-            {% else %}
-              {{ form.password(class="form-control") }}
+            {{ form.picture.label() }} <br />
+            {{ form.picture(class="form-control-file",  accept=".jpeg, .jpg, .png, .gif") }}
+            <!--If error occurs, print errors-->
+            {% if form.picture.errors %}
+              {% for error in form.picture.errors %}
+                <span class="text-danger">{{ error }}</span><br />
+              {% endfor %}
             {% endif %}
-            {{ form.password.label(class="form-label") }}
           </div>
 
-          <div class="form-outline mb-5">
-            {% if form.confirm_password.errors %}
-              {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else "")) }}
-              <div class="invalid-feedback">
-                {% for error in form.confirm_password.errors %}
-                  <span>{{ error }}</span>
-                {% endfor %}
-              </div>
-            {% else %}
-              {{ form.confirm_password(class="form-control") }}
-            {% endif %}
-            {{ form.confirm_password.label(class="form-label") }}
+          <!--TODO Attatchment button-->
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Attachments</label>
+            <input type="file" class="form-control-file" />
           </div>
 
           <div class="text-center pt-1 mb-0 pb-0">
             {{ form.submit(class="btn btn-info btn-block mb-3") }}
           </div>
         </form>
-      </div>
-      <div class="border-top pt-3">
-        <small class="text-muted">
-          Already have an account? <a class="ml-2" href="{{ url_for('auth_router.login') }}">Sign in</a>
-        </small>
       </div>
     </div>
   </div>
@@ -106,4 +109,4 @@
   });
 </script>
 
-{% endblock %}
+{% endblock %}}

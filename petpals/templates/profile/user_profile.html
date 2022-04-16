@@ -1,7 +1,6 @@
 {% extends '_layout.html' %}
-
 <!-- Set title to be user's name -->
-{% set title = "NOTXeno's Profile" %}
+{% set title = "%s's Profile" % user.username %}
 {% set active_page = 'user_profile' %}
 
 {% block body %}
@@ -20,24 +19,26 @@
               <div class="profile-head d-flex align-items-end">
                 <div class="me-3">
                   <img
-                    src="{{profile_picture}}"
+                    src="{{ user.image_path }}"
                     width="130"
                     class="rounded img-thumbnail"
                   />
                 </div>
                 <div class="text-white me-3 mb-4">
-                  <h4 class="mb-0">NOTXeno</h4>
+                  <h4 class="mb-0">{{ user.fullname }}</h4>
                   <small>
                     <i class="fas fa-map-marker-alt me-2"></i>North Carolina
                   </small>
                 </div>
-                <div class="mb-4">
-                  <a
-                    href="{{ url_for('profile.profile_user_edit') }}"
-                    class="btn btn-light hover-gray btn-outline-dark btn-sm"
-                    >Edit profile</a
-                  >
-                </div>
+                {% if current_user.is_authenticated and current_user.username == user.username %}
+                  <div class="mb-4">
+                    <a
+                      href="{{ url_for('profile.profile_user_edit') }}"
+                      class="btn btn-light hover-gray btn-outline-dark btn-sm"
+                      >Edit profile</a
+                    >
+                  </div>
+                {% endif %}
               </div>
             </div>
             <!-- Profile Statistics -->

@@ -4,3 +4,6 @@ venv
 __pycache__
 .pytest_cache
 .env
+
+**/static/images/profile_pictures/*
+!**/static/images/profile_pictures/default.jpg

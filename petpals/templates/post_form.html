@@ -13,7 +13,7 @@
           <h5 class="mb-4">Where your Pet meets new Pals</h5>
         </div>
         <h1 class="text-center mb-5">Create New Post Form</h1>
-        <form action="/post" method="post">
+        <form action="{{ url_for('post_router.post') }}" method="post">
           <!-- Title input -->
           <div class="form-outline mb-4">
             <input

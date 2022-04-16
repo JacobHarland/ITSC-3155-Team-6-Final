@@ -73,6 +73,7 @@ def profile_user_edit_password():
             flash('Login failed, please check email and password', 'danger')
     return render_template('edit_password.html', title='Edit Password', form=form)
 
+
 @router.route('/pet/<name>')
 def profile_pet(name: str):
     # Replace with pet's profile picture and recent images from DB

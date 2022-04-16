@@ -29,9 +29,8 @@ def faq():
 def forum():
     return render_template('forum.html')
 
+
 # sends the email using Flask-Mail
-
-
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message('Password Reset Request',

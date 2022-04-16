@@ -23,7 +23,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash(f'Your account has been created. You are now able to login. Welcome to PetPals!', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth_router.login'))
     return render_template('signup.html', form=form)
 
 

@@ -39,7 +39,7 @@ def profile_user_edit():
         current_user.biography = form.biography.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('profile.profile_user'))
+        return redirect(url_for('profile.profile_current_user'))
     # auto populates fields with users current information
     elif request.method == 'GET':
         form.fullname.data = current_user.fullname

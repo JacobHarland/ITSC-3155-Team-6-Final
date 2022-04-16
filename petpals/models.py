@@ -1,6 +1,9 @@
 from datetime import datetime
-from petpals import db, login_manager
+
 from flask_login import UserMixin
+
+from petpals import db, login_manager
+
 
 # https://flask-login.readthedocs.io/en/latest/
 @login_manager.user_loader
@@ -29,6 +32,10 @@ class User(db.Model, UserMixin):
     def image_file(self, image_file):
         self._image_file = image_file
 
+    @property
+    def image_path(self):
+        return f'/static/images/profile_pictures/{self.image_file}'
+
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
@@ -36,7 +43,8 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_posted = db.Column(db.DateTime, nullable=False,
+                            default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
@@ -56,7 +64,8 @@ class Pet(db.Model):
     img1_path = db.Column(db.String(45))
     img2_path = db.Column(db.String(45))
     img3_path = db.Column(db.String(45))
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):

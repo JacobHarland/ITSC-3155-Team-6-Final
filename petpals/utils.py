@@ -1,23 +1,38 @@
 import os
-import secrets
+from secrets import token_urlsafe
+
 from flask_login import current_user
+from PIL import Image
+from werkzeug.datastructures import FileStorage
+
 from petpals import app
 
-def save_picture(form_picture):
-    # random name for each file uploaded
-    random_hex = secrets.token_hex(8)
-    # _ for unused variables
-    # returns and splits the text and file type of the file uploaded by user
-    _, f_ext = os.path.splitext(form_picture.filename)
-    # combine random hex with file extension in order to save it
-    picture_filename = random_hex + f_ext
-    # path of location to save the file
-    picture_path = os.path.join(app.root_path, 'static/images/profile_pictures', picture_filename)
 
-    form_picture.save(picture_path)
+def save_profile_picture(form_picture: FileStorage) -> str:
+    "Saves profile picture and returns its filename"
 
-    prev_picture = os.path.join(app.root_path, 'static/images/profile_pictures', current_user.image_file)
-    if os.path.exists(prev_picture) and current_user.image_file != 'default.jpg':
-        os.remove(prev_picture)
+    def get_picture_path(filename):
+        return os.path.join(app.root_path, 'static', 'images', 'profile_pictures', filename)
 
-    return picture_filename
+    # Get file extension
+    f_ext = os.path.splitext(form_picture.filename)[1]
+
+    while True:
+        filename = token_urlsafe(8) + f_ext
+        if not os.path.isfile(get_picture_path(filename)):
+            break
+
+    image = Image.open(form_picture)
+    if image.width * (29/23) < image.height:
+            # Check if it's too long vertically
+            size = (round(image.width * (290.0 / image.height)), 290)
+    else:
+        size = (230, round(image.height * (230.0 / image.width)))
+
+    image = image.resize(size, Image.LANCZOS)
+    image.save(get_picture_path(filename), optimize=True)
+
+    if not current_user.image_file is None:
+        os.remove(get_picture_path(current_user.image_file))
+
+    return filename

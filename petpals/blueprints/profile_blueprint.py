@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from petpals import db
 from petpals.forms import UpdateAccountForm
-from petpals.utils import save_picture
+from petpals.utils import save_profile_picture
 
 router = Blueprint('profile', __name__, url_prefix='/profile')
 
@@ -25,7 +25,7 @@ def profile_user_edit():
     if form.validate_on_submit():
         # calls method save_picture to save picture and give filename
         if form.picture.data:
-            picture_file = save_picture(form.picture.data)
+            picture_file = save_profile_picture(form.picture.data)
             # image_file is name in models.py
             current_user.image_file = picture_file
 

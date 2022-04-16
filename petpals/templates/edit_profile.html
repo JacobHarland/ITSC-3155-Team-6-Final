@@ -81,7 +81,7 @@
 
                             <div class="form-outline mb-5">
                                 {{ form.picture.label() }} <br>
-                                {{ form.picture(class="form-control-file") }}
+                                {{ form.picture(class="form-control-file",  accept=".jpeg, .jpg, .png, .gif") }}
                                 <!--If error occurs, print errors-->
                                 {% if form.picture.errors %}
                                     {% for error in form.picture.errors %}

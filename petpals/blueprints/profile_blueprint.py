@@ -1,8 +1,9 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
-from flask_login import current_user, login_required
-from petpals import db
-from petpals.forms import UpdateAccountForm
+from flask_login import current_user, login_required, login_user
+from petpals import db, bcrypt
+from petpals.forms import ChangePassword, UpdateAccountForm
 from petpals.utils import save_picture
+from petpals.models import User
 
 router = Blueprint('profile', __name__, url_prefix='/profile')
 
@@ -46,6 +47,28 @@ def profile_user_edit():
         'static', filename='/images/profile_pictures/' + current_user.image_file)
     return render_template('edit_profile.html', title='Edit Profile', image_file=image_file, form=form)
 
+
+@router.route('/user/edit/password', methods=['GET', 'POST'])
+@login_required
+def profile_user_edit_password():
+    form = ChangePassword()
+
+    # validate current password
+    # bcrypt the new password
+    # set the new password to current_user.fullname = form.fullname.data
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        # checks if user exists and password verifies with db
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+            current_user.password = hashed_password
+            db.session.commit()
+            flash(f'Your password has been updated!', 'success')
+            return redirect(url_for('profile.profile_user'))        
+        else:
+            flash('Login failed, please check email and password', 'danger')
+    return render_template('edit_password.html', title='Edit Password', form=form)
 
 @router.route('/pet')
 def profile_pet():

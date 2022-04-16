@@ -1,3 +1,4 @@
+from wsgiref.validate import validator
 from flask import Flask
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
@@ -91,3 +92,14 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                             validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+
+class ChangePassword(FlaskForm):
+    email = StringField('Email',
+                            validators=[DataRequired(), Email()])
+    password = PasswordField('Current Password',
+                            validators=[DataRequired(), Length(min=8, max=32)])
+    new_password = PasswordField('New Password',
+                            validators=[DataRequired(), Length(min=8, max=32)])
+    confirm_password = PasswordField('Confirm New Password',
+                            validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('Change Password')

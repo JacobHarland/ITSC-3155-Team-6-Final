@@ -9,15 +9,15 @@ from petpals.models import Post, User
 
 @app.get('/')
 def index():
-    return render_template('index.html', title="Home")
+    return render_template('index.html')
 
 @app.get("/about")
 def about():
-    return render_template('about.html', title="About Us")
+    return render_template('about.html')
 
 @app.get("/faq")
 def faq():
-    return render_template('faq.html', title="FAQ")
+    return render_template('faq.html')
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():

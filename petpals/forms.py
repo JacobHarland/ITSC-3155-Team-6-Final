@@ -51,7 +51,7 @@ class UpdateAccountForm(FlaskForm):
     email = StringField('Email',
                             validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture',
-                            validators=[FileAllowed(['jpg', 'png'])])
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
     biography = TextAreaField('Bio')
     submit = SubmitField('Update')
 

@@ -1,21 +1,24 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
-from flask_login import current_user, login_required, login_user
-from petpals import db, bcrypt
+from flask import (Blueprint, abort, flash, redirect, render_template, request,
+                   url_for)
+from flask_login import current_user, login_required
+from petpals import bcrypt, db
 from petpals.forms import ChangePassword, UpdateAccountForm
-from petpals.utils import save_picture
 from petpals.models import User
+from petpals.utils import save_profile_picture
 
-router = Blueprint('profile', __name__, url_prefix='/profile')
+router = Blueprint('profile_router', __name__, url_prefix='/profile')
 
 
-@router.route('/user')
-def profile_user():
-    # Replace with pet's profile picture and recent images from DB
-    # If there is no picture, use the default picture
-    profile_picture = "/static/images/pet_pictures/temp/Xeno-0.jpg"
-    if profile_picture is None:
-        profile_picture = "/static/images/profile_pictures/default.jpg"
-    return render_template('profile/user_profile.html', profile_picture=profile_picture)
+@router.get('/user')
+def profile_current_user():
+    return redirect(url_for('profile_router.profile_user', username=current_user.username))
+
+
+@router.get('/user/<username>')
+def profile_user(username: str):
+    user = User.query.filter_by(username=username).first_or_404()
+
+    return render_template('profile/user_profile.html', user=user)
 
 
 @router.route('/user/edit', methods=['GET', 'POST'])
@@ -26,7 +29,7 @@ def profile_user_edit():
     if form.validate_on_submit():
         # calls method save_picture to save picture and give filename
         if form.picture.data:
-            picture_file = save_picture(form.picture.data)
+            picture_file = save_profile_picture(form.picture.data)
             # image_file is name in models.py
             current_user.image_file = picture_file
 
@@ -36,16 +39,16 @@ def profile_user_edit():
         current_user.biography = form.biography.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('profile.profile_user'))
+        return redirect(url_for('profile_router.profile_current_user'))
     # auto populates fields with users current information
     elif request.method == 'GET':
         form.fullname.data = current_user.fullname
         form.username.data = current_user.username
         form.email.data = current_user.email
         form.biography.data = current_user.biography
-    image_file = url_for(
-        'static', filename='/images/profile_pictures/' + current_user.image_file)
-    return render_template('edit_profile.html', title='Edit Profile', image_file=image_file, form=form)
+    image_file = '/static/images/profile_pictures/' + current_user.image_file
+
+    return render_template('profile/edit_profile.html', title='Edit Profile', image_file=image_file, form=form)
 
 
 @router.route('/user/edit/password', methods=['GET', 'POST'])
@@ -65,13 +68,13 @@ def profile_user_edit_password():
             current_user.password = hashed_password
             db.session.commit()
             flash(f'Your password has been updated!', 'success')
-            return redirect(url_for('profile.profile_user'))        
+            return redirect(url_for('profile_router.profile_current_user'))        
         else:
             flash('Login failed, please check email and password', 'danger')
     return render_template('edit_password.html', title='Edit Password', form=form)
 
-@router.route('/pet')
-def profile_pet():
+@router.route('/pet/<name>')
+def profile_pet(name: str):
     # Replace with pet's profile picture and recent images from DB
     images = ("/static/images/pet_pictures/temp/Xeno-0.jpg",
               "/static/images/pet_pictures/temp/Xeno-1.jpg", "/static/images/pet_pictures/temp/Xeno-2.jpg")

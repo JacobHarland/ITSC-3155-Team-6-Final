@@ -1,112 +1,112 @@
-{% extends "_layout.html" %}
-{% set title = 'Edit Profile' %}
+{% extends '_layout.html' %}
+{% block title %}Edit Profile{% endblock %}
 {% set active_page = 'edit_profile' %}
+
 {% block body %}
 
-<section class="h-100 background-paws" style="background-color: #eee;">
-        <div class="container py-5 h-100">
-            <div class="card rounded-3 text-black border border-info border-6">
-                <div class="card-body p-md-5 mx-md-4">
-                    <div class="text-center">
-                        <img src="{{ image_file }}" alt="logo">
-                        <h4 class="card-title mb-0">{{current_user.fullname}}</h4>
-                        <h4 class="card-title mb-0">{{current_user.username}}</h4>
-                        <h4 class="card-title mb-0">{{current_user.email}}</h4>
-                    </div>
-                    <form method="POST" action="" enctype="multipart/form-data" novalidate>
-                        {{ form.hidden_tag() }}
-                        <h2 class="text-center m-5">Account Info</h2>
-    
-                        <div class="form-outline mb-5">
-                            <!--If error occurs, print errors-->
-                            {% if form.fullname.errors %}
-                                {{ form.fullname(class="form-control" + (" is-invalid" if form.fullname.errors else "")) }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.fullname.errors %}
-                                    <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.fullname(class="form-control") }}
-                            {% endif %}
-                            {{ form.fullname.label(class="form-label") }}
-                        </div>
-    
-    
-                        <div class="form-outline mb-5">
-                            <!--If error occurs, print errors-->
-                            {% if form.username.errors %}
-                                {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.username.errors %}
-                                    <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.username(class="form-control") }}
-                            {% endif %}
-                            {{ form.username.label(class="form-label") }}
-                        </div>
-                        <div class="form-outline mb-5">
-                            <!--If error occurs, print errors-->
-                            {% if form.email.errors %}
-                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.email.errors %}
-                                    <span class="">{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.email(class="form-control") }}
-                            {% endif %}
-                            {{ form.email.label(class="form-label") }}
-                        </div>
-
-
-                            <div class="form-outline mb-5">
-                                <!--If error occurs, print errors-->
-                                {% if form.biography.errors %}
-                                    {{ form.biography(class="form-control", rows="5" + (" is-invalid" if form.biography.errors else "")) }}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.biography.errors %}
-                                        <span class="">{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ form.biography(class="form-control", rows="5") }}
-                                {% endif %}
-                                {{ form.biography.label(class="form-label") }}
-                            </div>
-
-
-                            <div class="form-outline mb-5">
-                                {{ form.picture.label() }} <br>
-                                {{ form.picture(class="form-control-file") }}
-                                <!--If error occurs, print errors-->
-                                {% if form.picture.errors %}
-                                    {% for error in form.picture.errors %}
-                                        <span class="text-danger">{{ error }}</span></br>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-
-
-                            <!--TODO Attatchment button-->
-                            <div class="form-group">
-                                <label for="exampleFormControlFile1">Attachments</label>
-                                <input type="file" class="form-control-file">
-                            </div>
-
-                        <div class="text-center pt-1 mb-0 pb-0">
-                            {{ form.submit(class="btn btn-info btn-block mb-3") }}
-                        </div>  
-                    </form>
-                </div>
-            </div>
+<section class="h-100 background-paws" style="background-color: #eee">
+  <div class="container py-5 h-100">
+    <div class="card rounded-3 text-black border border-info border-6">
+      <div class="card-body p-md-5 mx-md-4">
+        <div class="text-center">
+          <img src="{{ image_file }}" alt="logo" />
+          <h4 class="card-title mb-0">{{current_user.fullname}}</h4>
+          <h4 class="card-title mb-0">{{current_user.username}}</h4>
+          <h4 class="card-title mb-0">{{current_user.email}}</h4>
         </div>
-    </section>
+        <form method="POST" action="" enctype="multipart/form-data" novalidate>
+          {{ form.hidden_tag() }}
+          <h2 class="text-center m-5">Account Info</h2>
 
-<script>document.querySelectorAll('.form-outline').forEach((formOutline) => {
-        new mdb.Input(formOutline).init();
-    });</script>
-{% endblock body %}}
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.fullname.errors %}
+              {{ form.fullname(class="form-control" + (" is-invalid" if form.fullname.errors else "")) }}
+              <div class="invalid-feedback">
+                {% for error in form.fullname.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.fullname(class="form-control") }}
+            {% endif %}
+            {{ form.fullname.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.username.errors %}
+              {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
+              <div class="invalid-feedback">
+                {% for error in form.username.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.username(class="form-control") }}
+              {% endif %}
+              {{ form.username.label(class="form-label") }}
+          </div>
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.email.errors %}
+            {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}
+              <span class="">{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+              {{ form.email(class="form-control") }}
+              {% endif %}
+              {{ form.email.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.biography.errors %}
+              {{ form.biography(class="form-control", rows="5" + (" is-invalid" if form.biography.errors else "")) }}
+              <div class="invalid-feedback">
+                {% for error in form.biography.errors %}
+                  <span class="">{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.biography(class="form-control", rows="5") }}
+            {% endif %}
+            {{ form.biography.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            {{ form.picture.label() }} <br />
+            {{ form.picture(class="form-control-file") }}
+            <!--If error occurs, print errors-->
+            {% if form.picture.errors %}
+              {% for error in form.picture.errors %}
+                <span class="text-danger">{{ error }}</span><br />
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <!--TODO Attatchment button-->
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Attachments</label>
+            <input type="file" class="form-control-file" />
+          </div>
+
+          <div class="text-center pt-1 mb-0 pb-0">
+            {{ form.submit(class="btn btn-info btn-block mb-3") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".form-outline").forEach((formOutline) => {
+    new mdb.Input(formOutline).init();
+  });
+</script>
+
+{% endblock %}}

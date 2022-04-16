@@ -94,6 +94,12 @@
             <input type="file" class="form-control-file" />
           </div>
 
+          <div class="border-top pt-3">
+            <small class="text-muted">
+                <a class="ml-2" href="{{ url_for('profile_router.profile_user_edit_password') }}">Change Password</a>
+            </small>
+          </div>
+
           <div class="text-center pt-1 mb-0 pb-0">
             {{ form.submit(class="btn btn-info btn-block mb-3") }}
           </div>

@@ -4,6 +4,7 @@ venv
 __pycache__
 .pytest_cache
 .env
+forum-backup.html
 
 **/static/images/profile_pictures/*
 !**/static/images/profile_pictures/default.jpg

@@ -146,16 +146,17 @@
 
             <!-- Forum List -->
             <div class="forum-main-body p-2 p-sm-3 collapse forum-content show">
-              <!--First Entry-->
+            <!--Entries-->
+              {% for post in posts %} 
               <div class="forum-card mb-2">
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
                     <a
-                      href="{{ url_for('profile_router.profile_user', username='1') }}"
+                      href="/user/{{forum.user.username}}"
                       data-toggle="collapse"
                       data-target=".forum-content"
                       ><img
-                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                        src="{{ post.user._image_file }}"
                         class="mr-3 rounded-circle"
                         width="50"
                         alt="User"
@@ -167,16 +168,16 @@
                           data-toggle="collapse"
                           data-target=".forum-content"
                           class="text-body"
-                          >Realtime fetching data</a
+                          >{{ post.title }}</a
                         >
                       </h6>
                       <p class="text-secondary">
-                        lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                        {{ post.content }}
                       </p>
                       <p class="text-muted">
-                        <a href="javascript:void(0)">drewdan</a> replied
+                        <a href="javascript:void(0)">{{ post.user.username }}n</a> posted
                         <span class="text-secondary font-weight-bold"
-                          >13 minutes ago</span
+                          >{{ post.date_posted }} minutes ago.</span
                         >
                       </p>
                     </div>
@@ -189,143 +190,8 @@
                   </div>
                 </div>
               </div>
-              <!--end First Entry-->
 
-              <!--Second Entry-->
-              <div class="forum-card mb-2">
-                <div class="forum-card-body p-2 p-sm-3">
-                  <div class="media forum-item">
-                    <a
-                      href="{{ url_for('profile_router.profile_user', username='2') }}"
-                      data-toggle="collapse"
-                      data-target=".forum-content"
-                      ><img
-                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                        class="mr-3 rounded-circle"
-                        width="50"
-                        alt="User"
-                    /></a>
-                    <div class="media-body">
-                      <h6>
-                        <a
-                          href="{{ url_for('post_router.post') }}"
-                          data-toggle="collapse"
-                          data-target=".forum-content"
-                          class="text-body"
-                          >Laravel 7 database backup</a
-                        >
-                      </h6>
-                      <p class="text-secondary">
-                        lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      </p>
-                      <p class="text-muted">
-                        <a href="javascript:void(0)">jlrdw</a> replied
-                        <span class="text-secondary font-weight-bold"
-                          >3 hours ago</span
-                        >
-                      </p>
-                    </div>
-                    <div class="text-muted small text-center align-self-center">
-                      <span class="d-none d-sm-inline-block"
-                        ><i class="far fa-eye"></i> 18</span
-                      >
-                      <span><i class="far fa-comment ml-2"></i> 1</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end Second Entry-->
-
-              <!--Third Entry-->
-              <div class="forum-card mb-2">
-                <div class="forum-card-body p-2 p-sm-3">
-                  <div class="media forum-item">
-                    <a
-                      href="{{ url_for('profile_router.profile_user', username='3') }}"
-                      data-toggle="collapse"
-                      data-target=".forum-content"
-                      ><img
-                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                        class="mr-3 rounded-circle"
-                        width="50"
-                        alt="User"
-                    /></a>
-                    <div class="media-body">
-                      <h6>
-                        <a
-                          href="{{ url_for('post_router.post') }}"
-                          data-toggle="collapse"
-                          data-target=".forum-content"
-                          class="text-body"
-                          >Http client post raw content</a
-                        >
-                      </h6>
-                      <p class="text-secondary">
-                        lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      </p>
-                      <p class="text-muted">
-                        <a href="javascript:void(0)">ciungulete</a> replied
-                        <span class="text-secondary font-weight-bold"
-                          >7 hours ago</span
-                        >
-                      </p>
-                    </div>
-                    <div class="text-muted small text-center align-self-center">
-                      <span class="d-none d-sm-inline-block"
-                        ><i class="far fa-eye"></i> 32</span
-                      >
-                      <span><i class="far fa-comment ml-2"></i> 2</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end Third Entry-->
-
-              <!--Fourth Entry-->
-              <div class="forum-card mb-2">
-                <div class="forum-card-body p-2 p-sm-3">
-                  <div class="media forum-item">
-                    <a
-                      href="{{ url_for('profile_router.profile_user', username='4') }}"
-                      data-toggle="collapse"
-                      data-target=".forum-content"
-                      ><img
-                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                        class="mr-3 rounded-circle"
-                        width="50"
-                        alt="User"
-                    /></a>
-                    <div class="media-body">
-                      <h6>
-                        <a
-                          href="{{ url_for('post_router.post') }}"
-                          data-toggle="collapse"
-                          data-target=".forum-content"
-                          class="text-body"
-                          >Top rated filter not working</a
-                        >
-                      </h6>
-                      <p class="text-secondary">
-                        lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      </p>
-                      <p class="text-muted">
-                        <a href="javascript:void(0)">bugsysha</a> replied
-                        <span class="text-secondary font-weight-bold"
-                          >11 hours ago</span
-                        >
-                      </p>
-                    </div>
-                    <div class="text-muted small text-center align-self-center">
-                      <span class="d-none d-sm-inline-block"
-                        ><i class="far fa-eye"></i> 49</span
-                      >
-                      <span><i class="far fa-comment ml-2"></i> 9</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end Fourth Entry-->
-
+              {% endfor %}
               <!--Pagination-->
               <ul
                 class="pagination pagination-sm pagination-circle justify-content-center mb-0"

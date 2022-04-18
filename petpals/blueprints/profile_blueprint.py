@@ -82,7 +82,9 @@ def profile_pet(name: str):
     return render_template('profile/pet_profile.html', profile_picture=images[2], recent_photos=images)
 
 
-@router.route('pet/edit')
+@router.route('/pet/edit')
 @login_required
 def profile_pet_edit():
-    pass
+    form = UpdateAccountForm()
+
+    return render_template('profile/edit_pet_profile.html', form=form)

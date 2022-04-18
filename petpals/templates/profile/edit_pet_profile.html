@@ -1,6 +1,6 @@
 {% extends '_layout.html' %}
-{% block title %}Edit Profile{% endblock %}
-{% set active_page = 'edit__pet_profile' %}
+{% block title %}Edit Pet Profile{% endblock %}
+{% set active_page = 'edit_pet_profile' %}
 
 {% block body %}
 
@@ -10,9 +10,9 @@
       <div class="card-body p-md-5 mx-md-4">
         <div class="text-center">
           <img src="{{ image_file }}" alt="logo" />
-          <h4 class="card-title mb-0">{{current_user.fullname}}</h4>
-          <h4 class="card-title mb-0">{{current_user.username}}</h4>
-          <h4 class="card-title mb-0">{{current_user.email}}</h4>
+          <h4 class="card-title mb-0">{{current_user.species}}</h4>
+          <h4 class="card-title mb-0">{{current_user.color}}</h4>
+          <h4 class="card-title mb-0">{{current_user.tagline}}</h4>
         </div>
         <form method="POST" action="" enctype="multipart/form-data" novalidate>
           {{ form.hidden_tag() }}

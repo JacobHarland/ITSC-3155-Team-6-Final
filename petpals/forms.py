@@ -77,10 +77,10 @@ class UpdateAccountForm(FlaskForm):
 class UpdatePetForm(FlaskForm):
     fullname = StringField('Pet Name',
                             validators=[DataRequired(),Length(min=1, max=50)])
-    species = StringField('Pet Species', validators=[DataRequired(), Length(max=45)])
-    subspecies = StringField('Pet Subspecies', validators=Length(max=45))
-    color = StringField('Pet Color', validators=Length(max=45))
-    tagline = StringField('Tagline', validators=Length(max=150))
+    species = StringField('Pet Species', validators=[DataRequired(), Length(min=1, max=45)])
+    subspecies = StringField('Pet Subspecies', validators=[Length(min=1, max=45)])
+    color = StringField('Pet Color', validators=[Length(max=45)])
+    tagline = StringField('Tagline', validators=[Length(max=150)])
     biography = TextAreaField('Bio', validators=[DataRequired(), Length(max=2000)])
     profile_picture = FileField('Update Profile Picture',
                             validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])

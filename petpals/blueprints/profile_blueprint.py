@@ -17,8 +17,9 @@ def profile_current_user():
 @router.get('/user/<username>')
 def profile_user(username: str):
     user = User.query.filter_by(username=username).first_or_404()
+    pet = Pet.query.all()
 
-    return render_template('profile/user_profile.html', user=user)
+    return render_template('profile/user_profile.html', user=user, pet=pet)
 
 
 @router.route('/user/edit', methods=['GET', 'POST'])
@@ -90,9 +91,9 @@ def profile_pet_new():
         pet = Pet(name=form.name.data, species=form.species.data,
                     subspecies=form.subspecies.data, color=form.color.data,
                     tagline=form.tagline.data, biography=form.biography.data,
-                    owner=current_user)
+                    user_id=current_user.id)
         db.session.add(pet)
         db.session.commit()
-        flash('You have edited your pet!', 'success')
-        return redirect(url_for('profile_router.profile_pet'))
-    return render_template('profile/edit_pet_profile.html', form=form)
+        flash('You have added your pet!', 'success')
+        return redirect(url_for('profile_router.profile_current_user'))
+    return render_template('profile/add_pet_profile.html', form=form)

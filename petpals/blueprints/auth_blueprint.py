@@ -22,8 +22,9 @@ def signup():
                     email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        login_user(user)
         flash(f'Your account has been created. You are now able to login. Welcome to PetPals!', 'success')
-        return redirect(url_for('auth_router.login'))
+        return redirect(url_for('index'))
     return render_template('signup.html', form=form)
 
 

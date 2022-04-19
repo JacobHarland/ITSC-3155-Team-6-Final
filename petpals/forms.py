@@ -75,7 +75,7 @@ class UpdateAccountForm(FlaskForm):
                 raise ValidationError('Email already in use. Please enter a different email.')
 
 class UpdatePetForm(FlaskForm):
-    fullname = StringField('Pet Name',
+    name = StringField('Pet Name',
                             validators=[DataRequired(),Length(min=1, max=50)])
     species = StringField('Pet Species', validators=[DataRequired(), Length(min=1, max=45)])
     subspecies = StringField('Pet Subspecies', validators=[Length(min=1, max=45)])

@@ -2,7 +2,7 @@ from flask import (Blueprint, abort, flash, redirect, render_template, request,
                    url_for)
 from flask_login import current_user, login_required
 from petpals import bcrypt, db
-from petpals.forms import ChangePassword, UpdateAccountForm
+from petpals.forms import ChangePassword, UpdateAccountForm, UpdatePetForm
 from petpals.models import User
 from petpals.utils import save_profile_picture
 
@@ -82,9 +82,11 @@ def profile_pet(name: str):
     return render_template('profile/pet_profile.html', profile_picture=images[2], recent_photos=images)
 
 
-@router.route('/pet/edit')
+@router.route('/pet/edit', methods=['GET', 'POST'])
 @login_required
 def profile_pet_edit():
-    form = UpdateAccountForm()
-
+    form = UpdatePetForm()
+    if form.validate_on_submit():
+        flash('You have edited your pet!', 'success')
+        return redirect(url_for('profile_router.profile_pet'))
     return render_template('profile/edit_pet_profile.html', form=form)

@@ -54,6 +54,37 @@
                 <p class="font-italic mb-0">Super Professional Sleeper</p>
               </div>
             </div>
+            <div class="py-4 px-4">
+              <h5 class="mb-0">Pets</h5>
+              <div class="p-4 rounded shadow-sm bg-dark profile-gray">
+                <div class="row gy-3 ">
+                  {% if current_user.is_authenticated and current_user.username == user.username %}
+                  <div class="col-lg-3">
+                    <div class="card">
+                      <!-- Add Pet Page -->
+                      <a href="#">
+                        <div class="card-body">
+                          <h5 class="card-title text-center">Add More Pets</h5>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% for i in range(5) %}
+                    <div class="col-lg-3">
+                      <a href="{{ url_for('profile_router.profile_pet', name='PetName') }}">
+                        <div class="card">
+                          <img src="{{ user.image_path }}" class="card-img-top" />
+                          <div class="card-body">
+                            <h5 class="card-title text-center">Xeno</h5>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

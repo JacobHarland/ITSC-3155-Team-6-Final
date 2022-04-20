@@ -39,7 +39,7 @@ class User(db.Model, UserMixin):
 
     # creates a temporary password to log in a user
     def get_reset_token(self):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(app.config['SECRET_KEY']) # Does this need to be the same as the secret key for sessions? If not, might be better to use a different secret, so if one leaks, it doesn't compromise both. Of course, only a concern in real life, not needed for this course.
         return s.dumps({'user_id': self.id})
 
     # tries to load created reset token, if exception return none, if no exception return user id

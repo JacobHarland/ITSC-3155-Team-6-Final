@@ -20,6 +20,8 @@ app = Flask(__name__)
 
 # Move to env
 # protects against modifying cookies and crosssite request forgery attacks
+# A lot of the following is jumbled, would probably help readability to have some line breaks
+# and comments denoting each section (DB, login, email stuff, etc.)
 app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = connect
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -33,7 +35,7 @@ login_manager.login_message_category = 'info'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = os.getenv('EMAIL_USER')
+app.config['MAIL_USERNAME'] = os.getenv('EMAIL_USER') # I do not see these two env vars in the sample.env file
 app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASS')
 mail = Mail(app)
 

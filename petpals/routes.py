@@ -9,6 +9,7 @@ from petpals.blueprints.profile_blueprint import router as profile_router
 from petpals.forms import RequestResetForm, ResetPasswordForm
 from petpals.models import Post, User
 
+# Might be cleaner to move all these routes into grouped blueprints, since blueprints don't need a URL prefix
 
 @app.get('/')
 def index():

@@ -66,6 +66,9 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
 
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')"
+
 
 class Pet(db.Model):
     profile_id = db.Column(db.Integer, primary_key=True)

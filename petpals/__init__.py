@@ -7,21 +7,13 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 
 load_dotenv()
-db_user = os.getenv('dbuser', 'root')
-db_pass = os.getenv('dbpass')
-db_host = os.getenv('dbhost', 'localhost') #move this to wherever the "main" app file is
-db_port = os.getenv('dbport', 3306)
-db_name = os.getenv('dbname')
-secret_key = os.getenv('secretkey')
-
-connect = f'mysql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}'
 
 app = Flask(__name__)
 
 # Move to env
 # protects against modifying cookies and crosssite request forgery attacks
-app.config['SECRET_KEY'] = secret_key
-app.config['SQLALCHEMY_DATABASE_URI'] = connect
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -33,8 +25,8 @@ login_manager.login_message_category = 'info'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = os.getenv('EMAIL_USER')
-app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASS')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
 
 from petpals import routes

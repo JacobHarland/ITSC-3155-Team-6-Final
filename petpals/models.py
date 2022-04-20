@@ -19,14 +19,14 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(18), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     biography = db.Column(db.TEXT)
-    _image_file = db.Column('image_file', db.String(20))
+    _image_file = db.Column("image_file", db.String(20))
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship("Post", backref="author", lazy=True)
 
     @property
     def image_file(self):
         if self._image_file is None:
-            return 'default.jpg'
+            return "default.jpg"
         return self._image_file
 
     @image_file.setter
@@ -35,19 +35,19 @@ class User(db.Model, UserMixin):
 
     @property
     def image_path(self):
-        return f'/static/images/profile_pictures/{self.image_file}'
+        return f"/static/images/profile_pictures/{self.image_file}"
 
     # creates a temporary password to log in a user
     def get_reset_token(self):
-        s = Serializer(app.config['SECRET_KEY'])
-        return s.dumps({'user_id': self.id})
+        s = Serializer(app.config["SECRET_KEY"])
+        return s.dumps({"user_id": self.id})
 
     # tries to load created reset token, if exception return none, if no exception return user id
     @staticmethod
     def verify_reset_token(token, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(app.config["SECRET_KEY"])
         try:
-            user_id = s.loads(token, expires_sec)['user_id']
+            user_id = s.loads(token, expires_sec)["user_id"]
         except:
             return None
         return User.query.get(user_id)
@@ -57,10 +57,9 @@ class User(db.Model, UserMixin):
 
 
 class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False,
-                            default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
@@ -80,8 +79,7 @@ class Pet(db.Model):
     img1_path = db.Column(db.String(45))
     img2_path = db.Column(db.String(45))
     img3_path = db.Column(db.String(45))
-    created_at = db.Column(db.DateTime, nullable=False,
-                           default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):

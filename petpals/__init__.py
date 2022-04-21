@@ -38,4 +38,18 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
 
-from petpals import routes as routes
+
+from .blueprints.auth_blueprint import router as auth_router
+from .blueprints.forum_blueprint import router as forum_router
+from .blueprints.home_blueprint import router as home_router
+from .blueprints.post_blueprint import router as post_router
+from .blueprints.profile_blueprint import router as profile_router
+from .blueprints.reset_password_blueprint import router as reset_password_router
+
+# Register Blueprints
+app.register_blueprint(profile_router)
+forum_router.register_blueprint(post_router)
+app.register_blueprint(forum_router)
+app.register_blueprint(auth_router)
+app.register_blueprint(home_router)
+app.register_blueprint(reset_password_router)

@@ -12,7 +12,7 @@ def post():
 def create_post():
     # TODO: Add post to DB
     # TODO: Redirect to post
-    return redirect(url_for('post_router.post'))
+    return redirect(url_for('forum_router.post_router.post'))
 
 
 @router.get('/form')

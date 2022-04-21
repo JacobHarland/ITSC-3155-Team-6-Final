@@ -70,13 +70,13 @@
                     </div>
                   </div>
                   {% endif %}
-                  {% for i in range(5) %}
+                  {% for pet in user.pets %}
                     <div class="col-lg-3">
-                      <a href="{{ url_for('profile_router.profile_pet', name='PetName') }}">
+                      <a href="{{ url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name) }}">
                         <div class="card">
-                          <img src="{{ user.image_path }}" class="card-img-top" />
+                          <img src="{{ pet.image_path }}" class="card-img-top" />
                           <div class="card-body">
-                            <h5 class="card-title text-center">Xeno</h5>
+                            <h5 class="card-title text-center">{{ pet.name }}</h5>
                           </div>
                         </div>
                       </a>

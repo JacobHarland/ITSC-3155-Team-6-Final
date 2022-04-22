@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS `final`.`post` (
   `file_path` VARCHAR(45) NULL DEFAULT NULL,
   `timestamp` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` INT NOT NULL,
+  `usersname` VARCHAR(18) NOT NULL,
+  FOREIGN KEY (`usersname`) REFERENCES `final`.`user` (`username`),
   PRIMARY KEY (`post_id`, `user_id`),
   INDEX `fk_forum_post_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_forum_post_user`
@@ -92,3 +94,12 @@ COLLATE = utf8mb4_0900_ai_ci;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+#ALTER TABLE `final`.`post` AUTO_INCREMENT = 0;
+#ALTER TABLE `final`.`user` AUTO_INCREMENT = 0;
+#DELETE FROM `final`.`post`;
+#DELETE FROM `final`.`user`;
+
+
+
+

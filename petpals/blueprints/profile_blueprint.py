@@ -17,9 +17,8 @@ def profile_current_user():
 @router.get('/user/<username>')
 def profile_user(username: str):
     user = User.query.filter_by(username=username).first_or_404()
-    pet = Pet.query.all()
 
-    return render_template('profile/user_profile.html', user=user, pet=pet)
+    return render_template('profile/user_profile.html', user=user)
 
 
 @router.route('/user/edit', methods=['GET', 'POST'])

@@ -53,26 +53,37 @@
                 <p class="font-italic mb-0">DOESN'T Lives in North Carolina</p>
                 <p class="font-italic mb-0">Super Professional Sleeper</p>
               </div>
-
-              <!--PLACEHOLDER-->
-              <div class="mb-4">
-                <a
-                  href="{{ url_for('profile_router.profile_pet_new') }}"
-                  class="btn btn-light hover-gray btn-outline-dark btn-sm"
-                  >ADD PET</a
-                >
-              </div>
-              {% for pet in pet %}
-              <!--PLACEHOLDER-->
-              <div class="px-4 py-3">
-                <div class="px-4 py-3">
-                  <p class="mr-2" href="#">{{ pet.name }}</a>
-                  <small class="text-muted">{{ pet.color }}</small>
+            </div>
+            <div class="py-4 px-4">
+              <h5 class="mb-0">Pets</h5>
+              <div class="p-4 rounded shadow-sm bg-dark profile-gray">
+                <div class="row gy-3 ">
+                  {% if current_user.is_authenticated and current_user.username == user.username %}
+                  <div class="col-lg-3">
+                    <div class="card">
+                      <!-- Add Pet Page -->
+                      <a href="#">
+                        <div class="card-body">
+                          <h5 class="card-title text-center">Add More Pets</h5>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% for pet in user.pets %}
+                    <div class="col-lg-3">
+                      <a href="{{ url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name) }}">
+                        <div class="card">
+                          <img src="{{ pet.image_path }}" class="card-img-top" />
+                          <div class="card-body">
+                            <h5 class="card-title text-center">{{ pet.name }}</h5>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  {% endfor %}
                 </div>
-                <p class="">{{ pet.species }}</p>
               </div>
-              {% endfor %}
-
             </div>
           </div>
         </div>

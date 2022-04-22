@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from petpals import bcrypt, db
 from petpals.forms import ChangePassword, UpdateAccountForm, UpdatePetForm
 from petpals.models import User, Pet
-from petpals.utils import save_profile_picture
+from petpals.utils import save_profile_picture, save_pet_profile_picture
 
 router = Blueprint('profile_router', __name__, url_prefix='/profile')
 
@@ -113,6 +113,11 @@ def profile_pet_edit(username: str, pet_name: str):
         abort(403)
     form = UpdatePetForm()
     if form.validate_on_submit():
+        # calls method save_picture to save picture and give filename
+        if form.profile_picture.data:
+            picture_file = save_pet_profile_picture(pet, form.profile_picture.data)
+            # image_file is name in models.py
+            pet.image_file = picture_file
         pet.name = form.name.data
         pet.species = form.species.data
         pet.subspecies = form.subspecies.data

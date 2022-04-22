@@ -101,3 +101,33 @@ def profile_pet_new():
         flash('You have added your pet!', 'success')
         return redirect(url_for('profile_router.profile_current_user'))
     return render_template('profile/add_pet_profile.html', form=form)
+
+
+@router.route('/user/<username>/<pet_name>/edit', methods=['GET', 'POST'])
+@login_required
+def profile_pet_edit(username: str, pet_name: str):
+    user = User.query.filter_by(username=username).first()
+    pet = user.pets.filter_by(name=pet_name).first_or_404()
+    # only the pet owner can update the pet info
+    if pet.owner != current_user:
+        abort(403)
+    form = UpdatePetForm()
+    if form.validate_on_submit():
+        pet.name = form.name.data
+        pet.species = form.species.data
+        pet.subspecies = form.subspecies.data
+        pet.color = form.color.data
+        pet.tagline = form.tagline.data
+        pet.biography = form.biography.data
+        db.session.commit()
+        flash('You have updated your pets information!', 'success')
+        return redirect(url_for('profile_router.profile_pet'))
+    # auto populates the fields
+    elif request.method == 'GET':
+        form.name.data = pet.name
+        form.species.data = pet.species
+        form.subspecies.data = pet.subspecies
+        form.color.data = pet.color
+        form.tagline.data = pet.tagline
+        form.biography.data = pet.biography
+    return render_template('profile/add_pet_profile.html', pet=pet, form=form)

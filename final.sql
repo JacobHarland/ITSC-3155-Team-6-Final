@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `final`.`pet` (
   `tagline` VARCHAR(150) NULL DEFAULT NULL,
   `image_file` VARCHAR(45) NULL DEFAULT NULL,
   `user_id` INT NOT NULL,
-  `biography` TEXT NOT NULL,
+  `biography` TEXT NULL DEFAULT NULL,
   `img1_path` VARCHAR(45) NULL DEFAULT NULL,
   `img2_path` VARCHAR(45) NULL DEFAULT NULL,
   `img3_path` VARCHAR(45) NULL DEFAULT NULL,

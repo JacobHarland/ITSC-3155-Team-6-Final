@@ -13,6 +13,32 @@
           <h4 class="card-title mb-0">{{current_user.species}}</h4>
           <h4 class="card-title mb-0">{{current_user.color}}</h4>
           <h4 class="card-title mb-0">{{current_user.tagline}}</h4>
+
+          {% if pet.owner == current_user %}
+            <div>
+              <button type="button" class="btn btn-danger btn-sm m-1" data-mdb-toggle="modal" data-mdb-target="#deleteModal">Delete Pet</button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="deleteModalLabel"> Delete Pet?</h5>
+                      <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">This is not reversible!!! Are you sure?</div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                      <form action="{{  url_for('profile_router.delete_pet', username=pet.owner.username, pet_name=pet.name) }}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+
         </div>
         <form method="POST" action="" enctype="multipart/form-data" novalidate>
           {{ form.hidden_tag() }}

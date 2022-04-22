@@ -131,3 +131,17 @@ def profile_pet_edit(username: str, pet_name: str):
         form.tagline.data = pet.tagline
         form.biography.data = pet.biography
     return render_template('profile/add_pet_profile.html', pet=pet, form=form)
+
+
+@router.route('/user/<username>/<pet_name>/delete', methods=['POST'])
+@login_required
+def delete_pet(username: str, pet_name: str):
+    user = User.query.filter_by(username=username).first()
+    pet = user.pets.filter_by(name=pet_name).first_or_404()
+    # only the pet owner can update the pet info
+    if pet.owner != current_user:
+        abort(403)
+    db.session.delete(pet)
+    db.session.commit()
+    flash('You pets profile has been deleted!', 'success')
+    return redirect(url_for('profile_router.profile_current_user'))

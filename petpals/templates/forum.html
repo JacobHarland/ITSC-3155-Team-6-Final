@@ -135,7 +135,7 @@ active_page = 'forum' %} {% block body %}
 
             <!-- Forum List -->
             <div class="forum-main-body p-2 p-sm-3 collapse forum-content show">
-              {% for post in posts %}
+              {% for post, user in posts %}
               <div class="forum-card mb-2">
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
@@ -148,7 +148,7 @@ active_page = 'forum' %} {% block body %}
                         class="mr-3 rounded-circle"
                         width="50"
                         alt="Profile Picture "
-                      />{{ user.username }}</a
+                      />   {{ user.username }}</a
                     >
                     <div class="media-body">
                       <h6>

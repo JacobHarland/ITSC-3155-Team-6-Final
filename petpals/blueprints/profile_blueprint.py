@@ -121,7 +121,7 @@ def profile_pet_edit(username: str, pet_name: str):
         pet.biography = form.biography.data
         db.session.commit()
         flash('You have updated your pets information!', 'success')
-        return redirect(url_for('profile_router.profile_pet'))
+        return redirect(url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name))
     # auto populates the fields
     elif request.method == 'GET':
         form.name.data = pet.name

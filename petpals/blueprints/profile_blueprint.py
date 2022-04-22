@@ -100,7 +100,7 @@ def profile_pet_new():
         db.session.commit()
         flash('You have added your pet!', 'success')
         return redirect(url_for('profile_router.profile_current_user'))
-    return render_template('profile/add_pet_profile.html', form=form)
+    return render_template('profile/add_pet_profile.html', form=form, legend="New Pet")
 
 
 @router.route('/user/<username>/<pet_name>/edit', methods=['GET', 'POST'])
@@ -130,7 +130,7 @@ def profile_pet_edit(username: str, pet_name: str):
         form.color.data = pet.color
         form.tagline.data = pet.tagline
         form.biography.data = pet.biography
-    return render_template('profile/add_pet_profile.html', pet=pet, form=form)
+    return render_template('profile/add_pet_profile.html', pet=pet, form=form, legend="Update Pet")
 
 
 @router.route('/user/<username>/<pet_name>/delete', methods=['POST'])

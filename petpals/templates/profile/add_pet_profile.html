@@ -1,5 +1,5 @@
 {% extends '_layout.html' %}
-{% block title %}Add Pet Profile{% endblock %}
+{% block title %}{{legend}}{% endblock %}
 {% set active_page = 'add_pet_profile' %}
 
 {% block body %}
@@ -11,8 +11,6 @@
         <div class="text-center">
           <img src="{{ pet.image_path }}" alt="" />
           <h4 class="card-title mb-0">{{pet.name}}</h4>
-          
-
         </div>
         <form method="POST" action="" enctype="multipart/form-data" novalidate>
           {{ form.hidden_tag() }}

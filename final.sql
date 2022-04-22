@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `final`.`post` (
   `file_path` VARCHAR(45) NULL DEFAULT NULL,
   `timestamp` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`, `user_id`),
+  PRIMARY KEY (`post_id`),
   INDEX `fk_forum_post_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_forum_post_user`
     FOREIGN KEY (`user_id`)
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `final`.`pet` (
   `img1_path` VARCHAR(45) NULL DEFAULT NULL,
   `img2_path` VARCHAR(45) NULL DEFAULT NULL,
   `img3_path` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`profile_id`, `user_id`),
+  PRIMARY KEY (`pet_id`),
   INDEX `fk_profile_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_profile_user1`
     FOREIGN KEY (`user_id`)

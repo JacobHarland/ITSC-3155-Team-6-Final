@@ -64,7 +64,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `final`.`pet`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `final`.`pet` (
-  `profile_id` INT NOT NULL AUTO_INCREMENT,
+  `pet_id` INT NOT NULL AUTO_INCREMENT,
   `species` VARCHAR(45) NOT NULL,
   `subspecies` VARCHAR(45) NULL DEFAULT NULL,
   `name` VARCHAR(18) NOT NULL,

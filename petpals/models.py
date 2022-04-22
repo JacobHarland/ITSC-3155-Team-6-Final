@@ -69,7 +69,7 @@ class Post(db.Model):
 
 
 class Pet(db.Model):
-    profile_id = db.Column(db.Integer, primary_key=True)
+    pet_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(18), nullable=False)
     species = db.Column(db.String(45), nullable=False)
     subspecies = db.Column(db.String(45))

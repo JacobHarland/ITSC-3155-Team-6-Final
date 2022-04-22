@@ -32,7 +32,7 @@ def save_profile_picture(form_picture: FileStorage) -> str:
     image = image.resize(size, Image.LANCZOS)
     image.save(get_picture_path(filename), optimize=True)
 
-    if not current_user.image_file is 'default.jpg':
+    if not current_user.image_file=='default.jpg':
         os.remove(get_picture_path(current_user.image_file))
 
     return filename
@@ -61,7 +61,7 @@ def save_pet_profile_picture(pet, form_profile_picture: FileStorage) -> str:
     image = image.resize(size, Image.LANCZOS)
     image.save(get_picture_path(filename), optimize=True)
 
-    if not pet.image_file is 'default.jpg':
+    if not pet.image_file=='default.jpg':
         os.remove(get_picture_path(pet.image_file))
 
     return filename

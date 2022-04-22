@@ -7,3 +7,6 @@ __pycache__
 
 **/static/images/profile_pictures/*
 !**/static/images/profile_pictures/default.jpg
+
+**/static/images/pet_pictures/*
+!**/static/images/pet_pictures/default.jpg

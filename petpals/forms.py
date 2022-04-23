@@ -3,7 +3,7 @@ from flask import Flask
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Regexp
 from petpals.models import User
 from flask_login import current_user
 
@@ -11,7 +11,7 @@ class SignupForm(FlaskForm):
     fullname = StringField('Full Name',
                             validators=[DataRequired(),Length(min=1, max=50)])
     username = StringField('Username',
-                            validators=[DataRequired(), Length(min=2, max=18)])
+                            validators=[DataRequired(), Length(min=2, max=18), Regexp('^[\w-]*$', message="Username not valid, can only contain letters, numbers, dashes, or underscores")])
     email = StringField('Email',
                             validators=[DataRequired(), Email()])
     password = PasswordField('Password',

@@ -100,6 +100,9 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 #DELETE FROM `final`.`post`;
 #DELETE FROM `final`.`user`;
 
-
+#INSERT INTO `final`.`user`(username, password, email, fullname) VALUES('User 1', 'password123', 'email@email.com', 'Johnny');
+#INSERT INTO `final`.`post`(title, content, file_path, user_id) VALUES('test', 'test test test', 'test.jpg', 11);
+SELECT * FROM `final`.`post`;
+SELECT * FROM `final`.`user`;
 
 

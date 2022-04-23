@@ -3,8 +3,8 @@ from flask import (Blueprint, abort, flash, redirect, render_template, request,
 from flask_login import current_user, login_required
 from petpals import bcrypt, db
 from petpals.forms import ChangePassword, UpdateAccountForm, UpdatePetForm
-from petpals.models import User, Pet
-from petpals.utils import save_profile_picture, save_pet_profile_picture
+from petpals.models import Pet, User
+from petpals.utils import save_profile_picture, save_recent_photo
 
 router = Blueprint('profile_router', __name__, url_prefix='/profile')
 
@@ -115,9 +115,14 @@ def profile_pet_edit(username: str, pet_name: str):
     if form.validate_on_submit():
         # calls method save_picture to save picture and give filename
         if form.profile_picture.data:
-            picture_file = save_pet_profile_picture(pet, form.profile_picture.data)
-            # image_file is name in models.py
+            picture_file = save_profile_picture(form.profile_picture.data, pet)
             pet.image_file = picture_file
+        for i, str_i in enumerate(('one', 'two', 'three'), 1):
+            field = getattr(form, f'picture_{str_i}')
+            if field.data:
+                recent_picture_file = save_recent_photo(field.data, pet, i)
+                setattr(pet, f'img{i}_path', recent_picture_file)
+        
         pet.name = form.name.data
         pet.species = form.species.data
         pet.subspecies = form.subspecies.data

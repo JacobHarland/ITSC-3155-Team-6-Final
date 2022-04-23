@@ -92,10 +92,23 @@ def profile_pet(username: str, pet_name: str):
 def profile_pet_new():
     form = UpdatePetForm()
     if form.validate_on_submit():
-        pet = Pet(name=form.name.data, species=form.species.data,
-                    subspecies=form.subspecies.data, color=form.color.data,
-                    tagline=form.tagline.data, biography=form.biography.data,
-                    user_id=current_user.id)
+        pet = Pet(
+            name=form.name.data,
+            species=form.species.data,
+            subspecies=form.subspecies.data,
+            color=form.color.data,
+            tagline=form.tagline.data,
+            biography=form.biography.data,
+            user_id=current_user.id
+        )
+        if form.profile_picture.data:
+            picture_file = save_profile_picture(form.profile_picture.data, pet)
+            pet.image_file = picture_file
+        for i, str_i in enumerate(('one', 'two', 'three'), 1):
+            field = getattr(form, f'picture_{str_i}')
+            if field.data:
+                recent_picture_file = save_recent_photo(field.data, pet, i)
+                setattr(pet, f'img{i}_path', recent_picture_file)
         db.session.add(pet)
         db.session.commit()
         flash('You have added your pet!', 'success')

@@ -11,7 +11,7 @@ class SignupForm(FlaskForm):
     fullname = StringField('Full Name',
                             validators=[DataRequired(),Length(min=1, max=50)])
     username = StringField('Username',
-                            validators=[DataRequired(), Length(min=2, max=18), Regexp('^\w+$|^\w+-+\w+|^\w+-$|^-+\w+$', message="Username must contain only alphanumeric characters")])
+                            validators=[DataRequired(), Length(min=2, max=18), Regexp('^\w*-*\w*-*\w*$', message="Username must contain only alphanumeric characters")])
     email = StringField('Email',
                             validators=[DataRequired(), Email()])
     password = PasswordField('Password',

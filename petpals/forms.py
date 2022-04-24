@@ -81,7 +81,7 @@ class UpdatePetForm(FlaskForm):
     subspecies = StringField('Pet Subspecies', validators=[Length(max=45)])
     color = StringField('Pet Color', validators=[Length(max=45)])
     tagline = StringField('Tagline', validators=[Length(max=150)])
-    biography = TextAreaField('Bio', validators=[DataRequired(), Length(max=2000)])
+    biography = TextAreaField('Bio', validators=[Length(max=2000)])
     profile_picture = FileField('Update Profile Picture',
                             validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
     picture_one = FileField('Update Picture 1',

@@ -1,11 +1,12 @@
 {% extends '_layout.html' %}
 <!-- Set title to be pet's name -->
-{% block title %}Xeno's Profile{% endblock %}
+{% block title %}{{ pet.name }}'s Profile{% endblock %}
 {% set active_page = 'pet_profile' %}
 
 {% block body %}
 
-<section class="h-200 background-paws">
+<!-- HACK: Used min-height style to stretch paws background -->
+<section class="h-200 background-paws" style="min-height: calc(100vh - 134px);">
   <div class="container py-3 h-100">
     <div class="row py-1 px-2">
       <div class="col-md-8 mx-auto">
@@ -18,13 +19,13 @@
             <div class="profile-head d-flex align-items-end">
               <div class="me-3">
                 <img
-                  src="{{profile_picture}}"
+                  src="{{pet.image_path}}"
                   width="130"
                   class="rounded img-thumbnail"
                 />
               </div>
               <div class="text-white me-3 mb-4">
-                <h4 class="mb-0">Xeno</h4>
+                <h4 class="mb-0">{{ pet.name }}</h4>
                 <small>
                   <i class="fas fa-map-marker-alt me-2"></i>North Carolina
                 </small>
@@ -77,7 +78,7 @@
               <a href="#" class="btn btn-link text-muted">Show all</a>
             </div>
             <div class="row">
-              {% for image in recent_photos %}
+              {% for image in pet.recent_photo_paths %}
               <div class="col-md-4 mb-2 pr-lg-1">
                 <img
                   src="{{image}}"

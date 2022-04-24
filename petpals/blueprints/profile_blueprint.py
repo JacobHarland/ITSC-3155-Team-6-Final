@@ -74,12 +74,17 @@ def profile_user_edit_password():
     return render_template('edit_password.html', title='Edit Password', form=form)
 
 
-@router.route('/pet/<name>')
-def profile_pet(name: str):
+@router.route('/user/<username>/<pet_name>')
+def profile_pet(username: str, pet_name: str):
+    # pet = db.session.query(User, Pet).filter(
+    #         User.username == username,
+    #         Pet.name == pet_name
+    #     ).first()
+    
+    user = User.query.filter_by(username=username).first()
+    pet = user.pets.filter_by(name=pet_name).first_or_404()
     # Replace with pet's profile picture and recent images from DB
-    images = ("/static/images/pet_pictures/temp/Xeno-0.jpg",
-              "/static/images/pet_pictures/temp/Xeno-1.jpg", "/static/images/pet_pictures/temp/Xeno-2.jpg")
-    return render_template('profile/pet_profile.html', profile_picture=images[2], recent_photos=images)
+    return render_template('profile/pet_profile.html', pet=pet)
 
 
 @router.route('pet/edit')

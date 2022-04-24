@@ -49,9 +49,11 @@
             <div class="px-4 py-3">
               <h5 class="mb-0">About</h5>
               <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-                <p class="font-italic mb-0">NOT a Black Cat</p>
-                <p class="font-italic mb-0">DOESN'T Lives in North Carolina</p>
-                <p class="font-italic mb-0">Super Professional Sleeper</p>
+                {% if current_user.biography %}
+                  {% for line in current_user.biography.splitlines() %}
+                    <p class="mb-0">{{ line }}</p>
+                  {% endfor %}
+                {% endif %}
               </div>
             </div>
             <div class="py-4 px-4">

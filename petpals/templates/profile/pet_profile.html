@@ -67,9 +67,11 @@
           <div class="px-4 py-3">
             <h5 class="mb-0">About</h5>
             <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-              <p class="font-italic mb-0">Black Cat</p>
-              <p class="font-italic mb-0">Lives in North Carolina</p>
-              <p class="font-italic mb-0">Professional Sleeper</p>
+              {% if pet.biography %}
+                {% for line in pet.biography.splitlines() %}
+                  <p class="mb-0">{{ line }}</p>
+                {% endfor %}
+              {% endif %}
             </div>
           </div>
           <div class="py-4 px-4">

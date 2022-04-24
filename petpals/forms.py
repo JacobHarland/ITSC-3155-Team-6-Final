@@ -74,6 +74,24 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('Email already in use. Please enter a different email.')
 
+class UpdatePetForm(FlaskForm):
+    name = StringField('Pet Name',
+                            validators=[DataRequired(),Length(min=1, max=50)])
+    species = StringField('Pet Species', validators=[DataRequired(), Length(min=1, max=45)])
+    subspecies = StringField('Pet Subspecies', validators=[Length(max=45)])
+    color = StringField('Pet Color', validators=[Length(max=45)])
+    tagline = StringField('Tagline', validators=[Length(max=150)])
+    biography = TextAreaField('Bio', validators=[DataRequired(), Length(max=2000)])
+    profile_picture = FileField('Update Profile Picture',
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
+    picture_one = FileField('Update Picture 1',
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
+    picture_two = FileField('Update Picture 2',
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
+    picture_three = FileField('Update Picture 3',
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
+    submit = SubmitField('Update')
+
 class RequestResetForm(FlaskForm):
     email = StringField('Email',
                             validators=[DataRequired(), Email()])

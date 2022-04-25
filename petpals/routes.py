@@ -29,7 +29,8 @@ def faq():
 def forum():
     all_posts = Post.query.all()
     all_users = User.query.all()
-    return render_template("forum.html", posts=zip(all_posts, all_users))
+    user = User.query.first()
+    return render_template("forum.html", posts=all_posts, db=db, user=user, User=User)
 
 
 @app.route("/search", methods=["GET", "POST"])

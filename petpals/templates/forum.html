@@ -140,7 +140,9 @@
             <!-- Forum main body -->
 
             <!-- Forum List -->
-            {% for post, user in posts %}
+            {% for post in posts %}
+            {% set user = db.session.query(User).filter(User.id == post.user_id).first() %}
+                    
               <div class="forum-card mb-2">
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
@@ -183,7 +185,6 @@
                   </div>
                 </div>
               </div>
-
               {% endfor %}
 
               <!--Pagination-->

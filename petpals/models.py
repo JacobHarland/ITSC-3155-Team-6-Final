@@ -80,7 +80,7 @@ class Pet(db.Model):
     color = db.Column(db.String(45))
     tagline = db.Column(db.String(150))
     _image_file = db.Column('image_file', db.String(45))
-    biography = db.Column(db.Text, nullable=False)
+    biography = db.Column(db.Text)
     img1_path = db.Column(db.String(45))
     img2_path = db.Column(db.String(45))
     img3_path = db.Column(db.String(45))

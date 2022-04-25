@@ -26,6 +26,13 @@
               </div>
               <div class="text-white me-3 mb-4">
                 <h4 class="mb-0">{{ pet.name }}</h4>
+                <p class="mb-0">
+                  <a
+                    href="{{ url_for('profile_router.profile_user', username=pet.owner.username) }}"
+                    class="text-muted"
+                    >{{ pet.owner.fullname }}'s Pet</a
+                  >
+                </p>
                 <small>
                   <i class="fas fa-map-marker-alt me-2"></i>North Carolina
                 </small>

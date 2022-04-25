@@ -30,13 +30,15 @@
                   <i class="fas fa-map-marker-alt me-2"></i>North Carolina
                 </small>
               </div>
-              <div class="mb-4">
-                <a
-                  href="{{ url_for('profile_router.profile_pet_edit', username=pet.owner.username, pet_name=pet.name) }}"
-                  class="btn btn-light hover-gray btn-outline-dark btn-sm"
-                  >Edit profile</a
-                >
-              </div>
+              {% if current_user.is_authenticated and current_user == pet.owner %}
+                <div class="mb-4">
+                  <a
+                    href="{{ url_for('profile_router.profile_pet_edit', username=pet.owner.username, pet_name=pet.name) }}"
+                    class="btn btn-light hover-gray btn-outline-dark btn-sm"
+                    >Edit profile</a
+                  >
+                </div>
+              {% endif %}
             </div>
           </div>
           <!-- Profile Statistics -->

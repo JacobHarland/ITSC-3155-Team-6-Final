@@ -28,7 +28,6 @@ def faq():
 @app.get("/forum")
 def forum():
     all_posts = Post.query.all()
-    all_users = User.query.all()
     user = User.query.first()
     return render_template("forum.html", posts=all_posts, db=db, user=user, User=User)
 
@@ -39,9 +38,10 @@ def search():
     filtered_posts = (
         db.session.query(Post).filter(Post.content.contains(search_param)).all()
     )
-    print(search_param)
-    all_users = User.query.all()
-    return render_template("forum.html", posts=zip(filtered_posts, all_users))
+    user = User.query.first()
+    return render_template(
+        "forum.html", posts=filtered_posts, db=db, user=user, User=User
+    )
 
 
 # sends the email using Flask-Mail

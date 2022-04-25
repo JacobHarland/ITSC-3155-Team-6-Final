@@ -31,6 +31,10 @@ div.profile-gray {
   background-color: lightgray !important;
 }
 
+a.hover-blue:hover {
+  color: dodgerblue !important;
+}
+
 .cover {
   background-color: black;
   background-size: cover;

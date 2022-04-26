@@ -94,15 +94,3 @@ COLLATE = utf8mb4_0900_ai_ci;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-#ALTER TABLE `final`.`post` AUTO_INCREMENT = 0;
-#ALTER TABLE `final`.`user` AUTO_INCREMENT = 0;
-#DELETE FROM `final`.`post`;
-#DELETE FROM `final`.`user`;
-
-#INSERT INTO `final`.`user`(username, password, email, fullname) VALUES('User 1', 'password123', 'email@email.com', 'Johnny');
-#INSERT INTO `final`.`post`(title, content, file_path, user_id) VALUES('test', 'test test test', 'test.jpg', 11);
-SELECT * FROM `final`.`post`;
-SELECT * FROM `final`.`user`;
-
-

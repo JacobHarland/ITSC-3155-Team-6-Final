@@ -1,8 +1,5 @@
-{% extends '_layout.html' %}
-{% block title %}Forum{% endblock %}
-{% set active_page = 'forum' %}
-
-{% block body %}
+{% extends '_layout.html' %} {% block title %}Forum{% endblock %} {% set
+active_page = 'forum' %} {% block body %}
 
 <section class="bg-white p-2">
   <div class="text-center bg-info text-white border border-white border-6 p-3">
@@ -14,17 +11,11 @@
       <div>
         <div class="forum-wrapper">
           <!-- Left Sidebar -->
-          <div class="forum-sidebar">
-            <!--Left Sidebar Button -->
+          <div class="forum-sidebar"> 
+            <!--Left Sidebar Button --> 
             <div class="forum-sidebar-header justify-content-center">
-              <button
-                class="btn btn-info has-icon btn-block"
-                type="button"
-                data-toggle="modal"
-                data-target="#threadModal"
-              >
-                New Post
-              </button>
+              <a href = "" class="btn btn-info has-icon btn-block" type="button"
+                data-toggle="modal" data-target="#threadModal" href = ""> New Post </a>                                    <!-- LINK TO NEW FORM PAGE HERE -->
             </div>
             <!-- end Left Sidebar Button -->
 
@@ -138,20 +129,21 @@
 
             <!-- Forum List -->
             <div class="forum-main-body p-2 p-sm-3 collapse forum-content show">
-              <!--First Entry-->
+              {% for post in posts %}
               <div class="forum-card mb-2">
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
                     <a
-                      href="{{ url_for('profile_router.profile_user', username='1') }}"
+                      href="/user/{{ post.author.username }}"
                       data-toggle="collapse"
                       data-target=".forum-content"
                       ><img
-                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                        src="{{ post.author.image_path }}" 
                         class="mr-3 rounded-circle"
                         width="50"
-                        alt="User"
-                    /></a>
+                        alt="Profile Picture "
+                      />   {{ post.author.username }}</a
+                    >
                     <div class="media-body">
                       <h6>
                         <a
@@ -159,16 +151,15 @@
                           data-toggle="collapse"
                           data-target=".forum-content"
                           class="text-body"
-                          >Realtime fetching data</a
+                          >{{ post.title }}</a
                         >
                       </h6>
-                      <p class="text-secondary">
-                        lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      </p>
+                      <p class="text-secondary">{{ post.content }}</p>
                       <p class="text-muted">
-                        <a href="javascript:void(0)">drewdan</a> replied
+                        <a href="javascript:void(0)">{{ post.author.username }}</a>
+                        posted
                         <span class="text-secondary font-weight-bold"
-                          >13 minutes ago</span
+                          >{{ post.timestamp }}</span
                         >
                       </p>
                     </div>
@@ -181,142 +172,8 @@
                   </div>
                 </div>
               </div>
-              <!--end First Entry-->
 
-              <!--Second Entry-->
-              <div class="forum-card mb-2">
-                <div class="forum-card-body p-2 p-sm-3">
-                  <div class="media forum-item">
-                    <a
-                      href="{{ url_for('profile_router.profile_user', username='2') }}"
-                      data-toggle="collapse"
-                      data-target=".forum-content"
-                      ><img
-                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                        class="mr-3 rounded-circle"
-                        width="50"
-                        alt="User"
-                    /></a>
-                    <div class="media-body">
-                      <h6>
-                        <a
-                          href="{{ url_for('post_router.post') }}"
-                          data-toggle="collapse"
-                          data-target=".forum-content"
-                          class="text-body"
-                          >Laravel 7 database backup</a
-                        >
-                      </h6>
-                      <p class="text-secondary">
-                        lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      </p>
-                      <p class="text-muted">
-                        <a href="javascript:void(0)">jlrdw</a> replied
-                        <span class="text-secondary font-weight-bold"
-                          >3 hours ago</span
-                        >
-                      </p>
-                    </div>
-                    <div class="text-muted small text-center align-self-center">
-                      <span class="d-none d-sm-inline-block"
-                        ><i class="far fa-eye"></i> 18</span
-                      >
-                      <span><i class="far fa-comment ml-2"></i> 1</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end Second Entry-->
-
-              <!--Third Entry-->
-              <div class="forum-card mb-2">
-                <div class="forum-card-body p-2 p-sm-3">
-                  <div class="media forum-item">
-                    <a
-                      href="{{ url_for('profile_router.profile_user', username='3') }}"
-                      data-toggle="collapse"
-                      data-target=".forum-content"
-                      ><img
-                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                        class="mr-3 rounded-circle"
-                        width="50"
-                        alt="User"
-                    /></a>
-                    <div class="media-body">
-                      <h6>
-                        <a
-                          href="{{ url_for('post_router.post') }}"
-                          data-toggle="collapse"
-                          data-target=".forum-content"
-                          class="text-body"
-                          >Http client post raw content</a
-                        >
-                      </h6>
-                      <p class="text-secondary">
-                        lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      </p>
-                      <p class="text-muted">
-                        <a href="javascript:void(0)">ciungulete</a> replied
-                        <span class="text-secondary font-weight-bold"
-                          >7 hours ago</span
-                        >
-                      </p>
-                    </div>
-                    <div class="text-muted small text-center align-self-center">
-                      <span class="d-none d-sm-inline-block"
-                        ><i class="far fa-eye"></i> 32</span
-                      >
-                      <span><i class="far fa-comment ml-2"></i> 2</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end Third Entry-->
-
-              <!--Fourth Entry-->
-              <div class="forum-card mb-2">
-                <div class="forum-card-body p-2 p-sm-3">
-                  <div class="media forum-item">
-                    <a
-                      href="{{ url_for('profile_router.profile_user', username='4') }}"
-                      data-toggle="collapse"
-                      data-target=".forum-content"
-                      ><img
-                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                        class="mr-3 rounded-circle"
-                        width="50"
-                        alt="User"
-                    /></a>
-                    <div class="media-body">
-                      <h6>
-                        <a
-                          href="{{ url_for('post_router.post') }}"
-                          data-toggle="collapse"
-                          data-target=".forum-content"
-                          class="text-body"
-                          >Top rated filter not working</a
-                        >
-                      </h6>
-                      <p class="text-secondary">
-                        lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                      </p>
-                      <p class="text-muted">
-                        <a href="javascript:void(0)">bugsysha</a> replied
-                        <span class="text-secondary font-weight-bold"
-                          >11 hours ago</span
-                        >
-                      </p>
-                    </div>
-                    <div class="text-muted small text-center align-self-center">
-                      <span class="d-none d-sm-inline-block"
-                        ><i class="far fa-eye"></i> 49</span
-                      >
-                      <span><i class="far fa-comment ml-2"></i> 9</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--end Fourth Entry-->
+              {% endfor %}
 
               <!--Pagination-->
               <ul
@@ -344,63 +201,8 @@
               </ul>
               <!--end Pagination-->
             </div>
-            <!--end Forum List -->
-
-            <!-- Forum Detail -->
-            <div class="forum-main-body p-2 p-sm-3 collapse forum-content">
-              <a
-                href="#"
-                class="btn btn-light btn-sm mb-3 has-icon"
-                data-toggle="collapse"
-                data-target=".forum-content"
-                ><i class="fa fa-arrow-left mr-2"></i>Back</a
-              >
-              <div class="forum-card mb-2">
-                <div class="forum-card-body">
-                  <div class="media forum-item">
-                    <a href="#" class="card-link">
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                        class="rounded-circle"
-                        width="50"
-                        alt="User"
-                      />
-                      <small class="d-block text-center text-muted"
-                        >Newbie</small
-                      >
-                    </a>
-                    <div class="media-body ml-3">
-                      <a href="javascript:void(0)" class="text-secondary"
-                        >Mokrani</a
-                      >
-                      <small class="text-muted ml-2">1 hour ago</small>
-                      <h5 class="mt-1">Realtime fetching data</h5>
-                      <div class="mt-3 font-size-sm">
-                        <p>Hellooo :)</p>
-                        <p>
-                          I'm newbie with laravel and i want to fetch data from database in realtime for my dashboard anaytics and i found a solution with ajax but it dosen't work if any one have a simple solution it will be helpful
-                        </p>
-                        <p>Thank</p>
-                      </div>
-                    </div>
-                    <div class="text-muted small text-center">
-                      <span class="d-none d-sm-inline-block"
-                        ><i class="far fa-eye"></i> 19</span
-                      >
-                      <span><i class="far fa-comment ml-2"></i> 3</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /Forum Detail -->
-
-            <!-- /Forum main body -->
           </div>
-          <!-- /Forum main -->
         </div>
-
-        <!-- New Thread Modal -->
         <div
           class="modal fade"
           id="threadModal"

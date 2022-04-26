@@ -28,8 +28,7 @@ def faq():
 @app.get('/forum')
 def forum():
     all_posts = Post.query.all()
-    all_users = User.query.all()
-    return render_template("forum.html", posts = all_posts, users = all_users)
+    return render_template("forum.html", posts = all_posts)
 
 
 # sends the email using Flask-Mail

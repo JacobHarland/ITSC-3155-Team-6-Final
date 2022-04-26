@@ -1,11 +1,12 @@
 {% extends '_layout.html' %}
 <!-- Set title to be pet's name -->
-{% block title %}Xeno's Profile{% endblock %}
+{% block title %}{{ pet.name }}'s Profile{% endblock %}
 {% set active_page = 'pet_profile' %}
 
 {% block body %}
 
-<section class="h-200 background-paws">
+<!-- HACK: Used min-height style to stretch paws background -->
+<section class="h-200 background-paws" style="min-height: calc(100vh - 134px);">
   <div class="container py-3 h-100">
     <div class="row py-1 px-2">
       <div class="col-md-8 mx-auto">
@@ -18,24 +19,33 @@
             <div class="profile-head d-flex align-items-end">
               <div class="me-3">
                 <img
-                  src="{{profile_picture}}"
+                  src="{{pet.image_path}}"
                   width="130"
                   class="rounded img-thumbnail"
                 />
               </div>
               <div class="text-white me-3 mb-4">
-                <h4 class="mb-0">Xeno</h4>
+                <h4 class="mb-0">{{ pet.name }}</h4>
+                <p class="mb-0">
+                  <a
+                    href="{{ url_for('profile_router.profile_user', username=pet.owner.username) }}"
+                    class="text-muted hover-blue text-decoration-underline"
+                    >{{ pet.owner.fullname }}'s Pet</a
+                  >
+                </p>
                 <small>
                   <i class="fas fa-map-marker-alt me-2"></i>North Carolina
                 </small>
               </div>
-              <div class="mb-4">
-                <a
-                  href="{{ url_for('profile_router.profile_pet_edit') }}"
-                  class="btn btn-light hover-gray btn-outline-dark btn-sm"
-                  >Edit profile</a
-                >
-              </div>
+              {% if current_user.is_authenticated and current_user == pet.owner %}
+                <div class="mb-4">
+                  <a
+                    href="{{ url_for('profile_router.profile_pet_edit', username=pet.owner.username, pet_name=pet.name) }}"
+                    class="btn btn-light hover-gray btn-outline-dark btn-sm"
+                    >Edit profile</a
+                  >
+                </div>
+              {% endif %}
             </div>
           </div>
           <!-- Profile Statistics -->
@@ -66,9 +76,11 @@
           <div class="px-4 py-3">
             <h5 class="mb-0">About</h5>
             <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-              <p class="font-italic mb-0">Black Cat</p>
-              <p class="font-italic mb-0">Lives in North Carolina</p>
-              <p class="font-italic mb-0">Professional Sleeper</p>
+              {% if pet.biography %}
+                {% for line in pet.biography.splitlines() %}
+                  <p class="mb-0">{{ line }}</p>
+                {% endfor %}
+              {% endif %}
             </div>
           </div>
           <div class="py-4 px-4">
@@ -77,7 +89,7 @@
               <a href="#" class="btn btn-link text-muted">Show all</a>
             </div>
             <div class="row">
-              {% for image in recent_photos %}
+              {% for image in pet.recent_photo_paths %}
               <div class="col-md-4 mb-2 pr-lg-1">
                 <img
                   src="{{image}}"

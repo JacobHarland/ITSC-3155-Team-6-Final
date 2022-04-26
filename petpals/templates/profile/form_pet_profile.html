@@ -1,0 +1,194 @@
+{% extends '_layout.html' %}
+{% block title %}{{legend}}{% endblock %}
+{% set active_page = 'form_pet_profile' %}
+
+{% block body %}
+
+<section class="h-100 background-paws" style="background-color: #eee">
+  <div class="container py-5 h-100">
+    <div class="card rounded-3 text-black border border-info border-6">
+      <div class="card-body p-md-5 mx-md-4">
+        <div class="text-center">
+          <!--If pet exists then the page shows edit/delete info, otherwise it shows default which is for adding pet-->
+          {% if pet %}
+            <img src="{{ pet.image_path }}" alt="NONE" />
+            <h4 class="card-title mb-0">{{pet.name}}</h4>
+          {% endif %}
+        </div>
+        <form method="POST" action="" enctype="multipart/form-data" novalidate>
+          {{ form.hidden_tag() }}
+          <h2 class="text-center m-5">Pet Info</h2>
+
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.name.errors %}
+              {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+              <div class="invalid-feedback">
+                {% for error in form.name.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.name(class="form-control") }}
+            {% endif %}
+            {{ form.name.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.species.errors %}
+              {{ form.species(class="form-control" + (" is-invalid" if form.species.errors else "")) }}
+              <div class="invalid-feedback">
+                {% for error in form.species.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.species(class="form-control") }}
+              {% endif %}
+              {{ form.species.label(class="form-label") }}
+          </div>
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.subspecies.errors %}
+            {{ form.subspecies(class="form-control" + (" is-invalid" if form.subspecies.errors else "")) }}
+            <div class="invalid-feedback">
+              {% for error in form.subspecies.errors %}
+              <span class="">{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+              {{ form.subspecies(class="form-control") }}
+              {% endif %}
+              {{ form.subspecies.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.color.errors %}
+            {{ form.color(class="form-control" + (" is-invalid" if form.color.errors else "")) }}
+            <div class="invalid-feedback">
+              {% for error in form.color.errors %}
+              <span class="">{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+              {{ form.color(class="form-control") }}
+              {% endif %}
+              {{ form.color.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.tagline.errors %}
+            {{ form.tagline(class="form-control" + (" is-invalid" if form.tagline.errors else "")) }}
+            <div class="invalid-feedback">
+              {% for error in form.tagline.errors %}
+              <span class="">{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+              {{ form.tagline(class="form-control") }}
+              {% endif %}
+              {{ form.tagline.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            <!--If error occurs, print errors-->
+            {% if form.biography.errors %}
+              {{ form.biography(class="form-control", rows="5" + (" is-invalid" if form.biography.errors else "")) }}
+              <div class="invalid-feedback">
+                {% for error in form.biography.errors %}
+                  <span class="">{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.biography(class="form-control", rows="5") }}
+            {% endif %}
+            {{ form.biography.label(class="form-label") }}
+          </div>
+
+          <div class="form-outline mb-5">
+            {{ form.profile_picture.label() }} <br />
+            {{ form.profile_picture(class="form-control-file",  accept=".jpeg, .jpg, .png, .gif") }}
+            <!--If error occurs, print errors-->
+            {% if form.profile_picture.errors %}
+              {% for error in form.profile_picture.errors %}
+                <span class="text-danger">{{ error }}</span><br />
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="form-outline mb-5">
+            {{ form.picture_one.label() }} <br />
+            {{ form.picture_one(class="form-control-file",  accept=".jpeg, .jpg, .png, .gif") }}
+            <!--If error occurs, print errors-->
+            {% if form.picture_one.errors %}
+              {% for error in form.picture_one.errors %}
+                <span class="text-danger">{{ error }}</span><br />
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="form-outline mb-5">
+            {{ form.picture_two.label() }} <br />
+            {{ form.picture_two(class="form-control-file",  accept=".jpeg, .jpg, .png, .gif") }}
+            <!--If error occurs, print errors-->
+            {% if form.picture_two.errors %}
+              {% for error in form.picture_two.errors %}
+                <span class="text-danger">{{ error }}</span><br />
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="form-outline mb-5">
+            {{ form.picture_three.label() }} <br />
+            {{ form.picture_three(class="form-control-file",  accept=".jpeg, .jpg, .png, .gif") }}
+            <!--If error occurs, print errors-->
+            {% if form.picture_three.errors %}
+              {% for error in form.picture_three.errors %}
+                <span class="text-danger">{{ error }}</span><br />
+              {% endfor %}
+            {% endif %}
+          </div>
+          <div class="text-center pt-1 mb-0 pb-0">
+            {{ form.submit(class="btn btn-info btn-block mb-3") }}
+          </div>
+        </form>
+        <!--If pet exists then the page shows edit/delete info, otherwise it shows default which is for adding pet-->
+        {% if pet %}
+          <div class="text-center pt-1 mb-0 pb-0">
+            <button type="button" class="btn btn-danger btn-sm m-1" data-mdb-toggle="modal" data-mdb-target="#deleteModal">Delete Pet</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel"> Delete Pet?</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">This is not reversible!!! Are you sure?</div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                    <form action="{{  url_for('profile_router.delete_pet', username=pet.owner.username, pet_name=pet.name) }}" method="POST">
+                      <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".form-outline").forEach((formOutline) => {
+    new mdb.Input(formOutline).init();
+  });
+</script>
+
+{% endblock %}}

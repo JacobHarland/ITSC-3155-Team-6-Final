@@ -3,7 +3,7 @@ from flask import Flask
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Regexp
 from petpals.models import User
 from flask_login import current_user
 
@@ -11,7 +11,7 @@ class SignupForm(FlaskForm):
     fullname = StringField('Full Name',
                             validators=[DataRequired(),Length(min=1, max=50)])
     username = StringField('Username',
-                            validators=[DataRequired(), Length(min=2, max=18)])
+                            validators=[DataRequired(), Length(min=2, max=18), Regexp('^[\w-]*$', message="Username not valid, can only contain letters, numbers, dashes, or underscores")])
     email = StringField('Email',
                             validators=[DataRequired(), Email()])
     password = PasswordField('Password',
@@ -73,6 +73,24 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('Email already in use. Please enter a different email.')
+
+class UpdatePetForm(FlaskForm):
+    name = StringField('Pet Name',
+                            validators=[DataRequired(),Length(min=1, max=50)])
+    species = StringField('Pet Species', validators=[DataRequired(), Length(min=1, max=45)])
+    subspecies = StringField('Pet Subspecies', validators=[Length(max=45)])
+    color = StringField('Pet Color', validators=[Length(max=45)])
+    tagline = StringField('Tagline', validators=[Length(max=150)])
+    biography = TextAreaField('Bio', validators=[Length(max=2000)])
+    profile_picture = FileField('Update Profile Picture',
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
+    picture_one = FileField('Update Picture 1',
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
+    picture_two = FileField('Update Picture 2',
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
+    picture_three = FileField('Update Picture 3',
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
+    submit = SubmitField('Update')
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email',

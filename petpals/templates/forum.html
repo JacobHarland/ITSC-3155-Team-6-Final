@@ -15,7 +15,7 @@ active_page = 'forum' %} {% block body %}
             <!--Left Sidebar Button --> 
             <div class="forum-sidebar-header justify-content-center">
               <a href = "www.google.com" class="btn btn-info has-icon btn-block" type="button"
-                data-toggle="modal" data-target="#threadModal" href = "www.google.com"> New Post </a><!-- LINK TO NEW FORM PAGE HERE -->
+                data-toggle="modal" data-target="#threadModal" href = ""> New Post </a>                                    <!-- LINK TO NEW FORM PAGE HERE -->
             </div>
             <!-- end Left Sidebar Button -->
 
@@ -134,15 +134,15 @@ active_page = 'forum' %} {% block body %}
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
                     <a
-                      href="/user/{{user.username}}"
+                      href="/user/{{ post.author.username }}"
                       data-toggle="collapse"
                       data-target=".forum-content"
                       ><img
-                        src="/static/images/profile_pictures/{{ user._image_file }}"
+                        src="{{ user.image_path }}"
                         class="mr-3 rounded-circle"
                         width="50"
                         alt="Profile Picture "
-                      />   {{ user.username }}</a
+                      />   {{ post.author.username }}</a
                     >
                     <div class="media-body">
                       <h6>
@@ -156,7 +156,7 @@ active_page = 'forum' %} {% block body %}
                       </h6>
                       <p class="text-secondary">{{ post.content }}</p>
                       <p class="text-muted">
-                        <a href="javascript:void(0)">{{ user.username }}</a>
+                        <a href="javascript:void(0)">{{ post.author.username }}</a>
                         posted
                         <span class="text-secondary font-weight-bold"
                           >{{ post.timestamp }}</span

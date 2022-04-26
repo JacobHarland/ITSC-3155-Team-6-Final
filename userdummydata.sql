@@ -1,0 +1,2 @@
+INSERT INTO user (username, email, password, fullname, image_file, biography) VALUES ("test", "test@aol.com", "12345789", "testy test", "test.jpg", "this is a test");
+INSERT INTO user (username, email, password, fullname, image_file, biography) VALUES ("test2", "test@gmail.com", "lamepass", "test the sequel", "test.png", "this is another test");

@@ -48,9 +48,7 @@ CREATE TABLE IF NOT EXISTS `final`.`post` (
   `file_path` VARCHAR(45) NULL DEFAULT NULL,
   `timestamp` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` INT NOT NULL,
-  `usersname` VARCHAR(18) NOT NULL,
-  FOREIGN KEY (`usersname`) REFERENCES `final`.`user` (`username`),
-  PRIMARY KEY (`post_id`, `user_id`),
+  PRIMARY KEY (`post_id`),
   INDEX `fk_forum_post_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_forum_post_user`
     FOREIGN KEY (`user_id`)
@@ -66,7 +64,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `final`.`pet`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `final`.`pet` (
-  `profile_id` INT NOT NULL AUTO_INCREMENT,
+  `pet_id` INT NOT NULL AUTO_INCREMENT,
   `species` VARCHAR(45) NOT NULL,
   `subspecies` VARCHAR(45) NULL DEFAULT NULL,
   `name` VARCHAR(18) NOT NULL,
@@ -75,11 +73,11 @@ CREATE TABLE IF NOT EXISTS `final`.`pet` (
   `tagline` VARCHAR(150) NULL DEFAULT NULL,
   `image_file` VARCHAR(45) NULL DEFAULT NULL,
   `user_id` INT NOT NULL,
-  `biography` TEXT NOT NULL,
+  `biography` TEXT NULL DEFAULT NULL,
   `img1_path` VARCHAR(45) NULL DEFAULT NULL,
   `img2_path` VARCHAR(45) NULL DEFAULT NULL,
   `img3_path` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`profile_id`, `user_id`),
+  PRIMARY KEY (`pet_id`),
   INDEX `fk_profile_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_profile_user1`
     FOREIGN KEY (`user_id`)
@@ -90,19 +88,9 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-
+ALTER TABLE user AUTO_INCREMENT=0;
+ALTER TABLE pet AUTO_INCREMENT=0;
+ALTER TABLE post AUTO_INCREMENT=0;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-#ALTER TABLE `final`.`post` AUTO_INCREMENT = 0;
-#ALTER TABLE `final`.`user` AUTO_INCREMENT = 0;
-#DELETE FROM `final`.`post`;
-#DELETE FROM `final`.`user`;
-
-#INSERT INTO `final`.`user`(username, password, email, fullname) VALUES('User 1', 'password123', 'email@email.com', 'Johnny');
-#INSERT INTO `final`.`post`(title, content, file_path, user_id) VALUES('test', 'test test test', 'test.jpg', 11);
-SELECT * FROM `final`.`post`;
-SELECT * FROM `final`.`user`;
-
-

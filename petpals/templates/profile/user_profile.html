@@ -49,9 +49,42 @@
             <div class="px-4 py-3">
               <h5 class="mb-0">About</h5>
               <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-                <p class="font-italic mb-0">NOT a Black Cat</p>
-                <p class="font-italic mb-0">DOESN'T Lives in North Carolina</p>
-                <p class="font-italic mb-0">Super Professional Sleeper</p>
+                {% if current_user.biography %}
+                  {% for line in current_user.biography.splitlines() %}
+                    <p class="mb-0">{{ line }}</p>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+            <div class="py-4 px-4">
+              <h5 class="mb-0">Pets</h5>
+              <div class="p-4 rounded shadow-sm bg-dark profile-gray">
+                <div class="row gy-3 ">
+                  {% if current_user.is_authenticated and current_user.username == user.username %}
+                  <div class="col-lg-3">
+                    <div class="card">
+                      <!-- Add Pet Page -->
+                      <a href="{{ url_for('profile_router.profile_pet_new') }}">
+                        <div class="card-body">
+                          <h5 class="card-title text-center">Add More Pets</h5>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% for pet in user.pets %}
+                    <div class="col-lg-3">
+                      <a href="{{ url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name) }}">
+                        <div class="card">
+                          <img src="{{ pet.image_path }}" class="card-img-top" />
+                          <div class="card-body">
+                            <h5 class="card-title text-center">{{ pet.name }}</h5>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  {% endfor %}
+                </div>
               </div>
             </div>
           </div>

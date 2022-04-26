@@ -21,7 +21,9 @@ class User(db.Model, UserMixin):
     biography = db.Column(db.TEXT)
     _image_file = db.Column('image_file', db.String(20))
     password = db.Column(db.String(60), nullable=False)
-    posts = db.relationship("Post", backref="author", lazy=True)
+
+    pets = db.relationship('Pet', back_populates='owner', lazy='dynamic')
+    posts = db.relationship('Post', back_populates='author')
 
     @property
     def image_file(self):
@@ -64,25 +66,48 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
+    author = db.relationship('User', back_populates='posts')
+
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
 
 
 class Pet(db.Model):
-    profile_id = db.Column(db.Integer, primary_key=True)
+    pet_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(18), nullable=False)
     species = db.Column(db.String(45), nullable=False)
     subspecies = db.Column(db.String(45))
     color = db.Column(db.String(45))
     tagline = db.Column(db.String(150))
-    image_file = db.Column(db.String(45))
-    biography = db.Column(db.Text, nullable=False)
+    _image_file = db.Column('image_file', db.String(45))
+    biography = db.Column(db.Text)
     img1_path = db.Column(db.String(45))
     img2_path = db.Column(db.String(45))
     img3_path = db.Column(db.String(45))
     created_at = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, primary_key=True)
+
+    owner = db.relationship('User', back_populates='pets')
+
+    @property
+    def image_file(self):
+        if self._image_file is None:
+            return 'default.jpg'
+        return self._image_file
+
+    @image_file.setter
+    def image_file(self, image_file):
+        self._image_file = image_file
+
+    @property
+    def image_path(self):
+        return f'/static/images/pet_pictures/{self.image_file}'
+
+    @property
+    def recent_photo_paths(self):
+        photos = (self.img1_path, self.img2_path, self.img3_path)
+        return tuple(f'/static/images/pet_pictures/{photo}' for photo in photos if photo is not None)
 
     def __repr__(self):
         return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"

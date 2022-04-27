@@ -4,7 +4,8 @@
 
 {% block body %}
 
-<section class="bg-image background-paws vh-100">
+
+<section class="bg-image background-paws">
   <div class="container py-5">
     <div class="card rounded-3 border border-info border-6">
       <div class="card-body p-md-5 mx-md-4">
@@ -13,30 +14,27 @@
           <h5 class="mb-4">Where your Pet meets new Pals</h5>
         </div>
         <h1 class="text-center mb-5">Create New Post Form</h1>
-        <form action="{{ url_for('post_router.post') }}" method="post">
+
+        {% if current_user.is_authenticated %}
+
+        <form method="POST">
+          {{ form.hidden_tag() }}
           <!-- Title input -->
           <div class="form-outline mb-4">
-            <input
-              type="text"
-              name="post-title"
-              id="post-title"
-              class="form-control"
-            />
-            <label for="post-title" class="form-label">Post Title</label>
+            {{ form.title(class="form-control") }}
+            {{ form.title.label(class="form-label") }}
           </div>
 
           <!-- Content input -->
           <div class="form-outline mb-3">
-            <textarea
-              name="post-content"
-              id="post-content"
-              class="form-control"
-              rows="10"
-            ></textarea>
-            <label for="post-content" class="form-label">Post Content</label>
+            {{ form.content(class="form-control", rows="10") }}
+            {{ form.content.label(class="form-label") }}
           </div>
 
-          <!-- Attachment input -->
+          <!--Disabling Attachment Function until implemented-->
+          <!--This may need to be deleted-->
+
+          <!-- Attachment input
           <div class="form-group mb-4">
             <label for="post-attachment" class="form-label">Attachment</label>
             <input
@@ -45,39 +43,14 @@
               type="file"
               class="form-control"
             />
-          </div>
+          </div> -->
 
           <!-- Submit button -->
           <div class="text-center">
-            <button type="submit" class="btn btn-info btn-block mb-3">
-              Publish Post
-            </button>
+            {{ form.submit(class="btn btn-info btn-block mb-3") }}
           </div>
-
-          <!-- Old Input -->
-          <!-- Title input -->
-          <!-- <div class="form-group">
-            <label for="post-title">Post Title</label>
-            <input type="text" name="post-title" id="post-title" class="form-control">
-          </div> -->
-
-          <!-- Content input -->
-          <!-- <div class="form-group">
-            <label for="post-content">Post Content</label>
-            <textarea name="post-content" id="post-content" class="form-control" placeholder="Type your post here" rows="10"></textarea>
-          </div> -->
-
-          <!-- Attachment input -->
-          <!-- <div class="form-group">
-            <label for="post-attachment">Attachment</label>
-            <input name="post-attachment" id="post-attachment" type="file" class="form-control-file">
-          </div> -->
-
-          <!-- Submit button -->
-          <!-- <div class="text-center pt-3 mb-0 pb-0">
-            <button type="submit" class="btn btn-info btn-block mb-3">Publish Post</button>
-          </div> -->
         </form>
+        {% endif %}
 
       </div>
     </div>

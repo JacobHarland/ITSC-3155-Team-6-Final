@@ -14,8 +14,8 @@ active_page = 'forum' %} {% block body %}
           <div class="forum-sidebar"> 
             <!--Left Sidebar Button --> 
             <div class="forum-sidebar-header justify-content-center">
-              <a href = "" class="btn btn-info has-icon btn-block" type="button"
-                data-toggle="modal" data-target="#threadModal" href = ""> New Post </a>                                    <!-- LINK TO NEW FORM PAGE HERE -->
+              <a href="{{ url_for('post_router.post_form') }}" class="btn btn-info has-icon btn-block" type="button"
+                  data-toggle="modal" data-target="#threadModal"> New Post </a> <!-- LINK TO NEW FORM PAGE HERE -->
             </div>
             <!-- end Left Sidebar Button -->
 

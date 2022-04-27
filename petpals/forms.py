@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Regexp
+from wtforms.widgets import TextArea
 from petpals.models import User
 from flask_login import current_user
 
@@ -121,3 +122,9 @@ class ChangePassword(FlaskForm):
     confirm_password = PasswordField('Confirm New Password',
                             validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('Change Password')
+
+class NewPostForm(FlaskForm):
+    #ToDo: Add Attachment functionality?
+	title = StringField("Post Title", validators=[DataRequired()])
+	content = TextAreaField('Post Content', validators=[DataRequired()])
+	submit = SubmitField("Publish Post")

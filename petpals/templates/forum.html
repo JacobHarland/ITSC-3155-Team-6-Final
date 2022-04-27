@@ -11,11 +11,11 @@ active_page = 'forum' %} {% block body %}
       <div>
         <div class="forum-wrapper">
           <!-- Left Sidebar -->
-          <div class="forum-sidebar"> 
-            <!--Left Sidebar Button --> 
+          <div class="forum-sidebar">
+            <!--Left Sidebar Button -->
             <div class="forum-sidebar-header justify-content-center">
               <a href="{{ url_for('post_router.post_form') }}" class="btn btn-info has-icon btn-block" type="button"
-                  data-toggle="modal" data-target="#threadModal"> New Post </a> <!-- LINK TO NEW FORM PAGE HERE -->
+                data-toggle="modal" data-target="#threadModal"> New Post </a> <!-- LINK TO NEW FORM PAGE HERE -->
             </div>
             <!-- end Left Sidebar Button -->
 
@@ -27,77 +27,32 @@ active_page = 'forum' %} {% block body %}
                     <div class="simplebar-height-auto-observer"></div>
                   </div>
                   <div class="simplebar-mask">
-                    <div
-                      class="simplebar-offset"
-                      style="right: 0px; bottom: 0px"
-                    >
-                      <div
-                        class="simplebar-content-wrapper"
-                        style="height: 100%; overflow: hidden scroll"
-                      >
+                    <div class="simplebar-offset" style="right: 0px; bottom: 0px">
+                      <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll">
                         <div class="simplebar-content" style="padding: 16px">
                           <nav class="nav nav-pills nav-gap-y-1 flex-column">
-                            <a
-                              href="javascript:void(0)"
-                              class="nav-link nav-link-faded has-icon active"
-                              >All Threads</a
-                            >
-                            <a
-                              href="javascript:void(0)"
-                              class="nav-link nav-link-faded has-icon"
-                              >Popular this week</a
-                            >
-                            <a
-                              href="javascript:void(0)"
-                              class="nav-link nav-link-faded has-icon"
-                              >Popular all time</a
-                            >
-                            <a
-                              href="javascript:void(0)"
-                              class="nav-link nav-link-faded has-icon"
-                              >Solved</a
-                            >
-                            <a
-                              href="javascript:void(0)"
-                              class="nav-link nav-link-faded has-icon"
-                              >Unsolved</a
-                            >
-                            <a
-                              href="javascript:void(0)"
-                              class="nav-link nav-link-faded has-icon"
-                              >No replies yet</a
-                            >
+                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon active">All Threads</a>
+                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Popular this week</a>
+                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Popular all time</a>
+                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Solved</a>
+                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">Unsolved</a>
+                            <a href="javascript:void(0)" class="nav-link nav-link-faded has-icon">No replies yet</a>
                           </nav>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="simplebar-placeholder"
-                    style="width: 234px; height: 292px"
-                  ></div>
+                  <div class="simplebar-placeholder" style="width: 234px; height: 292px"></div>
                 </div>
-                <div
-                  class="simplebar-track simplebar-horizontal"
-                  style="visibility: hidden"
-                >
-                  <div
-                    class="simplebar-scrollbar"
-                    style="width: 0px; display: none"
-                  ></div>
+                <div class="simplebar-track simplebar-horizontal" style="visibility: hidden">
+                  <div class="simplebar-scrollbar" style="width: 0px; display: none"></div>
                 </div>
-                <div
-                  class="simplebar-track simplebar-vertical"
-                  style="visibility: visible"
-                >
-                  <div
-                    class="simplebar-scrollbar"
-                    style="
+                <div class="simplebar-track simplebar-vertical" style="visibility: visible">
+                  <div class="simplebar-scrollbar" style="
                       height: 151px;
                       display: block;
                       transform: translate3d(0px, 0px, 0px);
-                    "
-                  ></div>
+                    "></div>
                 </div>
               </div>
             </div>
@@ -109,18 +64,13 @@ active_page = 'forum' %} {% block body %}
           <div class="forum-main">
             <!-- Main Header -->
             <div class="forum-main-header">
-              <a
-                class="nav-link nav-icon rounded-circle nav-link-faded mr-3 d-md-none"
-                href="#"
-                ><i class="material-icons">arrow_forward_ios</i></a
-              >
+              <a class="nav-link nav-icon rounded-circle nav-link-faded mr-3 d-md-none" href="#"><i
+                  class="material-icons">arrow_forward_ios</i></a>
 
-              <span class="input-icon input-icon-sm ml-auto w-auto">
-                <input
-                  type="text"
+              <span class="input-icon input-icon-sm ml-auto w-auto m-2">
+                <input type="text"
                   class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4 mt-4"
-                  placeholder="Search forum"
-                />
+                  placeholder="Search forum" />
               </span>
             </div>
             <!--end Main Header-->
@@ -133,40 +83,24 @@ active_page = 'forum' %} {% block body %}
               <div class="forum-card mb-2">
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
-                    <a
-                      href="/user/{{ post.author.username }}"
-                      data-toggle="collapse"
-                      data-target=".forum-content"
-                      ><img
-                        src="{{ post.author.image_path }}" 
-                        class="mr-3 rounded-circle"
-                        width="50"
-                        alt="Profile Picture "
-                      />   {{ post.author.username }}</a
-                    >
+                    <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}"
+                      data-toggle="collapse" data-target=".forum-content"><img src="{{ post.author.image_path }}"
+                        class="mr-3 rounded-circle" width="50" alt="Profile Picture " /> {{ post.author.username }}</a>
                     <div class="media-body">
                       <h6>
-                        <a
-                          href="{{ url_for('post_router.post') }}"
-                          data-toggle="collapse"
-                          data-target=".forum-content"
-                          class="text-body"
-                          >{{ post.title }}</a
-                        >
+                        <a href="{{ url_for('post_router.post', post_id=post.post_id) }}" data-toggle="collapse"
+                          data-target=".forum-content" class="text-body">{{ post.title }}</a>
                       </h6>
                       <p class="text-secondary">{{ post.content }}</p>
                       <p class="text-muted">
-                        <a href="javascript:void(0)">{{ post.author.username }}</a>
+                        <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}">{{
+                          post.author.username }}</a>
                         posted
-                        <span class="text-secondary font-weight-bold"
-                          >{{ post.timestamp }}</span
-                        >
+                        <span class="text-secondary font-weight-bold">{{ post.timestamp }}</span>
                       </p>
                     </div>
                     <div class="text-muted small text-center align-self-center">
-                      <span class="d-none d-sm-inline-block"
-                        ><i class="far fa-eye"></i> 19</span
-                      >
+                      <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19</span>
                       <span><i class="far fa-comment ml-2"></i> 3</span>
                     </div>
                   </div>
@@ -176,13 +110,9 @@ active_page = 'forum' %} {% block body %}
               {% endfor %}
 
               <!--Pagination-->
-              <ul
-                class="pagination pagination-sm pagination-circle justify-content-center mb-0"
-              >
+              <ul class="pagination pagination-sm pagination-circle justify-content-center mb-0">
                 <li class="page-item disabled">
-                  <span class="page-link has-icon"
-                    ><i class="material-icons">Previous</i></span
-                  >
+                  <span class="page-link has-icon"><i class="material-icons">Previous</i></span>
                 </li>
                 <li class="page-item">
                   <a class="page-link" href="javascript:void(0)">1</a>
@@ -194,78 +124,40 @@ active_page = 'forum' %} {% block body %}
                   <a class="page-link" href="javascript:void(0)">3</a>
                 </li>
                 <li class="page-item">
-                  <a class="page-link has-icon" href="javascript:void(0)"
-                    ><i class="material-icons">Next</i></a
-                  >
+                  <a class="page-link has-icon" href="javascript:void(0)"><i class="material-icons">Next</i></a>
                 </li>
               </ul>
               <!--end Pagination-->
             </div>
           </div>
         </div>
-        <div
-          class="modal fade"
-          id="threadModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="threadModalLabel"
-          aria-hidden="true"
-        >
+        <div class="modal fade" id="threadModal" tabindex="-1" role="dialog" aria-labelledby="threadModalLabel"
+          aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <form>
-                <div
-                  class="modal-header d-flex align-items-center bg-primary text-white"
-                >
+                <div class="modal-header d-flex align-items-center bg-primary text-white">
                   <h6 class="modal-title mb-0" id="threadModalLabel">
                     New Discussion
                   </h6>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                   </button>
                 </div>
                 <div class="modal-body">
                   <div class="form-group">
                     <label for="threadTitle">Title</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="threadTitle"
-                      placeholder="Enter title"
-                      autofocus=""
-                    />
+                    <input type="text" class="form-control" id="threadTitle" placeholder="Enter title" autofocus="" />
                   </div>
-                  <textarea
-                    class="form-control summernote"
-                    style="display: none"
-                  ></textarea>
+                  <textarea class="form-control summernote" style="display: none"></textarea>
 
-                  <div
-                    class="custom-file form-control-sm mt-3"
-                    style="max-width: 300px"
-                  >
-                    <input
-                      type="file"
-                      class="custom-file-input"
-                      id="customFile"
-                      multiple=""
-                    />
-                    <label class="custom-file-label" for="customFile"
-                      >Attachment</label
-                    >
+                  <div class="custom-file form-control-sm mt-3" style="max-width: 300px">
+                    <input type="file" class="custom-file-input" id="customFile" multiple="" />
+                    <label class="custom-file-label" for="customFile">Attachment</label>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-light"
-                    data-dismiss="modal"
-                  >
+                  <button type="button" class="btn btn-light" data-dismiss="modal">
                     Cancel
                   </button>
                   <button type="button" class="btn btn-primary">Post</button>

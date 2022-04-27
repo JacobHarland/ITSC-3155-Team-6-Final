@@ -9,6 +9,7 @@ router = Blueprint('post_router', __name__, url_prefix='/post')
 
 @router.route('/posts/<int:post_id>')
 def post(post_id):
+    #Locate Correct Post
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', post=post)
 
@@ -32,3 +33,31 @@ def post_form():
 
     elif request.method == 'GET':
         return render_template('post_form.html', form=form)
+
+@router.route('/posts/edit/<int:post_id>', methods=['GET', 'POST'])
+@login_required #User must be logged in to edit a post 
+def edit_post(post_id):
+
+    #Locate Correct Post
+    post = Post.query.get_or_404(post_id)
+    form = NewPostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+
+        # Update Database
+        db.session.add(post)
+        db.session.commit()
+
+        #Success Message
+        flash('Post Has Been Updated!', 'success')
+        return redirect(url_for('forum', post_id=post.post_id))
+
+    if current_user.id == post.user_id or current_user.id:
+        form.title.data = post.title
+        form.content.data = post.content
+        return render_template('edit_post.html', form=form)
+    else:
+        flash("You Aren't Authorized To Edit This Post...")
+        posts = Post.query.order_by(Post.timestamp)
+        return render_template("forum.html", posts=posts)

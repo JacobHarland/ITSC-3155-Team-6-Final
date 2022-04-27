@@ -35,13 +35,18 @@
               <div class="mt-3 font-size-sm">
                 {% if post.content %}
                 {% for line in post.content.splitlines() %}
-                  <p class="mb-0">{{ line }}</p>
+                <p class="mb-0">{{ line }}</p>
                 {% endfor %}
-              {% endif %}
+                {% endif %}
               </div>
               <div class="text-center">
                 <button class="btn btn-xs btn-outline-info">Reply</button>
               </div>
+              {% if post.user_id == current_user.id %}
+              <div>
+                <a href="{{ url_for('post_router.edit_post', post_id=post.post_id)}}" class="btn btn-outline-secondary btn-sm">Edit Post</a>
+              </div>
+              {% endif %}
             </div>
             <div class="text-muted small text-center">
               <!-- <span class="d-none d-sm-inline-block"

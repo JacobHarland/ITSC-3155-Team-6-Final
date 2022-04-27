@@ -121,3 +121,9 @@ class ChangePassword(FlaskForm):
     confirm_password = PasswordField('Confirm New Password',
                             validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('Change Password')
+
+class NewPostForm(FlaskForm):
+    #ToDo: Add Attachment functionality
+	title = StringField("Title", validators=[DataRequired()])
+	content = StringField('Content', validators=[DataRequired()])
+	submit = SubmitField("Submit")

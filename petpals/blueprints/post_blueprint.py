@@ -11,14 +11,6 @@ router = Blueprint('post_router', __name__, url_prefix='/post')
 def post():
     return render_template('post.html')
 
-
-# @router.post('')
-# def create_post():
-#     # TODO: Add post to DB
-#     # TODO: Redirect to post
-#     return redirect(url_for('post_router.post'))
-
-
 @router.route('/form', methods=['GET', 'POST'])
 @login_required #user must be logged into create a post
 def post_form():
@@ -26,10 +18,6 @@ def post_form():
     if form.validate_on_submit():
         poster = current_user.id
         post = Post(title=form.title.data, content=form.content.data, user_id=poster)
-
-        # #Clear form
-        # form.title.data = ''
-        # form.content.data = ''
 
         #Add Post to databse
         db.session.add(post)

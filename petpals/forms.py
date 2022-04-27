@@ -126,5 +126,5 @@ class ChangePassword(FlaskForm):
 class NewPostForm(FlaskForm):
     #ToDo: Add Attachment functionality?
 	title = StringField("Post Title", validators=[DataRequired()])
-	content = StringField('Post Content', validators=[DataRequired()], widget=TextArea())
+	content = TextAreaField('Post Content', validators=[DataRequired()])
 	submit = SubmitField("Publish Post")

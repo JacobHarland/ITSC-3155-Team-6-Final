@@ -2,9 +2,9 @@ from flask import (Blueprint, abort, flash, redirect, render_template, request,
                    url_for)
 from flask_login import current_user, login_required
 from petpals import bcrypt, db
-from petpals.forms import ChangePassword, UpdateAccountForm
-from petpals.models import User
-from petpals.utils import save_profile_picture
+from petpals.forms import ChangePassword, UpdateAccountForm, UpdatePetForm
+from petpals.models import Pet, User
+from petpals.utils import save_profile_picture, save_recent_photo
 
 router = Blueprint('profile_router', __name__, url_prefix='/profile')
 
@@ -74,15 +74,97 @@ def profile_user_edit_password():
     return render_template('edit_password.html', title='Edit Password', form=form)
 
 
-@router.route('/pet/<name>')
-def profile_pet(name: str):
+@router.route('/user/<username>/<pet_name>')
+def profile_pet(username: str, pet_name: str):
+    # pet = db.session.query(User, Pet).filter(
+    #         User.username == username,
+    #         Pet.name == pet_name
+    #     ).first()
+    
+    user = User.query.filter_by(username=username).first()
+    pet = user.pets.filter_by(name=pet_name).first_or_404()
     # Replace with pet's profile picture and recent images from DB
-    images = ("/static/images/pet_pictures/temp/Xeno-0.jpg",
-              "/static/images/pet_pictures/temp/Xeno-1.jpg", "/static/images/pet_pictures/temp/Xeno-2.jpg")
-    return render_template('profile/pet_profile.html', profile_picture=images[2], recent_photos=images)
+    return render_template('profile/pet_profile.html', pet=pet)
 
 
-@router.route('pet/edit')
+@router.route('/pet/new', methods=['GET', 'POST'])
 @login_required
-def profile_pet_edit():
-    pass
+def profile_pet_new():
+    form = UpdatePetForm()
+    if form.validate_on_submit():
+        pet = Pet(
+            name=form.name.data,
+            species=form.species.data,
+            subspecies=form.subspecies.data,
+            color=form.color.data,
+            tagline=form.tagline.data,
+            biography=form.biography.data,
+            user_id=current_user.id
+        )
+        if form.profile_picture.data:
+            picture_file = save_profile_picture(form.profile_picture.data, pet)
+            pet.image_file = picture_file
+        for i, str_i in enumerate(('one', 'two', 'three'), 1):
+            field = getattr(form, f'picture_{str_i}')
+            if field.data:
+                recent_picture_file = save_recent_photo(field.data, pet, i)
+                setattr(pet, f'img{i}_path', recent_picture_file)
+        db.session.add(pet)
+        db.session.commit()
+        flash('You have added your pet!', 'success')
+        return redirect(url_for('profile_router.profile_current_user'))
+    return render_template('profile/form_pet_profile.html', form=form, legend="New Pet")
+
+
+@router.route('/user/<username>/<pet_name>/edit', methods=['GET', 'POST'])
+@login_required
+def profile_pet_edit(username: str, pet_name: str):
+    user = User.query.filter_by(username=username).first()
+    pet = user.pets.filter_by(name=pet_name).first_or_404()
+    # only the pet owner can update the pet info
+    if pet.owner != current_user:
+        abort(403)
+    form = UpdatePetForm()
+    if form.validate_on_submit():
+        # calls method save_picture to save picture and give filename
+        if form.profile_picture.data:
+            picture_file = save_profile_picture(form.profile_picture.data, pet)
+            pet.image_file = picture_file
+        for i, str_i in enumerate(('one', 'two', 'three'), 1):
+            field = getattr(form, f'picture_{str_i}')
+            if field.data:
+                recent_picture_file = save_recent_photo(field.data, pet, i)
+                setattr(pet, f'img{i}_path', recent_picture_file)
+        
+        pet.name = form.name.data
+        pet.species = form.species.data
+        pet.subspecies = form.subspecies.data
+        pet.color = form.color.data
+        pet.tagline = form.tagline.data
+        pet.biography = form.biography.data
+        db.session.commit()
+        flash('You have updated your pets information!', 'success')
+        return redirect(url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name))
+    # auto populates the fields
+    elif request.method == 'GET':
+        form.name.data = pet.name
+        form.species.data = pet.species
+        form.subspecies.data = pet.subspecies
+        form.color.data = pet.color
+        form.tagline.data = pet.tagline
+        form.biography.data = pet.biography
+    return render_template('profile/form_pet_profile.html', pet=pet, form=form, legend="Update Pet")
+
+
+@router.route('/user/<username>/<pet_name>/delete', methods=['POST'])
+@login_required
+def delete_pet(username: str, pet_name: str):
+    user = User.query.filter_by(username=username).first()
+    pet = user.pets.filter_by(name=pet_name).first_or_404()
+    # only the pet owner can update the pet info
+    if pet.owner != current_user:
+        abort(403)
+    db.session.delete(pet)
+    db.session.commit()
+    flash('You pets profile has been deleted!', 'success')
+    return redirect(url_for('profile_router.profile_current_user'))

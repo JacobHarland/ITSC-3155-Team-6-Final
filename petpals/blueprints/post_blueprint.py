@@ -28,7 +28,7 @@ def post_form():
 
         # Return a Success Message
         flash('Forum Post Submitted Sucessfully!', 'success')
-        return redirect(url_for('forum'))
+        return redirect(url_for('forum_router.forum'))
 
     elif request.method == 'GET':
         return render_template('post_form.html', form=form)

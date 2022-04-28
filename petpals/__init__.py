@@ -1,40 +1,55 @@
 import os
+
+from dotenv import load_dotenv
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
-from dotenv import load_dotenv
+from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
-db_user = os.getenv('dbuser', 'root')
-db_pass = os.getenv('dbpass')
-db_host = os.getenv('dbhost', 'localhost') #move this to wherever the "main" app file is
-db_port = os.getenv('dbport', 3306)
-db_name = os.getenv('dbname')
-secret_key = os.getenv('secretkey')
-
-connect = f'mysql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}'
 
 app = Flask(__name__)
 
-# Move to env
-# protects against modifying cookies and crosssite request forgery attacks
-app.config['SECRET_KEY'] = secret_key
-app.config['SQLALCHEMY_DATABASE_URI'] = connect
+# SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+# Flask Secret Key
+# Protects against modifying cookies and crosssite request forgery attacks
+app.secret_key = os.getenv('SECRET_KEY')
+
+# Bcrypt
 bcrypt = Bcrypt(app)
+
+# Login Manager
 login_manager = LoginManager(app)
-# login_required needs to know where login route is.
-login_manager.login_view = 'login'
-# changes styling, info is bootstrap coloring
+# login route for login_required
+login_manager.login_view = 'auth_router.login'
+# Changes styling, info is bootstrap coloring
 login_manager.login_message_category = 'info'
+
+# Mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = os.getenv('EMAIL_USER')
-app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASS')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
 
-from petpals import routes
+
+from .blueprints.auth_blueprint import router as auth_router
+from .blueprints.forum_blueprint import router as forum_router
+from .blueprints.home_blueprint import router as home_router
+from .blueprints.post_blueprint import router as post_router
+from .blueprints.profile_blueprint import router as profile_router
+from .blueprints.reset_password_blueprint import router as reset_password_router
+
+# Register Blueprints
+app.register_blueprint(profile_router)
+forum_router.register_blueprint(post_router)
+app.register_blueprint(forum_router)
+app.register_blueprint(auth_router)
+app.register_blueprint(home_router)
+app.register_blueprint(reset_password_router)

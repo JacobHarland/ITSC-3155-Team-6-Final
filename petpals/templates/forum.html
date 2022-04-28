@@ -14,8 +14,8 @@ active_page = 'forum' %} {% block body %}
           <div class="forum-sidebar">
             <!--Left Sidebar Button -->
             <div class="forum-sidebar-header justify-content-center">
-              <a href="{{ url_for('post_router.post_form') }}" class="btn btn-info has-icon btn-block" type="button"
-                data-toggle="modal" data-target="#threadModal"> New Post </a> <!-- LINK TO NEW FORM PAGE HERE -->
+              <a href="{{ url_for('forum_router.post_router.post_form') }}" class="btn btn-info has-icon btn-block" type="button"
+                  data-toggle="modal" data-target="#threadModal"> New Post </a> <!-- LINK TO NEW FORM PAGE HERE -->
             </div>
             <!-- end Left Sidebar Button -->
 
@@ -88,7 +88,7 @@ active_page = 'forum' %} {% block body %}
                         class="mr-3 rounded-circle" width="50" alt="Profile Picture " /> {{ post.author.username }}</a>
                     <div class="media-body">
                       <h6>
-                        <a href="{{ url_for('post_router.post', post_id=post.post_id) }}" data-toggle="collapse"
+                        <a href="{{ url_for('forum_router.post_router.post', post_id=post.post_id) }}" data-toggle="collapse"
                           data-target=".forum-content" class="text-body">{{ post.title }}</a>
                       </h6>
 

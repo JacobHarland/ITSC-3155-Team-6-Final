@@ -11,7 +11,7 @@ router = Blueprint('auth_router', __name__)
 def signup():
     # if user is logged in, clicking signup redirects to home
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('home_router.index'))
     form = SignupForm()
     # displays a message if data was sent
     if form.validate_on_submit():
@@ -32,7 +32,7 @@ def signup():
 def login():
     # if user is logged in, clicking login redirects to home
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('home_router.index'))
     form = LoginForm()
     if form.validate_on_submit():
         # searches database to see if email has been created or exists
@@ -43,7 +43,7 @@ def login():
             # gets the page the user was trying to access
             next_page = request.args.get('next')
             # ternary operator, if next page exists redirect to it, otherwise to index
-            return redirect(next_page) if next_page else redirect(url_for('index'))
+            return redirect(next_page) if next_page else redirect(url_for('home_router.index'))
         else:
             flash('Login failed, please check email and password', 'danger')
     return render_template('login.html', form=form)
@@ -52,4 +52,4 @@ def login():
 @router.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('home_router.index'))

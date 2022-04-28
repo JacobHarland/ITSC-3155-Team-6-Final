@@ -44,10 +44,10 @@
               </div>
               {% if post.user_id == current_user.id %}
               <div>
-                <a href="{{ url_for('post_router.edit_post', post_id=post.post_id)}}" class="btn btn-outline-secondary btn-sm">Edit Post</a>
+                <a href="{{ url_for('post_router.edit_post', post_id=post.post_id)}}" class="btn btn-outline-secondary btn-sm m-2">Edit Post</a>
               </div>
               <div>
-                <a href="{{ url_for('post_router.delete_post', post_id=post.post_id)}}" class="btn btn-outline-secondary btn-sm">Delete Post</a>
+                <a href="{{ url_for('post_router.delete_post', post_id=post.post_id)}}" class="btn btn-outline-secondary btn-sm m-2">Delete Post</a>
               </div>
               {% endif %}
             </div>

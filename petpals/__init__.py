@@ -39,17 +39,17 @@ app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
 
 
-from .auth.auth_blueprint import router as auth_router
-from .forum.forum_blueprint import router as forum_router
-from .home.home_blueprint import router as home_router
-from .forum.post.post_blueprint import router as post_router
-from .profile.profile_blueprint import router as profile_router
-from .auth.reset_password.reset_password_blueprint import router as reset_password_router
+from .auth.reset_password.routes import router as reset_password_router
+from .auth.routes import router as auth_router
+from .forum.post.routes import router as post_router
+from .forum.routes import router as forum_router
+from .home.routes import router as home_router
+from .profile.routes import router as profile_router
 
 # Register Blueprints
-app.register_blueprint(profile_router)
+auth_router.register_blueprint(reset_password_router)
+app.register_blueprint(auth_router)
 forum_router.register_blueprint(post_router)
 app.register_blueprint(forum_router)
-app.register_blueprint(auth_router)
 app.register_blueprint(home_router)
-app.register_blueprint(reset_password_router)
+app.register_blueprint(profile_router)

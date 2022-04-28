@@ -46,6 +46,9 @@
               <div>
                 <a href="{{ url_for('post_router.edit_post', post_id=post.post_id)}}" class="btn btn-outline-secondary btn-sm">Edit Post</a>
               </div>
+              <div>
+                <a href="{{ url_for('post_router.delete_post', post_id=post.post_id)}}" class="btn btn-outline-secondary btn-sm">Delete Post</a>
+              </div>
               {% endif %}
             </div>
             <div class="text-muted small text-center">

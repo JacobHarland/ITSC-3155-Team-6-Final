@@ -61,3 +61,36 @@ def edit_post(post_id):
         flash("You Aren't Authorized To Edit This Post...")
         posts = Post.query.order_by(Post.timestamp)
         return render_template("forum.html", posts=posts)
+
+@router.route('/posts/delete/<int:post_id>')
+@login_required
+def delete_post(post_id):
+	post_to_delete = Post.query.get_or_404(post_id)
+	id = current_user.id
+	if id == post_to_delete.user_id:
+		try:
+			db.session.delete(post_to_delete)
+			db.session.commit()
+
+			# Return a message
+			flash("Blog Post Was Deleted!", 'success')
+
+			# Grab all the posts from the database
+			posts = Post.query.order_by(Post.timestamp)
+			return render_template("forum.html", posts=posts)
+
+
+		except:
+			# Return an error message
+			flash("Whoops! There was a problem deleting post, try again...")
+
+			# Grab all the posts from the database
+			posts = Post.query.order_by(Post.timestamp)
+			return render_template("posts.html", posts=posts)
+	else:
+		# Return a message
+		flash("You Aren't Authorized To Delete That Post!", 'danger')
+
+		# Grab all the posts from the database
+		posts = Post.query.order_by(Post.timestamp)
+		return render_template("forum.html", posts=posts)

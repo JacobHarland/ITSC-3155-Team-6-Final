@@ -2,10 +2,10 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user
 from flask_mail import Message
 from petpals import bcrypt, db, mail
-from petpals.forms import RequestResetForm, ResetPasswordForm
+from .forms import RequestResetForm, ResetPasswordForm
 from petpals.models import User
 
-router = Blueprint('reset_password_router', __name__, url_prefix='/reset_password')
+router = Blueprint('reset_password_router', __name__, template_folder='templates', url_prefix='/reset_password')
 
 def send_reset_email(user):
     "Sends the email using Flask-Mail"

@@ -1,48 +1,10 @@
-from wsgiref.validate import validator
-from flask import Flask
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Regexp
-from wtforms.widgets import TextArea
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from petpals.models import User
 from flask_login import current_user
 
-class SignupForm(FlaskForm):
-    fullname = StringField('Full Name',
-                            validators=[DataRequired(),Length(min=1, max=50)])
-    username = StringField('Username',
-                            validators=[DataRequired(), Length(min=2, max=18), Regexp('^[\w-]*$', message="Username not valid, can only contain letters, numbers, dashes, or underscores")])
-    email = StringField('Email',
-                            validators=[DataRequired(), Email()])
-    password = PasswordField('Password',
-                            validators=[DataRequired(), Length(min=8, max=32)])
-    confirm_password = PasswordField('Confirm Password',
-                            validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
-
-    # Validation to make sure users cannot have same username
-    def validate_username(self, username):
-        # user = database query for username input to check if exists already. Is none if nothing found
-        user = User.query.filter_by(username=username.data).first()
-        # if user = none, this if statement is not reached
-        if user:
-            raise ValidationError('Username already in use. Please enter a different username.')
-
-    # Validation to make sure users cannot have same email
-    def validate_email(self, email):
-        # user = database query for email input to check if exists already. Is none if nothing found
-        user = User.query.filter_by(email=email.data).first()
-        if user:
-            raise ValidationError('Email already in use. Please enter a different email.')
-
-class LoginForm(FlaskForm):
-    email = StringField('Email',
-                        validators=[DataRequired(), Email()])
-    password = PasswordField('Password',
-                            validators=[DataRequired(), Length(min=8, max=32)])
-    remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
 
 class UpdateAccountForm(FlaskForm):
     fullname = StringField('Full Name',
@@ -93,25 +55,6 @@ class UpdatePetForm(FlaskForm):
                             validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])])
     submit = SubmitField('Update')
 
-class RequestResetForm(FlaskForm):
-    email = StringField('Email',
-                            validators=[DataRequired(), Email()])
-    submit = SubmitField('Request Password Reset')
-
-    # Validation to make sure email exists within database for password reset to occur
-    def validate_email(self, email):
-        # user = database query for email input to check if exists already. Is none if nothing found
-        user = User.query.filter_by(email=email.data).first()
-        if user is None:
-            raise ValidationError('There is no account with the associated email.')
-
-class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password',
-                            validators=[DataRequired(), Length(min=8, max=32)])
-    confirm_password = PasswordField('Confirm Password',
-                            validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Reset Password')
-
 class ChangePassword(FlaskForm):
     email = StringField('Email',
                             validators=[DataRequired(), Email()])
@@ -122,9 +65,3 @@ class ChangePassword(FlaskForm):
     confirm_password = PasswordField('Confirm New Password',
                             validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('Change Password')
-
-class NewPostForm(FlaskForm):
-    #ToDo: Add Attachment functionality?
-	title = StringField("Post Title", validators=[DataRequired()])
-	content = TextAreaField('Post Content', validators=[DataRequired()])
-	submit = SubmitField("Publish Post")

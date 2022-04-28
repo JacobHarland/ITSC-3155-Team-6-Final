@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
 
     @property
     def image_path(self):
-        return f'/static/images/profile_pictures/{self.image_file}'
+        return f'/static/images/user/profile/{self.image_file}'
 
     # creates a temporary password to log in a user
     def get_reset_token(self):
@@ -102,12 +102,12 @@ class Pet(db.Model):
 
     @property
     def image_path(self):
-        return f'/static/images/pet_pictures/{self.image_file}'
+        return f'/static/images/pet/profile/{self.image_file}'
 
     @property
     def recent_photo_paths(self):
         photos = (self.img1_path, self.img2_path, self.img3_path)
-        return tuple(f'/static/images/pet_pictures/{photo}' for photo in photos if photo is not None)
+        return tuple(f'/static/images/pet/recent/{photo}' for photo in photos if photo is not None)
 
     def __repr__(self):
         return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"

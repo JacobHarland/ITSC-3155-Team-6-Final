@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
 from petpals.models import Post, db
+from sqlalchemy import or_
 
 router = Blueprint(
     "forum_router", __name__, template_folder="templates", url_prefix="/forum"
@@ -12,8 +13,17 @@ def forum():
     return render_template("forum.html", posts=posts)
 
 
-@router.post("/search")
+@router.get("/search")
 def search():
-    search_param = request.form["search_param"]
-    posts = db.session.query(Post).filter(Post.content.contains(search_param)).all()
+    search_param = request.args.get("search_param")
+    posts = (
+        db.session.query(Post)
+        .filter(
+            or_(
+                Post.content.ilike("%" + search_param + "%"),
+                Post.title.ilike("%" + search_param + "%"),
+            )
+        )
+        .all()
+    )
     return render_template("forum.html", posts=posts)

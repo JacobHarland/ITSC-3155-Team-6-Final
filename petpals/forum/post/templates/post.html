@@ -1,0 +1,97 @@
+{% extends '_layout.html' %}
+<!-- Set title to be the post's title -->
+{% block title %}Post{% endblock %}
+{% set active_page = 'post' %}
+
+{% block body %}
+
+<section class="bg-white p-2">
+  <div class="text-center bg-info text-white border border-white border-6 p-3">
+    <h1>Post Discussion</h1>
+  </div>
+
+  <section class="background-paws p-4">
+    <!--Page Container-->
+
+    <div class="container bg-white border border-info border-6 rounded p-4">
+      <!--Back Button-->
+      <a href="{{ url_for('forum_router.forum') }}" class="btn btn-light btn-sm m-3 has-icon"><i
+          class="fa fa-arrow-left m-2"></i>Back to the Forum</a>
+      <!--end Back Button-->
+
+      <!--Original Post Container-->
+      <div class="forum-main-body p-0 collapse forum-content show bg-white mb-3">
+        <!--Original Post Body-->
+        <div class="forum-card-body border border-6 border-light rounded">
+          <div class="media forum-item m-3">
+            <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}" class="card-link">
+              <img src="{{ post.author.image_path }}" class="rounded-circle" width="50" />
+            </a>
+            <div class="media-body ml-3">
+              <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}"
+                class="text-secondary"> {{ post.author.username }} </a>
+              <small class="text-muted ml-2">{{ post.timestamp }}</small>
+              <h5 class="mt-1">{{ post.title }}</h5>
+              <div class="mt-3 font-size-sm">
+                {% if post.content %}
+                {% for line in post.content.splitlines() %}
+                  <p class="mb-0">{{ line }}</p>
+                {% endfor %}
+              {% endif %}
+              </div>
+              <div class="text-center">
+                <button class="btn btn-xs btn-outline-info">Reply</button>
+              </div>
+            </div>
+            <div class="text-muted small text-center">
+              <!-- <span class="d-none d-sm-inline-block"
+                ><i class="far fa-eye"></i> 19</span
+              > -->
+              <span><i class="far fa-comment ml-2"></i> 3</span>
+            </div>
+          </div>
+        </div>
+        <!--end Original Post Body-->
+      </div>
+      <!--end Original Post Container-->
+
+      <!--Replies Container-->
+      <div class="container bg-info pt-2 pb-2 mb-2 rounded">
+        <!--Reply Cards Container-->
+        <div class="container mt-0 bg-info border border-6 border-info p-0">
+          <!--Reply Content-->
+          <div class="forum-card mt-2 mb-2 p-1 border border-3 border-light">
+            <div class="forum-card-body">
+              <div class="media forum-item">
+                <a href="#" class="card-link">
+                  <img src="https://bootdey.com/img/Content/avatar/avatar2.png " class="rounded-circle" width="50 "
+                    alt="User " />
+                </a>
+                <div class="media-body ml-3">
+                  <a href="# " class="text-secondary">drewdan</a>
+                  <small class="text-muted ml-2">1 hour ago</small>
+                  <div class="mt-3 font-size-sm">
+                    <p>Replies are currently under construction</p>
+                    <p>
+                      Please check back later to use this feature.
+                    </p>
+                  </div>
+                  <button class="btn btn-xs text-muted has-icon">
+                    <i class="fa fa-heart" aria-hidden="true "></i>1
+                  </button>
+                  <a href="# " class="text-muted small">Reply</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end of Reply Content-->
+        </div>
+        <!--end of Reply Cards Container-->
+      </div>
+      <!--end of Replies Container-->
+    </div>
+    <!--end Page Container-->
+  </section>
+</section>
+
+{% endblock %}

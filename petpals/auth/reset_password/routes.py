@@ -2,10 +2,10 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user
 from flask_mail import Message
 from petpals import bcrypt, db, mail
-from petpals.forms import RequestResetForm, ResetPasswordForm
+from .forms import RequestResetForm, ResetPasswordForm
 from petpals.models import User
 
-router = Blueprint('reset_password_router', __name__, url_prefix='/reset_password')
+router = Blueprint('reset_password_router', __name__, template_folder='templates', url_prefix='/reset_password')
 
 def send_reset_email(user):
     "Sends the email using Flask-Mail"
@@ -13,7 +13,7 @@ def send_reset_email(user):
     msg = Message('Password Reset Request',
                   sender='noreply@demo.com', recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
-{url_for('reset_password_router.reset_token', token=token, _external=True)}
+{url_for('auth_router.reset_password_router.reset_token', token=token, _external=True)}
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
     mail.send(msg)
@@ -43,7 +43,7 @@ def reset_token(token):
     # if verify_reset_token returns none, then the token is invalid or expired
     if user is None:
         flash('Invalid or expired token', 'warning')
-        return redirect(url_for('reset_password_router.reset_request'))
+        return redirect(url_for('auth_router.reset_password_router.reset_request'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         # bcrypt, hashes a password from form and decodes it as a string instead of bytes with utf-8

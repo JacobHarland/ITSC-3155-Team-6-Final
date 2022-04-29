@@ -1,10 +1,10 @@
 from flask import Blueprint, redirect, render_template, url_for, flash, request
 from flask_login import current_user, login_required
-from petpals.forms import NewPostForm
+from .forms import NewPostForm
 from petpals.models import Post
 from petpals import db
 
-router = Blueprint('post_router', __name__, url_prefix='/post')
+router = Blueprint('post_router', __name__, template_folder='templates', url_prefix='/post')
 
 
 @router.route('/posts/<int:post_id>')

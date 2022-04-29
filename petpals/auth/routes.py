@@ -1,10 +1,10 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 from petpals import bcrypt, db
-from petpals.forms import LoginForm, SignupForm
+from .forms import LoginForm, SignupForm
 from petpals.models import User
 
-router = Blueprint('auth_router', __name__)
+router = Blueprint('auth_router', __name__, template_folder='templates')
 
 
 @router.route('/signup', methods=['GET', 'POST'])

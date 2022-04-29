@@ -2,11 +2,11 @@ from flask import (Blueprint, abort, flash, redirect, render_template, request,
                    url_for)
 from flask_login import current_user, login_required
 from petpals import bcrypt, db
-from petpals.forms import ChangePassword, UpdateAccountForm, UpdatePetForm
+from .forms import ChangePassword, UpdateAccountForm, UpdatePetForm
 from petpals.models import Pet, User
-from petpals.utils import save_profile_picture, save_recent_photo
+from .utils import save_profile_picture, save_recent_photo
 
-router = Blueprint('profile_router', __name__, url_prefix='/profile')
+router = Blueprint('profile_router', __name__, template_folder='templates')
 
 
 @router.get('/user')
@@ -18,7 +18,7 @@ def profile_current_user():
 def profile_user(username: str):
     user = User.query.filter_by(username=username).first_or_404()
 
-    return render_template('profile/user_profile.html', user=user)
+    return render_template('user_profile.html', user=user)
 
 
 @router.route('/user/edit', methods=['GET', 'POST'])
@@ -46,9 +46,8 @@ def profile_user_edit():
         form.username.data = current_user.username
         form.email.data = current_user.email
         form.biography.data = current_user.biography
-    image_file = '/static/images/profile_pictures/' + current_user.image_file
 
-    return render_template('profile/edit_profile.html', title='Edit Profile', image_file=image_file, form=form)
+    return render_template('edit_profile.html', title='Edit Profile', image_file=current_user.image_path, form=form)
 
 
 @router.route('/user/edit/password', methods=['GET', 'POST'])
@@ -84,7 +83,7 @@ def profile_pet(username: str, pet_name: str):
     user = User.query.filter_by(username=username).first()
     pet = user.pets.filter_by(name=pet_name).first_or_404()
     # Replace with pet's profile picture and recent images from DB
-    return render_template('profile/pet_profile.html', pet=pet)
+    return render_template('pet_profile.html', pet=pet)
 
 
 @router.route('/pet/new', methods=['GET', 'POST'])
@@ -113,7 +112,7 @@ def profile_pet_new():
         db.session.commit()
         flash('You have added your pet!', 'success')
         return redirect(url_for('profile_router.profile_current_user'))
-    return render_template('profile/form_pet_profile.html', form=form, legend="New Pet")
+    return render_template('form_pet_profile.html', form=form, legend="New Pet")
 
 
 @router.route('/user/<username>/<pet_name>/edit', methods=['GET', 'POST'])
@@ -153,7 +152,7 @@ def profile_pet_edit(username: str, pet_name: str):
         form.color.data = pet.color
         form.tagline.data = pet.tagline
         form.biography.data = pet.biography
-    return render_template('profile/form_pet_profile.html', pet=pet, form=form, legend="Update Pet")
+    return render_template('form_pet_profile.html', pet=pet, form=form, legend="Update Pet")
 
 
 @router.route('/user/<username>/<pet_name>/delete', methods=['POST'])

@@ -69,7 +69,7 @@ class Post(db.Model):
     replies = db.relationship('Reply', back_populates='op')
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
+        return f"Post('{self.title}', '{self.timestamp}')"
 
 
 class Reply(db.Model):
@@ -83,7 +83,7 @@ class Reply(db.Model):
     op = db.relationship('Post', back_populates='replies')
 
     def __repr__(self):
-        return f"Reply('{self.title}', '{self.comment}')"
+        return f"Reply('{self.title}', '{self.content}')"
 
 
 class Pet(db.Model):

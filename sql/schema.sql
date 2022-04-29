@@ -96,8 +96,6 @@ CREATE TABLE IF NOT EXISTS `final`.`reply` (
   `reply_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
   `content` TEXT NOT NULL,
-  `file_path` VARCHAR(45) NULL DEFAULT NULL,
-  `timestamp` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` INT NOT NULL,
   `post_id` INT NOT NULL,
   PRIMARY KEY (`post_id`),

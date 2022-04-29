@@ -2,10 +2,9 @@ import os
 from secrets import token_urlsafe
 
 from flask_login import current_user
+from petpals import app
 from PIL import Image
 from werkzeug.datastructures import FileStorage
-
-from petpals import app
 
 
 def get_image_path(filename: str, *rel_path: str) -> str:
@@ -38,7 +37,7 @@ def save_profile_picture(picture_data: FileStorage, pet=None) -> str:
     # Resize image
     image = Image.open(picture_data)
     # Check if it's too long vertically
-    if image.width * (29/23) < image.height:
+    if image.width * (29 / 23) < image.height:
         size = (round(image.width * (290.0 / image.height)), 290)
     else:
         size = (230, round(image.height * (230.0 / image.width)))

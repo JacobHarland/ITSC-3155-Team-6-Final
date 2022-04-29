@@ -1,8 +1,9 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 from petpals import bcrypt, db
-from .forms import LoginForm, SignupForm
 from petpals.models import User
+
+from .forms import LoginForm, SignupForm
 
 router = Blueprint('auth_router', __name__, template_folder='templates')
 
@@ -16,14 +17,22 @@ def signup():
     # displays a message if data was sent
     if form.validate_on_submit():
         # bcrypt, hashes a password from form and decodes it as a string instead of bytes with utf-8
-        hashed_password = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
-        user = User(fullname=form.fullname.data, username=form.username.data,
-                    email=form.email.data, password=hashed_password)
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
+            'utf-8'
+        )
+        user = User(
+            fullname=form.fullname.data,
+            username=form.username.data,
+            email=form.email.data,
+            password=hashed_password,
+        )
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        flash(f'Your account has been created. You are now able to login. Welcome to PetPals!', 'success')
+        flash(
+            f'Your account has been created. You are now able to login. Welcome to PetPals!',
+            'success',
+        )
         return redirect(url_for('profile_router.profile_current_user'))
     return render_template('signup.html', form=form)
 
@@ -43,7 +52,11 @@ def login():
             # gets the page the user was trying to access
             next_page = request.args.get('next')
             # ternary operator, if next page exists redirect to it, otherwise to index
-            return redirect(next_page) if next_page else redirect(url_for('home_router.index'))
+            return (
+                redirect(next_page)
+                if next_page
+                else redirect(url_for('home_router.index'))
+            )
         else:
             flash('Login failed, please check email and password', 'danger')
     return render_template('login.html', form=form)

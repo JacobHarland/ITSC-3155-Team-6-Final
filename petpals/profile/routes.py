@@ -1,9 +1,9 @@
-from flask import (Blueprint, abort, flash, redirect, render_template, request,
-                   url_for)
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from petpals import bcrypt, db
-from .forms import ChangePassword, UpdateAccountForm, UpdatePetForm
 from petpals.models import Pet, User
+
+from .forms import ChangePassword, UpdateAccountForm, UpdatePetForm
 from .utils import save_profile_picture, save_recent_photo
 
 router = Blueprint('profile_router', __name__, template_folder='templates')
@@ -11,7 +11,9 @@ router = Blueprint('profile_router', __name__, template_folder='templates')
 
 @router.get('/user')
 def profile_current_user():
-    return redirect(url_for('profile_router.profile_user', username=current_user.username))
+    return redirect(
+        url_for('profile_router.profile_user', username=current_user.username)
+    )
 
 
 @router.get('/user/<username>')
@@ -47,7 +49,12 @@ def profile_user_edit():
         form.email.data = current_user.email
         form.biography.data = current_user.biography
 
-    return render_template('edit_profile.html', title='Edit Profile', image_file=current_user.image_path, form=form)
+    return render_template(
+        'edit_profile.html',
+        title='Edit Profile',
+        image_file=current_user.image_path,
+        form=form,
+    )
 
 
 @router.route('/user/edit/password', methods=['GET', 'POST'])
@@ -63,11 +70,13 @@ def profile_user_edit_password():
         user = User.query.filter_by(email=form.email.data).first()
         # checks if user exists and password verifies with db
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+            hashed_password = bcrypt.generate_password_hash(
+                form.new_password.data
+            ).decode('utf-8')
             current_user.password = hashed_password
             db.session.commit()
             flash(f'Your password has been updated!', 'success')
-            return redirect(url_for('profile_router.profile_current_user'))        
+            return redirect(url_for('profile_router.profile_current_user'))
         else:
             flash('Login failed, please check email and password', 'danger')
     return render_template('edit_password.html', title='Edit Password', form=form)
@@ -79,7 +88,7 @@ def profile_pet(username: str, pet_name: str):
     #         User.username == username,
     #         Pet.name == pet_name
     #     ).first()
-    
+
     user = User.query.filter_by(username=username).first()
     pet = user.pets.filter_by(name=pet_name).first_or_404()
     # Replace with pet's profile picture and recent images from DB
@@ -98,7 +107,7 @@ def profile_pet_new():
             color=form.color.data,
             tagline=form.tagline.data,
             biography=form.biography.data,
-            user_id=current_user.id
+            user_id=current_user.id,
         )
         if form.profile_picture.data:
             picture_file = save_profile_picture(form.profile_picture.data, pet)
@@ -134,7 +143,7 @@ def profile_pet_edit(username: str, pet_name: str):
             if field.data:
                 recent_picture_file = save_recent_photo(field.data, pet, i)
                 setattr(pet, f'img{i}_path', recent_picture_file)
-        
+
         pet.name = form.name.data
         pet.species = form.species.data
         pet.subspecies = form.subspecies.data
@@ -143,7 +152,13 @@ def profile_pet_edit(username: str, pet_name: str):
         pet.biography = form.biography.data
         db.session.commit()
         flash('You have updated your pets information!', 'success')
-        return redirect(url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name))
+        return redirect(
+            url_for(
+                'profile_router.profile_pet',
+                username=pet.owner.username,
+                pet_name=pet.name,
+            )
+        )
     # auto populates the fields
     elif request.method == 'GET':
         form.name.data = pet.name
@@ -152,7 +167,9 @@ def profile_pet_edit(username: str, pet_name: str):
         form.color.data = pet.color
         form.tagline.data = pet.tagline
         form.biography.data = pet.biography
-    return render_template('form_pet_profile.html', pet=pet, form=form, legend="Update Pet")
+    return render_template(
+        'form_pet_profile.html', pet=pet, form=form, legend="Update Pet"
+    )
 
 
 @router.route('/user/<username>/<pet_name>/delete', methods=['POST'])

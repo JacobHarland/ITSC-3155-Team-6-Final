@@ -44,6 +44,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `final`.`post` (
   `post_id` INT NOT NULL AUTO_INCREMENT,
   `views` INT NOT NULL DEFAULT 0,
+  `replies` INT NOT NULL DEFAULT 0,
   `title` VARCHAR(100) NOT NULL,
   `content` TEXT NOT NULL,
   `file_path` VARCHAR(45) NULL DEFAULT NULL,

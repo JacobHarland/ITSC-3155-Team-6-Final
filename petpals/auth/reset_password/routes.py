@@ -2,16 +2,24 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user
 from flask_mail import Message
 from petpals import bcrypt, db, mail
-from .forms import RequestResetForm, ResetPasswordForm
 from petpals.models import User
 
-router = Blueprint('reset_password_router', __name__, template_folder='templates', url_prefix='/reset_password')
+from .forms import RequestResetForm, ResetPasswordForm
+
+router = Blueprint(
+    'reset_password_router',
+    __name__,
+    template_folder='templates',
+    url_prefix='/reset_password',
+)
+
 
 def send_reset_email(user):
     "Sends the email using Flask-Mail"
     token = user.get_reset_token()
-    msg = Message('Password Reset Request',
-                  sender='noreply@demo.com', recipients=[user.email])
+    msg = Message(
+        'Password Reset Request', sender='noreply@demo.com', recipients=[user.email]
+    )
     msg.body = f'''To reset your password, visit the following link:
 {url_for('auth_router.reset_password_router.reset_token', token=token, _external=True)}
 If you did not make this request then simply ignore this email and no changes will be made.
@@ -47,10 +55,14 @@ def reset_token(token):
     form = ResetPasswordForm()
     if form.validate_on_submit():
         # bcrypt, hashes a password from form and decodes it as a string instead of bytes with utf-8
-        hashed_password = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
+            'utf-8'
+        )
         user.password = hashed_password
         db.session.commit()
-        flash('Your password has been reset. You are now able to login. Welcome to PetPals!', 'success')
+        flash(
+            'Your password has been reset. You are now able to login. Welcome to PetPals!',
+            'success',
+        )
         return redirect(url_for('auth_router.login'))
     return render_template('reset_token.html', title='Reset Password', form=form)

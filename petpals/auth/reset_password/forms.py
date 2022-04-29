@@ -1,12 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from petpals.models import User
+from wtforms import PasswordField, StringField, SubmitField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
 
 class RequestResetForm(FlaskForm):
-    email = StringField('Email',
-                            validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
 
     # Validation to make sure email exists within database for password reset to occur
@@ -16,9 +15,12 @@ class RequestResetForm(FlaskForm):
         if user is None:
             raise ValidationError('There is no account with the associated email.')
 
+
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password',
-                            validators=[DataRequired(), Length(min=8, max=32)])
-    confirm_password = PasswordField('Confirm Password',
-                            validators=[DataRequired(), EqualTo('password')])
+    password = PasswordField(
+        'Password', validators=[DataRequired(), Length(min=8, max=32)]
+    )
+    confirm_password = PasswordField(
+        'Confirm Password', validators=[DataRequired(), EqualTo('password')]
+    )
     submit = SubmitField('Reset Password')

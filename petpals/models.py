@@ -2,7 +2,6 @@ from datetime import datetime
 
 from flask_login import UserMixin
 from itsdangerous import URLSafeTimedSerializer as Serializer
-
 from petpals import app, db, login_manager
 
 
@@ -61,8 +60,7 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False,
-                            default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
@@ -84,9 +82,10 @@ class Pet(db.Model):
     img1_path = db.Column(db.String(45))
     img2_path = db.Column(db.String(45))
     img3_path = db.Column(db.String(45))
-    created_at = db.Column(db.DateTime, nullable=False,
-                           default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, primary_key=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id"), nullable=False, primary_key=True
+    )
 
     owner = db.relationship('User', back_populates='pets')
 
@@ -107,7 +106,11 @@ class Pet(db.Model):
     @property
     def recent_photo_paths(self):
         photos = (self.img1_path, self.img2_path, self.img3_path)
-        return tuple(f'/static/images/pet/recent/{photo}' for photo in photos if photo is not None)
+        return tuple(
+            f'/static/images/pet/recent/{photo}'
+            for photo in photos
+            if photo is not None
+        )
 
     def __repr__(self):
         return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"

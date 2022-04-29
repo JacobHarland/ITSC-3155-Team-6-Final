@@ -23,6 +23,7 @@ class User(db.Model, UserMixin):
 
     pets = db.relationship('Pet', back_populates='owner', lazy='dynamic')
     posts = db.relationship('Post', back_populates='author')
+    replies = db.relationship('Reply', back_populates='author')
 
     @property
     def image_file(self):
@@ -62,12 +63,27 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     author = db.relationship('User', back_populates='posts')
+    replies = db.relationship('Reply', back_populates='op')
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
+        return f"Post('{self.title}', '{self.timestamp}')"
+
+
+class Reply(db.Model):
+    reply_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), nullable=False)
+
+    author = db.relationship('User', back_populates='replies')
+    op = db.relationship('Post', back_populates='replies')
+
+    def __repr__(self):
+        return f"Reply('{self.title}', '{self.content}')"
 
 
 class Pet(db.Model):
@@ -84,7 +100,7 @@ class Pet(db.Model):
     img3_path = db.Column(db.String(45))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(
-        db.Integer, db.ForeignKey("user.id"), nullable=False, primary_key=True
+        db.Integer, db.ForeignKey('user.id'), nullable=False, primary_key=True
     )
 
     owner = db.relationship('User', back_populates='pets')

@@ -43,6 +43,8 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `final`.`post` (
   `post_id` INT NOT NULL AUTO_INCREMENT,
+  `views` INT NOT NULL DEFAULT 0,
+  `replies` INT NOT NULL DEFAULT 0,
   `title` VARCHAR(100) NOT NULL,
   `content` TEXT NOT NULL,
   `file_path` VARCHAR(45) NULL DEFAULT NULL,
@@ -88,9 +90,37 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+-- -----------------------------------------------------
+-- Table `final`.`reply`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `final`.`reply` (
+  `reply_id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(100) NOT NULL,
+  `content` TEXT NOT NULL,
+  `user_id` INT NOT NULL,
+  `post_id` INT NOT NULL,
+  PRIMARY KEY (`post_id`),
+  INDEX `fk_reply_user_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_reply_user`
+    FOREIGN KEY (`reply_id`)
+    REFERENCES `final`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION, 
+  INDEX `fk_reply_forum_post_idx` (`post_id` ASC) VISIBLE,
+  CONSTRAINT `fk_reply_post`
+    FOREIGN KEY (`post_id`)
+    REFERENCES `final`.`post` (`post_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
 ALTER TABLE user AUTO_INCREMENT=0;
 ALTER TABLE pet AUTO_INCREMENT=0;
 ALTER TABLE post AUTO_INCREMENT=0;
+ALTER TABLE reply AUTO_INCREMENT=0;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -55,7 +55,7 @@ class User(db.Model, UserMixin):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return f'User('{self.username}', '{self.email}', '{self.image_file}')'
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
 
 class Post(db.Model):
@@ -69,7 +69,7 @@ class Post(db.Model):
     replies = db.relationship('Reply', back_populates='op')
 
     def __repr__(self):
-        return f'Post('{self.title}', '{self.date_posted}')'
+        return f"Post('{self.title}', '{self.date_posted}')"
 
 
 class Reply(db.Model):
@@ -83,7 +83,7 @@ class Reply(db.Model):
     op = db.relationship('Post', back_populates='replies')
 
     def __repr__(self):
-        return f'Reply('{self.title}', '{self.comment}')'
+        return f"Reply('{self.title}', '{self.comment}')"
 
 
 class Pet(db.Model):
@@ -129,4 +129,4 @@ class Pet(db.Model):
         )
 
     def __repr__(self):
-        return f'Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')'
+        return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"

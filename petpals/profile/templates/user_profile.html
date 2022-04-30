@@ -49,8 +49,8 @@
             <div class="px-4 py-3">
               <h5 class="mb-0">About</h5>
               <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-                {% if current_user.biography %}
-                  {% for line in current_user.biography.splitlines() %}
+                {% if user.biography %}
+                  {% for line in user.biography.splitlines() %}
                     <p class="mb-0">{{ line }}</p>
                   {% endfor %}
                 {% endif %}

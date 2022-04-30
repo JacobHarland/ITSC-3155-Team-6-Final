@@ -11,23 +11,6 @@
 SET NAMES 'utf8';
 USE final;
 --
--- Delete data from the table 'reply'
---
-TRUNCATE TABLE reply;
---
--- Delete data from the table 'pet'
---
-TRUNCATE TABLE pet;
---
--- Delete data from the table 'post'
---
-DELETE FROM post;
---
--- Delete data from the table 'user'
---
-DELETE FROM user;
-
---
 -- Inserting data into table user
 --
 INSERT INTO user(id, username, email, password, fullname, biography) VALUES

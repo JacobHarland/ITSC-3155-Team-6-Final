@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `final`.`reply` (
   `content` TEXT NOT NULL,
   `user_id` INT NOT NULL,
   `post_id` INT NOT NULL,
-  PRIMARY KEY (`post_id`),
+  PRIMARY KEY (`reply_id`),
   INDEX `fk_reply_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_reply_user`
     FOREIGN KEY (`reply_id`)

@@ -96,7 +96,7 @@ active_page = 'forum' %} {% block body %}
                       </h6>
 
                       {% if post.content %}
-                      {% for line in post.content.splitlines() %}
+                      {% for line in content_markup(post.content).splitlines() %}
                       <p class="text-secondary">{{ line }}</p>
                       {% endfor %}
                       {% endif %}

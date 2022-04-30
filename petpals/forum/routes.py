@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, request
 from petpals.models import Post, db
 from sqlalchemy import or_
 
+from .utils import utility_processor
+
 router = Blueprint(
     'forum_router', __name__, template_folder='templates', url_prefix='/forum'
 )
@@ -27,3 +29,6 @@ def search():
         .all()
     )
     return render_template('forum.html', posts=posts)
+
+
+router.context_processor(utility_processor)

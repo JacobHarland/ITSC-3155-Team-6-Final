@@ -1,26 +1,28 @@
 from flask_wtf import FlaskForm
+from petpals.form_validators import email_validators, password_validators
 from petpals.models import User
 from wtforms import PasswordField, StringField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+from wtforms.validators import DataRequired, EqualTo, ValidationError
 
 
 class RequestResetForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email', email_validators)
     submit = SubmitField('Request Password Reset')
 
-    # Validation to make sure email exists within database for password reset to occur
     def validate_email(self, email):
-        # user = database query for email input to check if exists already. Is none if nothing found
-        user = User.query.filter_by(email=email.data).first()
-        if user is None:
+        'Validation to make sure email exists within database for password reset to occur'
+
+        if not User.query.filter_by(email=email.data).first():
             raise ValidationError('There is no account with the associated email.')
 
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField(
-        'Password', validators=[DataRequired(), Length(min=8, max=32)]
-    )
+    password = PasswordField('New Password', password_validators)
     confirm_password = PasswordField(
-        'Confirm Password', validators=[DataRequired(), EqualTo('password')]
+        'Confirm New Password',
+        validators=[
+            DataRequired(),
+            EqualTo('password', 'Field must be equal to New Password.'),
+        ],
     )
     submit = SubmitField('Reset Password')

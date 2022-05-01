@@ -89,7 +89,7 @@ def profile_pet(username: str, pet_name: str):
     #         Pet.name == pet_name
     #     ).first()
 
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username).first_or_404()
     pet = user.pets.filter_by(name=pet_name).first_or_404()
     # Replace with pet's profile picture and recent images from DB
     return render_template('pet_profile.html', pet=pet)
@@ -127,7 +127,7 @@ def profile_pet_new():
 @router.route('/user/<username>/<pet_name>/edit', methods=['GET', 'POST'])
 @login_required
 def profile_pet_edit(username: str, pet_name: str):
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username).first_or_404()
     pet = user.pets.filter_by(name=pet_name).first_or_404()
     # only the pet owner can update the pet info
     if pet.owner != current_user:
@@ -175,7 +175,7 @@ def profile_pet_edit(username: str, pet_name: str):
 @router.route('/user/<username>/<pet_name>/delete', methods=['POST'])
 @login_required
 def delete_pet(username: str, pet_name: str):
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username).first_or_404()
     pet = user.pets.filter_by(name=pet_name).first_or_404()
     # only the pet owner can update the pet info
     if pet.owner != current_user:

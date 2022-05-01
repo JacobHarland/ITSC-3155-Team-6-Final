@@ -40,7 +40,9 @@
               {% endif %}
               </div>
               <div class="text-center">
-                <button class="btn btn-xs btn-outline-info">Reply</button>
+                <button class="btn btn-xs btn-outline-info">
+                  <a href="{{ url_for('forum_router.post_router.reply_router.reply_form', post_id=post.post_id) }}">Reply</a>
+                </button>
               </div>
             </div>
             <div class="text-muted small text-center">
@@ -57,40 +59,37 @@
 
       <!--Replies Container-->
       <div class="container bg-info pt-2 pb-2 mb-2 rounded">
-        <!--Reply Cards Container-->
-        <div class="container mt-0 bg-info border border-6 border-info p-0">
-          <!--Reply Content-->
-          <div class="forum-card mt-2 mb-2 p-1 border border-3 border-light">
-            <div class="forum-card-body">
-              <div class="media forum-item">
-                <a href="#" class="card-link">
-                  <img src="https://bootdey.com/img/Content/avatar/avatar2.png " class="rounded-circle" width="50 "
-                    alt="User " />
-                </a>
-                <div class="media-body ml-3">
-                  <a href="# " class="text-secondary">drewdan</a>
-                  <small class="text-muted ml-2">1 hour ago</small>
-                  <div class="mt-3 font-size-sm">
-                    <p>Replies are currently under construction</p>
-                    <p>
-                      Please check back later to use this feature.
-                    </p>
+        {% for reply in post.replies %}
+          <!--Reply Cards Container-->
+          <div id="reply{{ reply.reply_id }}" class="container mt-0 bg-info border border-6 border-info p-0">
+            <!--Reply Content-->
+            <div class="forum-card mt-2 mb-2 p-1 border border-3 border-light">
+              <div class="forum-card-body">
+                <div class="media forum-item">
+                  <a href="{{ url_for('profile_router.profile_user', username=reply.author.username) }}" class="card-link">
+                    <img src="{{ reply.author.image_path }}" class="rounded-circle" width="50 "
+                      alt="User " />
+                  </a>
+                  <div class="media-body ml-3">
+                    <a href="{{ url_for('profile_router.profile_user', username=reply.author.username) }}" class="text-secondary">{{ reply.author.username }}</a>
+                    <small class="text-muted ml-2">{{ reply.timestamp }}</small>
+                    <div class="mt-3 font-size-sm mb-4">
+                      {% for line in reply.content.splitlines() %}
+                        <p class="mb-0">{{ line }}</p>
+                      {% endfor %}
+                    </div>
+                    <button class="btn btn-xs text-muted has-icon me-3">
+                      <i class="fa fa-heart" aria-hidden="true "></i>1
+                    </button>
+                    <a href="#" class="text-muted small">Reply (NOT AVAILABLE AS THIS TIME)</a>
                   </div>
-                  <button class="btn btn-xs text-muted has-icon">
-                    <i class="fa fa-heart" aria-hidden="true "></i>1
-                  </button>
-                  <a href="# " class="text-muted small">Reply</a>
                 </div>
               </div>
             </div>
           </div>
-          <!--end of Reply Content-->
-        </div>
-        <!--end of Reply Cards Container-->
+        {% endfor %}
       </div>
-      <!--end of Replies Container-->
     </div>
-    <!--end Page Container-->
   </section>
 </section>
 

@@ -95,14 +95,15 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `final`.`reply` (
   `reply_id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(100) NOT NULL,
+  -- `title` VARCHAR(100) NOT NULL,
   `content` TEXT NOT NULL,
+  `timestamp` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,	
   `user_id` INT NOT NULL,
   `post_id` INT NOT NULL,
   PRIMARY KEY (`reply_id`),
   INDEX `fk_reply_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_reply_user`
-    FOREIGN KEY (`reply_id`)
+    FOREIGN KEY (`user_id`)
     REFERENCES `final`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION, 

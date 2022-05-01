@@ -41,6 +41,7 @@ mail = Mail(app)
 
 from .auth.reset_password.routes import router as reset_password_router
 from .auth.routes import router as auth_router
+from .forum.post.reply.routes import router as reply_router
 from .forum.post.routes import router as post_router
 from .forum.routes import router as forum_router
 from .home.routes import router as home_router
@@ -49,6 +50,7 @@ from .profile.routes import router as profile_router
 # Register Blueprints
 auth_router.register_blueprint(reset_password_router)
 app.register_blueprint(auth_router)
+post_router.register_blueprint(reply_router)
 forum_router.register_blueprint(post_router)
 app.register_blueprint(forum_router)
 app.register_blueprint(home_router)

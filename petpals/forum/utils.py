@@ -21,7 +21,7 @@ def utility_processor():
 
         return Markup(
             re.sub(
-                r'@(?P<user>[\w-]+)(?:\[(?P<pet>[\w -]+)\])?',
+                r'(?<![\w-])@(?P<user>[\w-]+)(?:\[(?P<pet>[\w -]+)\])?',
                 replace_markup,
                 safe_content,
             )

@@ -74,7 +74,8 @@ class Post(db.Model):
 
 class Reply(db.Model):
     reply_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
+    # title = db.Column(db.String(100), nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), nullable=False)
@@ -83,7 +84,7 @@ class Reply(db.Model):
     op = db.relationship('Post', back_populates='replies')
 
     def __repr__(self):
-        return f"Reply('{self.title}', '{self.content}')"
+        return f"Reply('{self.content}', '{self.timestamp}')"
 
 
 class Pet(db.Model):

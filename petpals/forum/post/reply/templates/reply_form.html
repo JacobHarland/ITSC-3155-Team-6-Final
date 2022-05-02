@@ -1,0 +1,43 @@
+{% extends '_layout.html' %}
+{% block title %}New Post{% endblock %}
+{% set active_page = 'post_form' %}
+
+{% block body %}
+
+
+<section class="bg-image background-paws">
+  <div class="container py-5">
+    <div class="card rounded-3 border border-info border-6">
+      <div class="card-body p-md-5 mx-md-4">
+        <div class="text-center">
+          <img src="/static/images/logo/logo.jpeg" alt="Pet Pals" class="mb-1" />
+          <h5 class="mb-4">Where your Pet meets new Pals</h5>
+        </div>
+        <h1 class="text-center mb-2">Reply to</h1>
+        <h3 class="text-center mb-5">"{{ post_title }}"</h3>
+        <form method="POST">
+          {{ form.hidden_tag() }}
+
+          <!-- Content field -->
+          <div class="form-outline mb-3">
+            {{ form.content(class="form-control", rows="10") }}
+            {{ form.content.label(class="form-label") }}
+          </div>
+
+          <!-- Submit field -->
+          <div class="text-center">
+            {{ form.submit(class="btn btn-info btn-block mb-3") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".form-outline").forEach((formOutline) => {
+    new mdb.Input(formOutline).init();
+  });
+</script>
+
+{% endblock %}

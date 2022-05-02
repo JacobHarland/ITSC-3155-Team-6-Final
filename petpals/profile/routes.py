@@ -91,7 +91,7 @@ def delete_profile():
     db.session.delete(user)
     db.session.commit()
     flash('You account has been deleted!', 'success')
-    return render_template('index.html', user=user)
+    return redirect(url_for('home_router.index'))
 
 
 @router.route('/user/<username>/<pet_name>')

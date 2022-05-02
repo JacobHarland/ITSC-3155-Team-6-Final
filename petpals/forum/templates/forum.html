@@ -82,7 +82,7 @@ active_page = 'forum' %} {% block body %}
 
             <!-- Forum List -->
             <div class="forum-main-body p-2 p-sm-3 collapse forum-content show">
-              {% for post in posts %}
+              {% for post in posts.items %}
               <div class="forum-card mb-2">
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
@@ -118,25 +118,25 @@ active_page = 'forum' %} {% block body %}
 
               {% endfor %}
 
-              <!--Pagination-->
-              <ul class="pagination pagination-sm pagination-circle justify-content-center mb-0">
-                <li class="page-item disabled">
-                  <span class="page-link has-icon"><i class="material-icons">Previous</i></span>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="javascript:void(0)">1</a>
-                </li>
-                <li class="page-item active">
-                  <span class="page-link">2</span>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="javascript:void(0)">3</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link has-icon" href="javascript:void(0)"><i class="material-icons">Next</i></a>
-                </li>
-              </ul>
-              <!--end Pagination-->
+            <!--Pagination-->
+            <ul class="pagination pagination-sm pagination-circle justify-content-center mb-0">
+              {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                  {% if posts.page == page_num %}
+                    <li class="page-item active">
+                      <a class="page-link" href="{{ url_for('forum_router.forum', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                  {% else %}
+                    <li class="page-item">
+                      <a class="page-link" href="{{ url_for('forum_router.forum', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                  {% endif %}
+                {% else %}
+                  ...
+                {% endif %}
+              {% endfor %}
+            </ul>
+            <!--end Pagination-->
             </div>
           </div>
         </div>

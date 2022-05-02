@@ -11,7 +11,8 @@ router = Blueprint(
 
 @router.get('')
 def forum():
-    posts = Post.query.all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.paginate(page=page, per_page=5)
     return render_template('forum.html', posts=posts)
 
 

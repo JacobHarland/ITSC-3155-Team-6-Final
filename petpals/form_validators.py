@@ -1,7 +1,14 @@
 from flask_login import current_user
 from flask_wtf.file import FileAllowed
 from petpals.models import User
-from wtforms.validators import DataRequired, Email, Length, Regexp, ValidationError
+from wtforms.validators import (
+    DataRequired,
+    Email,
+    EqualTo,
+    Length,
+    Regexp,
+    ValidationError,
+)
 
 
 def unique_email_validator(_, email):
@@ -37,4 +44,8 @@ new_username_validators = username_validators + [unique_username_validator]
 email_validators = [DataRequired(), Email()]
 new_email_validators = email_validators + [unique_email_validator]
 password_validators = [DataRequired(), Length(min=8, max=32)]
+confirm_password_validators = [
+    DataRequired(),
+    EqualTo('password', 'Field must be equal to %(other_label)s.'),
+]
 image_validators = [FileAllowed(['jpeg', 'jpg', 'png', 'gif'])]

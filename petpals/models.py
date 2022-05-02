@@ -69,7 +69,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     author = db.relationship('User', back_populates='posts')
-    replies = db.relationship('Reply', back_populates='op')
+    replies = db.relationship('Reply', back_populates='op', cascade="all, delete")
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.timestamp}')"

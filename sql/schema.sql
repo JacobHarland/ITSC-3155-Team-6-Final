@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `final`.`post` (
   CONSTRAINT `fk_forum_post_user`
     FOREIGN KEY (`user_id`)
     REFERENCES `final`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `final`.`pet` (
   CONSTRAINT `fk_profile_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `final`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -104,13 +104,13 @@ CREATE TABLE IF NOT EXISTS `final`.`reply` (
   CONSTRAINT `fk_reply_user`
     FOREIGN KEY (`user_id`)
     REFERENCES `final`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION, 
   INDEX `fk_reply_forum_post_idx` (`post_id` ASC) VISIBLE,
   CONSTRAINT `fk_reply_post`
     FOREIGN KEY (`post_id`)
     REFERENCES `final`.`post` (`post_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

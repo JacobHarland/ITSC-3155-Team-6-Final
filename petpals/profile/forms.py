@@ -1,48 +1,24 @@
-from flask_login import current_user
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed, FileField
-from petpals.models import User
+from flask_wtf.file import FileField
+from petpals.form_validators import (
+    email_validators,
+    fullname_validators,
+    image_validators,
+    new_email_validators,
+    new_username_validators,
+    password_validators,
+)
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+from wtforms.validators import DataRequired, EqualTo, Length
 
 
 class UpdateAccountForm(FlaskForm):
-    fullname = StringField(
-        'Full Name', validators=[DataRequired(), Length(min=1, max=50)]
-    )
-    username = StringField(
-        'Username', validators=[DataRequired(), Length(min=2, max=18)]
-    )
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    picture = FileField(
-        'Update Profile Picture',
-        validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])],
-    )
+    fullname = StringField('Full Name', fullname_validators)
+    username = StringField('Username', new_username_validators)
+    email = StringField('Email', new_email_validators)
+    picture = FileField('Profile Picture', image_validators)
     biography = TextAreaField('Bio')
     submit = SubmitField('Update')
-
-    # Validation to make sure users cannot have same username
-    def validate_username(self, username):
-        # for update form, so only want to validate if user changes their information
-        if username.data != current_user.username:
-            # user = database query for username input to check if exists already. Is none if nothing found
-            user = User.query.filter_by(username=username.data).first()
-            # if user = none, this if statement is not reached
-            if user:
-                raise ValidationError(
-                    'Username already in use. Please enter a different username.'
-                )
-
-    # Validation to make sure users cannot have same username
-    def validate_email(self, email):
-        # for update form, so only want to validate if user changes their information
-        if email.data != current_user.email:
-            # user = database query for email input to check if exists already. Is none if nothing found
-            user = User.query.filter_by(email=email.data).first()
-            if user:
-                raise ValidationError(
-                    'Email already in use. Please enter a different email.'
-                )
 
 
 class UpdatePetForm(FlaskForm):
@@ -54,31 +30,22 @@ class UpdatePetForm(FlaskForm):
     color = StringField('Pet Color', validators=[Length(max=45)])
     tagline = StringField('Tagline', validators=[Length(max=150)])
     biography = TextAreaField('Bio', validators=[Length(max=2000)])
-    profile_picture = FileField(
-        'Update Profile Picture',
-        validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])],
-    )
-    picture_one = FileField(
-        'Update Picture 1', validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])]
-    )
-    picture_two = FileField(
-        'Update Picture 2', validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])]
-    )
-    picture_three = FileField(
-        'Update Picture 3', validators=[FileAllowed(['jpeg', 'jpg', 'png', 'gif'])]
-    )
+    profile_picture = FileField('Profile Picture', image_validators)
+    picture_one = FileField('Picture 1', image_validators)
+    picture_two = FileField('Picture 2', image_validators)
+    picture_three = FileField('Picture 3', image_validators)
     submit = SubmitField('Update')
 
 
 class ChangePassword(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField(
-        'Current Password', validators=[DataRequired(), Length(min=8, max=32)]
-    )
-    new_password = PasswordField(
-        'New Password', validators=[DataRequired(), Length(min=8, max=32)]
-    )
+    email = StringField('Email', email_validators)
+    password = PasswordField('Current Password', password_validators)
+    new_password = PasswordField('New Password', password_validators)
     confirm_password = PasswordField(
-        'Confirm New Password', validators=[DataRequired(), EqualTo('new_password')]
+        'Confirm New Password',
+        validators=[
+            DataRequired(),
+            EqualTo('new_password', 'Field must be equal to New Password.'),
+        ],
     )
     submit = SubmitField('Change Password')

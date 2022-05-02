@@ -1,8 +1,12 @@
 from flask_wtf import FlaskForm
-from petpals.form_validators import email_validators, password_validators
+from petpals.form_validators import (
+    confirm_password_validators,
+    email_validators,
+    password_validators,
+)
 from petpals.models import User
 from wtforms import PasswordField, StringField, SubmitField
-from wtforms.validators import DataRequired, EqualTo, ValidationError
+from wtforms.validators import ValidationError
 
 
 class RequestResetForm(FlaskForm):
@@ -19,10 +23,6 @@ class RequestResetForm(FlaskForm):
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('New Password', password_validators)
     confirm_password = PasswordField(
-        'Confirm New Password',
-        validators=[
-            DataRequired(),
-            EqualTo('password', 'Field must be equal to New Password.'),
-        ],
+        'Confirm New Password', confirm_password_validators
     )
     submit = SubmitField('Reset Password')

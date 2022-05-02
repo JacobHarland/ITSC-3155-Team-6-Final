@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
 from petpals.form_validators import (
+    confirm_password_validators,
     email_validators,
     fullname_validators,
     image_validators,
@@ -9,7 +10,7 @@ from petpals.form_validators import (
     password_validators,
 )
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, EqualTo, Length
+from wtforms.validators import DataRequired, Length
 
 
 class UpdateAccountForm(FlaskForm):
@@ -42,10 +43,6 @@ class ChangePassword(FlaskForm):
     password = PasswordField('Current Password', password_validators)
     new_password = PasswordField('New Password', password_validators)
     confirm_password = PasswordField(
-        'Confirm New Password',
-        validators=[
-            DataRequired(),
-            EqualTo('new_password', 'Field must be equal to New Password.'),
-        ],
+        'Confirm New Password', confirm_password_validators
     )
     submit = SubmitField('Change Password')

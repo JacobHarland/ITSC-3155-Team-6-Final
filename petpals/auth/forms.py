@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from petpals.form_validators import (
+    confirm_password_validators,
     email_validators,
     fullname_validators,
     new_email_validators,
@@ -7,7 +8,6 @@ from petpals.form_validators import (
     password_validators,
 )
 from wtforms import BooleanField, PasswordField, StringField, SubmitField
-from wtforms.validators import DataRequired, EqualTo
 
 
 class SignupForm(FlaskForm):
@@ -15,13 +15,7 @@ class SignupForm(FlaskForm):
     username = StringField('Username', new_username_validators)
     email = StringField('Email', new_email_validators)
     password = PasswordField('Password', password_validators)
-    confirm_password = PasswordField(
-        'Confirm Password',
-        validators=[
-            DataRequired(),
-            EqualTo('password', 'Field must be equal to Password.'),
-        ],
-    )
+    confirm_password = PasswordField('Confirm Password', confirm_password_validators)
     submit = SubmitField('Sign Up')
 
 

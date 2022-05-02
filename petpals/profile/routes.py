@@ -82,6 +82,18 @@ def profile_user_edit_password():
     return render_template('edit_password.html', title='Edit Password', form=form)
 
 
+@router.route('/user/edit/delete', methods=['POST'])
+@login_required
+def delete_profile():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    if not current_user:
+        abort(403)
+    db.session.delete(user)
+    db.session.commit()
+    flash('You account has been deleted!', 'success')
+    return render_template('index.html', user=user)
+
+
 @router.route('/user/<username>/<pet_name>')
 def profile_pet(username: str, pet_name: str):
     # pet = db.session.query(User, Pet).filter(

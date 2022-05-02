@@ -21,9 +21,11 @@ class User(db.Model, UserMixin):
     _image_file = db.Column('image_file', db.String(20))
     password = db.Column(db.String(60), nullable=False)
 
-    pets = db.relationship('Pet', back_populates='owner', lazy='dynamic')
-    posts = db.relationship('Post', back_populates='author')
-    replies = db.relationship('Reply', back_populates='author')
+    pets = db.relationship(
+        'Pet', back_populates='owner', cascade="all, delete", lazy='dynamic'
+    )
+    posts = db.relationship('Post', back_populates='author', cascade="all, delete")
+    replies = db.relationship('Reply', back_populates='author', cascade="all, delete")
 
     @property
     def image_file(self):

@@ -33,11 +33,7 @@
               <small class="text-muted ml-2">{{ post.timestamp }}</small>
               <h5 class="mt-1">{{ post.title }}</h5>
               <div class="mt-3 font-size-sm">
-                {% if post.content %}
-                {% for line in content_markup(post.content).splitlines() %}
-                  <p class="mb-0">{{ line }}</p>
-                {% endfor %}
-              {% endif %}
+                {{ content_markup(post.content) }}
               </div>
               <div class="text-center">
                 <button class="btn btn-xs btn-outline-info">

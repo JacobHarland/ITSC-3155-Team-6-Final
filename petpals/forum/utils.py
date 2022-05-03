@@ -1,6 +1,7 @@
 import re
 
 from flask import url_for
+from markdown import markdown
 from markupsafe import Markup
 
 
@@ -21,6 +22,7 @@ def utility_processor():
 
         content = Markup.escape(content)
         content = re.sub(RE, replace_markup, content)
+        content = markdown(content)
         return Markup(content)
 
     return dict(content_markup=content_markup)

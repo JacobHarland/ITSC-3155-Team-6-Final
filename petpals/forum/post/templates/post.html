@@ -78,13 +78,16 @@
                         <p class="mb-0">{{ line }}</p>
                       {% endfor %}
                     </div>
-                    <button class="btn btn-xs text-muted has-icon me-3">
+                    <button
+                      class="like btn btn-xs text-muted has-icon me-3"
+                      data-reply-id={{ reply.reply_id }}
+                    >
                       <i
-                        class="{{ 'fa-solid' if reply.likes.filter_by(user_id=current_user.id).first() else 'fa-regular' }} fa-heart me-1"
+                        class="{{ 'fa-solid' if current_user.is_authenticated and reply.likes.filter_by(user_id=current_user.id).first().liked else 'fa-regular' }} fa-heart me-1"
                         style="color: crimson;"
                         aria-hidden="true"
                       ></i>
-                      {{ reply.likes.all() | length }}
+                      <span>{{ reply.likes.filter_by(liked=True).all() | length }}</span>
                     </button>
                     <a href="#" class="text-muted small">Reply (NOT AVAILABLE AS THIS TIME)</a>
                   </div>
@@ -97,5 +100,7 @@
     </div>
   </section>
 </section>
+
+<script src="/forum/post/reply/static/js/liked.js"></script>
 
 {% endblock %}

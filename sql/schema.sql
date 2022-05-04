@@ -119,9 +119,10 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 -- Table `final`.`likes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `final`.`likes` (
+CREATE TABLE IF NOT EXISTS `final`.`reply_like` (
   `user_id` INT NOT NULL,
   `reply_id` INT NOT NULL,
+  `liked` BOOL NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`user_id`, `reply_id`),
   INDEX `fk_user_id_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_id`

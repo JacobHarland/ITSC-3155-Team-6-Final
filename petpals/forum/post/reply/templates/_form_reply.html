@@ -1,9 +1,6 @@
 {% extends '_layout.html' %}
-{% block title %}New Post{% endblock %}
-{% set active_page = 'post_form' %}
 
 {% block body %}
-
 
 <section class="bg-image background-paws">
   <div class="container py-5">
@@ -14,7 +11,7 @@
           <h5 class="mb-4">Where your Pet meets new Pals</h5>
         </div>
         <h1 class="text-center mb-2">Reply to</h1>
-        <h3 class="text-center mb-5">"{{ post_title }}"</h3>
+        <h3 class="text-center mb-5">"{{ post.title }}"</h3>
         <form method="POST">
           {{ form.hidden_tag() }}
 
@@ -29,6 +26,7 @@
             {{ form.submit(class="btn btn-info btn-block mb-3") }}
           </div>
         </form>
+        {% block delete %}{% endblock %}
       </div>
     </div>
   </div>

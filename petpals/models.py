@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     )
     posts = db.relationship('Post', back_populates='author', cascade="all, delete")
     replies = db.relationship('Reply', back_populates='author', cascade="all, delete")
+    likes = db.relationship('Likes', back_populates='user', cascade='all, delete')
 
     @property
     def image_file(self):
@@ -85,9 +86,20 @@ class Reply(db.Model):
 
     author = db.relationship('User', back_populates='replies')
     op = db.relationship('Post', back_populates='replies')
+    likes = db.relationship(
+        'Likes', back_populates='reply', lazy='dynamic', cascade='all, delete'
+    )
 
     def __repr__(self):
         return f"Reply('{self.content}', '{self.timestamp}')"
+
+
+class Likes(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    reply_id = db.Column(db.Integer, db.ForeignKey('reply.reply_id'), primary_key=True)
+
+    user = db.relationship('User', back_populates='likes')
+    reply = db.relationship('Reply', back_populates='likes')
 
 
 class Pet(db.Model):

@@ -79,7 +79,12 @@
                       {% endfor %}
                     </div>
                     <button class="btn btn-xs text-muted has-icon me-3">
-                      <i class="fa fa-heart" aria-hidden="true "></i>1
+                      <i
+                        class="{{ 'fa-solid' if reply.likes.filter_by(user_id=current_user.id).first() else 'fa-regular' }} fa-heart me-1"
+                        style="color: crimson;"
+                        aria-hidden="true"
+                      ></i>
+                      {{ reply.likes.all() | length }}
                     </button>
                     <a href="#" class="text-muted small">Reply (NOT AVAILABLE AS THIS TIME)</a>
                   </div>

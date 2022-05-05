@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
-from petpals.models import Post, db
-from sqlalchemy import or_
+from petpals.models import Post, Reply, db
+from sqlalchemy import func, or_
 
 from .utils import utility_processor
 
@@ -11,9 +11,27 @@ router = Blueprint(
 
 @router.get('')
 def forum():
+    sort_by = request.args.get('sort_by', 'newest')
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.paginate(page=page, per_page=5)
-    return render_template('forum.html', posts=posts)
+
+    # desc: descending
+    match sort_by:
+        case 'newest':
+            post_query = Post.query.order_by(Post.post_id.desc())
+        case 'no_replies':
+            post_query = Post.query.outerjoin(Reply).filter_by(post_id=None)
+        case 'most_replies':
+            post_query = (
+                Post.query.outerjoin(Reply)
+                .group_by(Post.post_id)
+                .order_by(func.count(Reply.post_id).desc())
+            )
+        case 'most_viewed':
+            post_query = Post.query.order_by(Post.views.desc())
+
+    posts = post_query.paginate(page=page, per_page=5)
+
+    return render_template('forum.html', posts=posts, sort_by=sort_by)
 
 
 @router.get('/search')

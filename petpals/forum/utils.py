@@ -1,6 +1,7 @@
 import re
 
 from flask import url_for
+from markdown import markdown
 from markupsafe import Markup
 
 
@@ -17,14 +18,11 @@ def replace_markup(match: re.Match) -> str:
 
 def utility_processor():
     def content_markup(content: str) -> Markup:
-        safe_content = Markup.escape(content)
+        RE = r'(?:(?<=\s)|(?<=^))@(?P<user>[\w-]+)(?:\[(?P<pet>[\w -]+)\])?'
 
-        return Markup(
-            re.sub(
-                r'(?:(?<=\s)|(?<=^))@(?P<user>[\w-]+)(?:\[(?P<pet>[\w -]+)\])?',
-                replace_markup,
-                safe_content,
-            )
-        )
+        content = Markup.escape(content)
+        content = re.sub(RE, replace_markup, content)
+        content = markdown(content)
+        return Markup(content)
 
     return dict(content_markup=content_markup)

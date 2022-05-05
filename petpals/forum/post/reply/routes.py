@@ -1,11 +1,26 @@
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import current_user, login_required
 from petpals import db
-from petpals.models import Post, Reply
+from petpals.models import Post, Reply, ReplyLike
 
 from .forms import ReplyForm
 
-router = Blueprint('reply_router', __name__, template_folder='templates')
+router = Blueprint(
+    'reply_router',
+    __name__,
+    template_folder='templates',
+    static_folder='static',
+    static_url_path='/reply/static',
+)
 
 
 @router.route('/<int:post_id>/reply/create', methods=['GET', 'POST'])
@@ -31,6 +46,24 @@ def reply_new(post_id):
 
     elif request.method == 'GET':
         return render_template('new_reply.html', post=post, form=form)
+
+
+@router.post('/reply/like')
+@login_required
+def reply_like():
+    reply = request.json.get('replyId')
+    reply = Reply.query.get_or_404(reply)
+
+    current_user_like = reply.likes.filter_by(user_id=current_user.id).first()
+    if current_user_like:
+        current_user_like.liked = not current_user_like.liked
+        liked = current_user_like.liked
+    else:
+        db.session.add(ReplyLike(user_id=current_user.id, reply_id=reply.reply_id))
+        liked = True
+    db.session.commit()
+
+    return jsonify({'liked': liked})
 
 
 @router.route('/<int:post_id>/reply/<int:reply_id>/edit', methods=['GET', 'POST'])

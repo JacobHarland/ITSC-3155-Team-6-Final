@@ -26,7 +26,12 @@ class User(db.Model, UserMixin):
     )
     posts = db.relationship('Post', back_populates='author', cascade="all, delete")
     replies = db.relationship('Reply', back_populates='author', cascade="all, delete")
-    likes = db.relationship('ReplyLike', back_populates='user', cascade='all, delete')
+    post_likes = db.relationship(
+        'PostLike', back_populates='user', cascade='all, delete'
+    )
+    reply_likes = db.relationship(
+        'ReplyLike', back_populates='user', cascade='all, delete'
+    )
 
     @property
     def image_file(self):
@@ -71,9 +76,21 @@ class Post(db.Model):
 
     author = db.relationship('User', back_populates='posts')
     replies = db.relationship('Reply', back_populates='op', cascade="all, delete")
+    likes = db.relationship(
+        'PostLike', back_populates='post', lazy='dynamic', cascade='all, delete'
+    )
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.timestamp}')"
+
+
+class PostLike(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), primary_key=True)
+    liked = db.Column(db.Boolean, nullable=False, default=True)
+
+    user = db.relationship('User', back_populates='post_likes')
+    post = db.relationship('Post', back_populates='likes')
 
 
 class Reply(db.Model):
@@ -99,7 +116,7 @@ class ReplyLike(db.Model):
     reply_id = db.Column(db.Integer, db.ForeignKey('reply.reply_id'), primary_key=True)
     liked = db.Column(db.Boolean, nullable=False, default=True)
 
-    user = db.relationship('User', back_populates='likes')
+    user = db.relationship('User', back_populates='reply_likes')
     reply = db.relationship('Reply', back_populates='likes')
 
 

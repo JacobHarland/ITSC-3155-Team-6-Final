@@ -99,11 +99,7 @@ active_page = 'forum' %} {% block body %}
                           data-target=".forum-content" class="text-body">{{ post.title }}</a>
                       </h6>
 
-                      {% if post.content %}
-                      {% for line in content_markup(post.content).splitlines() %}
-                      <p class="text-secondary">{{ line }}</p>
-                      {% endfor %}
-                      {% endif %}
+                      {{ content_markup(post.content) }}
 
                       <p class="text-muted">
                         <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}">{{

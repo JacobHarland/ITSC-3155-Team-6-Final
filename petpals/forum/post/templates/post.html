@@ -37,7 +37,7 @@
               </div>
               <div class="text-center">
                 <button class="btn btn-xs btn-outline-info">
-                  <a href="{{ url_for('forum_router.post_router.reply_router.reply_form', post_id=post.post_id) }}">Reply</a>
+                  <a href="{{ url_for('forum_router.post_router.reply_router.reply_new', post_id=post.post_id) }}">Reply</a>
                 </button>
               </div>
             </div>
@@ -75,7 +75,14 @@
                     <button class="btn btn-xs text-muted has-icon me-3">
                       <i class="fa fa-heart" aria-hidden="true "></i>1
                     </button>
-                    <a href="#" class="text-muted small">Reply (NOT AVAILABLE AS THIS TIME)</a>
+                    {% if current_user.is_authenticated and current_user.id == reply.user_id %}
+                      <a
+                        href="{{ url_for('forum_router.post_router.reply_router.reply_edit', post_id=post.post_id, reply_id=reply.reply_id) }}"
+                        class="btn btn-sm text-muted"
+                      >
+                        Edit Reply
+                      </a>
+                    {% endif %}
                   </div>
                 </div>
               </div>

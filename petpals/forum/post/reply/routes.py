@@ -1,18 +1,18 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from petpals import db
 from petpals.models import Post, Reply
 
-from .forms import NewReplyForm
+from .forms import ReplyForm
 
 router = Blueprint('reply_router', __name__, template_folder='templates')
 
 
 @router.route('/<int:post_id>/reply/create', methods=['GET', 'POST'])
 @login_required
-def reply_form(post_id):
+def reply_new(post_id):
     post = Post.query.get_or_404(post_id)
-    form = NewReplyForm()
+    form = ReplyForm()
     if form.validate_on_submit():
         reply = Reply(
             content=form.content.data, user_id=current_user.id, post_id=post_id
@@ -30,4 +30,50 @@ def reply_form(post_id):
         )
 
     elif request.method == 'GET':
-        return render_template('reply_form.html', post_title=post.title, form=form)
+        return render_template('new_reply.html', post=post, form=form)
+
+
+@router.route('/<int:post_id>/reply/<int:reply_id>/edit', methods=['GET', 'POST'])
+@login_required
+def reply_edit(post_id, reply_id):
+    post = Post.query.get_or_404(post_id)
+    reply = Reply.query.get_or_404(reply_id)
+
+    if reply.user_id != current_user.id:
+        abort(403)
+    elif post.post_id != reply.post_id:
+        abort(404)
+
+    form = ReplyForm()
+    if form.validate_on_submit():
+        reply.content = form.content.data
+        db.session.commit()
+        flash('Edited Reply Sucessfully!', 'success')
+        return redirect(
+            url_for(
+                'forum_router.post_router.post',
+                post_id=post_id,
+                _anchor=f'reply{reply.reply_id}',
+            )
+        )
+
+    form.content.data = reply.content
+    return render_template('edit_reply.html', post=post, reply=reply, form=form)
+
+
+@router.post('/<int:post_id>/reply/<int:reply_id>/delete')
+@login_required
+def reply_delete(post_id, reply_id):
+    post = Post.query.get_or_404(post_id)
+    reply = Reply.query.get_or_404(reply_id)
+
+    if reply.user_id != current_user.id:
+        abort(403)
+    elif post.post_id != reply.post_id:
+        abort(404)
+
+    db.session.delete(reply)
+    db.session.commit()
+
+    flash('Your reply has been deleted!', 'success')
+    return redirect(url_for('forum_router.post_router.post', post_id=post_id))

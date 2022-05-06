@@ -7,7 +7,7 @@ from petpals import db
 router = Blueprint('post_router', __name__, url_prefix='/post')
 
 
-@router.route('/posts/<int:post_id>')
+@router.route('/<int:post_id>')
 def post(post_id):
     #Locate Correct Post
     post = Post.query.get_or_404(post_id)

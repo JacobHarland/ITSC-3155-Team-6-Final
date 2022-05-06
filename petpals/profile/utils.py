@@ -1,10 +1,24 @@
 import os
+from io import BytesIO
+from math import floor
 from secrets import token_urlsafe
 
 from flask_login import current_user
 from petpals import app
 from PIL import Image
 from werkzeug.datastructures import FileStorage
+
+
+def get_image_memory_size(picture_data: FileStorage):
+    "Gets image's number in mebibytes (MB)"
+    img_byte_arr = BytesIO()
+    picture_data.save(img_byte_arr)
+
+    # 1048576 = 2^20 = 1 mebibyte
+    mebibytes = len(img_byte_arr.getvalue()) / 1048576
+
+    # Floored to avoid user frustration
+    return floor(mebibytes)
 
 
 def get_image_path(filename: str, *rel_path: str) -> str:

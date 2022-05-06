@@ -36,9 +36,12 @@
                 {{ content_markup(post.content) }}
               </div>
               <div class="text-center">
-                <button class="btn btn-xs btn-outline-info">
-                  <a href="{{ url_for('forum_router.post_router.reply_router.reply_new', post_id=post.post_id) }}">Reply</a>
-                </button>
+                <a
+                  class="btn btn-xs btn-outline-info"
+                  href="{{ url_for('forum_router.post_router.reply_router.reply_new', post_id=post.post_id) }}"
+                >
+                  Reply
+                </a>
               </div>
             </div>
             <div class="text-muted small text-center">

@@ -68,19 +68,31 @@
           <div class="d-flex align-items-center">
             <!--If user is logged in only show logout, if not logged in show signup/login-->
             {% if current_user.is_authenticated %}
-              <button type="button" class="btn btn-link btn-outline-white me-3">
-                <a class="nav-item nav-link" href="{{ url_for('profile_router.profile_current_user') }}">My Profile</a>
-              </button>
-              <button type="button" class="btn btn-link btn-outline-white me-3">
-                <a class="nav-item nav-link" href="{{ url_for('auth_router.logout') }}">Logout</a>
-              </button>
+              <a
+                class="btn btn-link btn-outline-white me-3"
+                href="{{ url_for('profile_router.profile_current_user') }}"
+              >
+                <span class="nav-item nav-link">My Profile</span>
+              </a>
+              <a
+                class="btn btn-link btn-outline-white me-3"
+                href="{{ url_for('auth_router.logout') }}"
+              >
+                <span class="nav-item nav-link">Logout</span>
+              </a>
             {% else %}
-              <button type="button" class="btn btn-link btn-outline-white me-3">
-                <a class="nav-item nav-link" href="{{ url_for('auth_router.signup') }}">Signup</a>
-              </button>
-              <button type="button" class="btn btn-link btn-outline-white me-3">
-                <a class="nav-item nav-link" href="{{ url_for('auth_router.login') }}">Login</a>
-              </button>
+              <a
+                class="btn btn-link btn-outline-white me-3"
+                href="{{ url_for('auth_router.signup') }}"
+              >
+                <span class="nav-item nav-link">Signup</span>
+              </a>
+              <a
+                class="btn btn-link btn-outline-white me-3"
+                href="{{ url_for('auth_router.login') }}"
+              >
+                <span class="nav-item nav-link">Login</span>
+              </a>
             {% endif %}
           </div>
         </div>

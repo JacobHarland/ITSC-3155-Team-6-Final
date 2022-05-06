@@ -57,7 +57,7 @@ def edit_post(post_id):
 
         # Success Message
         flash('Post Has Been Updated!', 'success')
-        return redirect(url_for('forum_router.forum', post_id=post.post_id))
+        return redirect(url_for('forum_router.post_router.post', post_id=post.post_id))
 
     if current_user.id == post.user_id:
         form.title.data = post.title
@@ -79,7 +79,7 @@ def delete_post(post_id):
             db.session.commit()
 
             # Return a message
-            flash("Blog Post Was Deleted!", 'success')
+            flash("Post Was Deleted!", 'success')
             return redirect(url_for('forum_router.forum'))
 
         except:

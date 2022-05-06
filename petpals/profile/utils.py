@@ -65,15 +65,14 @@ def save_recent_photo(picture_data: FileStorage, pet, id: int) -> str:
     filename = generate_image_name(f_ext, rel_path)
 
     # Resize image
-    image = Image.open(picture_data)
-    # Check if it's too long vertically
-    if image.width < image.height:
-        size = (round(image.width * (1080.0 / image.height)), 1080)
-    else:
-        size = (1080, round(image.height * (1080.0 / image.width)))
-    image = image.resize(size, Image.LANCZOS)
+    with Image.open(picture_data) as image:
+        if image.height > image.width:
+            size = (round(image.width * (1080.0 / image.height)), 1080)
+        else:
+            size = (1080, round(image.height * (1080.0 / image.width)))
+        image = image.resize(size, Image.LANCZOS)
 
-    image.save(get_image_path(filename, rel_path), optimize=True)
+        image.save(get_image_path(filename, rel_path), optimize=True)
 
     if getattr(pet, f'img{id}_path'):
         os.remove(get_image_path(getattr(pet, f'img{id}_path'), rel_path))

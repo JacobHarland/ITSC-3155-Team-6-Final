@@ -40,7 +40,7 @@ def post_form():
         return render_template('post_form.html', form=form)
 
 
-@router.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+@router.route('/<int:post_id>/edit', methods=['GET', 'POST'])
 @login_required  # User must be logged in to edit a post
 def edit_post(post_id):
 
@@ -68,7 +68,7 @@ def edit_post(post_id):
         return redirect(url_for('forum_router.forum'))
 
 
-@router.route('/delete/<int:post_id>')
+@router.route('/<int:post_id>/delete')
 @login_required
 def delete_post(post_id):
     post_to_delete = Post.query.get_or_404(post_id)

@@ -1,5 +1,8 @@
 var submitButton = document.getElementById('submit');
 
+current_user = document.getElementById("conversation").dataset['current_user']
+
+
 recipient = document.getElementById("conversation").dataset["recipient"];
 sender = document.getElementById("conversation").dataset["sender"];
 message = document.getElementById("new_message").value.replaceAll("`", "");
@@ -7,26 +10,53 @@ conversation_id = document.getElementById("conversation").dataset["conversation_
 
 document.getElementById("message-container").scrollTop = document.getElementById("message-container").scrollHeight;
 
+// Socket IO
+socket = io()
+socket.connect('http://127.0.0.1:5000/messages/conversation/' + conversation_id)
+
+socket.on('message', function(message) {
+    if (message['recipient'] == current_user && ((message['sender'] == recipient) || (message['recipient'] == recipient))) {
+        let container = document.createElement("container");
+        let header = document.createElement("header");
+        let new_message = document.createElement("new_message");
+        let time = document.createElement("time");
+
+        container.innerHTML = "<div></div>"
+
+        container.setAttribute("class", "message recipient")
+        container.setAttribute("id", "recipient")
+
+        header.innerHTML = "<h2>" + message['sender'] + "</h2>";
+        header.setAttribute("id", "recipient-name");
+        container.appendChild(header);
+
+        new_message.innerHTML = "<h4>" + message['message'] + "</h4>";
+        container.appendChild(new_message)
+
+        time.innerHTML = "<p>Just now</p>";
+        time.setAttribute("id", "time")
+        container.appendChild(time);    
+
+        document.getElementById("message-container").append(container)
+
+        document.getElementById("message-container").scrollTop = document.getElementById("message-container").scrollHeight;
+    }
+})
+
+
+// Event Listener for Submit Button
 submitButton.addEventListener('click', function() {
     recipient = document.getElementById("conversation").dataset["recipient"];
     sender = document.getElementById("conversation").dataset["sender"];
     message = document.getElementById("new_message").value.replaceAll("`", "");
     conversation_id = document.getElementById("conversation").dataset["conversation_id"]
 
-    data = {
-        conversation_id: conversation_id,
-        sender: sender,
-        recipient: recipient,
-        message: message
-    }
-
-    options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }
+    socket.send({
+        'conversation_id': conversation_id,
+        'sender': sender,
+        'message': message,
+        'recipient': recipient
+    })
 
     let container = document.createElement("container");
     let header = document.createElement("header");
@@ -54,6 +84,6 @@ submitButton.addEventListener('click', function() {
     document.getElementById("message-container").scrollTop = document.getElementById("message-container").scrollHeight;
 
     document.getElementById("new_message").value = ''
-
-    fetch("/messages/conversation/" + conversation_id, options);
 })
+
+

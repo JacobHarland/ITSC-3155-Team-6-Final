@@ -15,8 +15,6 @@
         </div>
         <h1 class="text-center mb-5">Create New Post Form</h1>
 
-        {% if current_user.is_authenticated %}
-
         <form method="POST">
           {{ form.hidden_tag() }}
           <!-- Title input -->
@@ -50,8 +48,6 @@
             {{ form.submit(class="btn btn-info btn-block mb-3") }}
           </div>
         </form>
-        {% endif %}
-
       </div>
     </div>
   </div>

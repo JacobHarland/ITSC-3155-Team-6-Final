@@ -62,7 +62,7 @@ def edit_post(post_id):
         posts = Post.query.order_by(Post.timestamp)
         return redirect("forum.html", posts=posts)
 
-@router.route('/posts/delete/<int:post_id>')
+@router.route('/delete/<int:post_id>')
 @login_required
 def delete_post(post_id):
 	post_to_delete = Post.query.get_or_404(post_id)

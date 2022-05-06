@@ -34,7 +34,7 @@ def post_form():
     elif request.method == 'GET':
         return render_template('post_form.html', form=form)
 
-@router.route('/posts/edit/<int:post_id>', methods=['GET', 'POST'])
+@router.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 @login_required #User must be logged in to edit a post 
 def edit_post(post_id):
 

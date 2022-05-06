@@ -85,14 +85,10 @@ def delete_post(post_id):
         except:
             # Return an error message
             flash("Whoops! There was a problem deleting post, try again...")
-
-            # Grab all the posts from the database
-            posts = Post.query.order_by(Post.timestamp)
-            return redirect('post.html', post_id=post.post_id)
+            return redirect(
+                url_for('forum_router.post_router.post', post_id=post.post_id)
+            )
     else:
         # Return a message
         flash("You Aren't Authorized To Delete That Post!", 'danger')
-
-        # Grab all the posts from the database
-        posts = Post.query.order_by(Post.timestamp)
-        return redirect("forum.html", posts=posts)
+        return redirect(url_for('forum_router.forum'))

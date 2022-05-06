@@ -6,90 +6,90 @@
 
 <!-- HACK: Used min-height style to stretch paws background -->
 <section class="h-200 background-paws" style="min-height: calc(100vh - 134px);">
-    <div class="container py-3 h-100">
-      <div class="row py-1 px-2">
-        <div class="col-md-8 mx-auto">
-          <!-- Profile widget -->
+  <div class="container py-3 h-100">
+    <div class="row py-1 px-2">
+      <div class="col-md-8 mx-auto">
+        <!-- Profile widget -->
+        <div
+          class="bg-white shadow rounded overflow-hidden border border-6 border-info"
+        >
+          <!-- Profile Head -->
+          <div class="px-4 pt-4 pb-2 cover">
+            <div class="profile-head d-flex align-items-end">
+              <div class="me-3">
+                <img
+                  src="{{ user.image_path }}"
+                  width="130"
+                  class="rounded img-thumbnail"
+                />
+              </div>
+              <div class="text-white me-3 mb-4">
+                <h4 class="mb-0">{{ user.fullname }}</h4>
+                <small>
+                  <i class="fas fa-map-marker-alt me-2"></i>North Carolina
+                </small>
+              </div>
+              {% if current_user.is_authenticated and current_user.username == user.username %}
+                <div class="mb-4">
+                  <a
+                    href="{{ url_for('profile_router.profile_user_edit') }}"
+                    class="btn btn-light hover-gray btn-outline-dark btn-sm"
+                    >Edit profile</a
+                  >
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <!-- Profile Statistics -->
           <div
-            class="bg-white shadow rounded overflow-hidden border border-6 border-info"
+            class="bg-dark profile-gray p-4 d-flex justify-content-end text-center"
           >
-            <!-- Profile Head -->
-            <div class="px-4 pt-4 pb-2 cover">
-              <div class="profile-head d-flex align-items-end">
-                <div class="me-3">
-                  <img
-                    src="{{ user.image_path }}"
-                    width="130"
-                    class="rounded img-thumbnail"
-                  />
-                </div>
-                <div class="text-white me-3 mb-4">
-                  <h4 class="mb-0">{{ user.fullname }}</h4>
-                  <small>
-                    <i class="fas fa-map-marker-alt me-2"></i>North Carolina
-                  </small>
-                </div>
+          </div>
+          <div class="px-4 py-3">
+            <h5 class="mb-0">About</h5>
+            <div class="p-4 rounded shadow-sm bg-dark profile-gray">
+              {% if user.biography %}
+                {% for line in user.biography.splitlines() %}
+                  <p class="mb-0">{{ line }}</p>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="py-4 px-4">
+            <h5 class="mb-0">Pets</h5>
+            <div class="p-4 rounded shadow-sm bg-dark profile-gray">
+              <div class="row gy-3 ">
                 {% if current_user.is_authenticated and current_user.username == user.username %}
-                  <div class="mb-4">
-                    <a
-                      href="{{ url_for('profile_router.profile_user_edit') }}"
-                      class="btn btn-light hover-gray btn-outline-dark btn-sm"
-                      >Edit profile</a
-                    >
+                <div class="col-lg-3">
+                  <div class="card">
+                    <!-- Add Pet Page -->
+                    <a href="{{ url_for('profile_router.profile_pet_new') }}">
+                      <div class="card-body">
+                        <h5 class="card-title text-center">Add More Pets</h5>
+                      </div>
+                    </a>
                   </div>
-                {% endif %}
-              </div>
-            </div>
-            <!-- Profile Statistics -->
-            <div
-              class="bg-dark profile-gray p-4 d-flex justify-content-end text-center"
-            >
-            </div>
-            <div class="px-4 py-3">
-              <h5 class="mb-0">About</h5>
-              <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-                {% if user.biography %}
-                  {% for line in user.biography.splitlines() %}
-                    <p class="mb-0">{{ line }}</p>
-                  {% endfor %}
-                {% endif %}
-              </div>
-            </div>
-            <div class="py-4 px-4">
-              <h5 class="mb-0">Pets</h5>
-              <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-                <div class="row gy-3 ">
-                  {% if current_user.is_authenticated and current_user.username == user.username %}
-                  <div class="col-lg-3">
-                    <div class="card">
-                      <!-- Add Pet Page -->
-                      <a href="{{ url_for('profile_router.profile_pet_new') }}">
-                        <div class="card-body">
-                          <h5 class="card-title text-center">Add More Pets</h5>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  {% endif %}
-                  {% for pet in user.pets %}
-                    <div class="col-lg-3">
-                      <a href="{{ url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name) }}">
-                        <div class="card">
-                          <img src="{{ pet.image_path }}" class="card-img-top" />
-                          <div class="card-body">
-                            <h5 class="card-title text-center">{{ pet.name }}</h5>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  {% endfor %}
                 </div>
+                {% endif %}
+                {% for pet in user.pets %}
+                  <div class="col-lg-3">
+                    <a href="{{ url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name) }}">
+                      <div class="card">
+                        <img src="{{ pet.image_path }}" class="card-img-top" />
+                        <div class="card-body">
+                          <h5 class="card-title text-center">{{ pet.name }}</h5>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                {% endfor %}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
 {% endblock %}

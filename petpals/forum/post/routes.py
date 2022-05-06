@@ -59,7 +59,7 @@ def edit_post(post_id):
         flash('Post Has Been Updated!', 'success')
         return redirect(url_for('forum_router.forum', post_id=post.post_id))
 
-    if current_user.id == post.user_id or current_user.id:
+    if current_user.id == post.user_id:
         form.title.data = post.title
         form.content.data = post.content
         return render_template('edit_post.html', form=form)

@@ -77,7 +77,7 @@ def delete_post(post_id):
 
 			# Grab all the posts from the database
 			posts = Post.query.order_by(Post.timestamp)
-			return render_template("forum.html", posts=posts)
+			return redirect("forum.html", posts=posts)
 
 
 		except:

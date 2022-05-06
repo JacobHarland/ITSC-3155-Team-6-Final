@@ -57,7 +57,7 @@ def edit_post(post_id):
 
         # Success Message
         flash('Post Has Been Updated!', 'success')
-        return redirect(url_for('forum', post_id=post.post_id))
+        return redirect(url_for('forum_router.forum', post_id=post.post_id))
 
     if current_user.id == post.user_id or current_user.id:
         form.title.data = post.title
@@ -84,7 +84,7 @@ def delete_post(post_id):
 
             # Grab all the posts from the database
             posts = Post.query.order_by(Post.timestamp)
-            return redirect("forum.html", posts=posts)
+            return redirect(url_for('forum_router.forum', posts=posts))
 
         except:
             # Return an error message

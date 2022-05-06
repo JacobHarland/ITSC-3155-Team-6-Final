@@ -60,7 +60,7 @@ def edit_post(post_id):
     else:
         flash("You Aren't Authorized To Edit This Post...")
         posts = Post.query.order_by(Post.timestamp)
-        return render_template("forum.html", posts=posts)
+        return redirect("forum.html", posts=posts)
 
 @router.route('/posts/delete/<int:post_id>')
 @login_required

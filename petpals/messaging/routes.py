@@ -162,6 +162,4 @@ def handle_message(message):
     db.session.commit()
 
     socket.send(message)
-
-    print(message)
     return message

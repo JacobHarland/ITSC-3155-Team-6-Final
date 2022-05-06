@@ -86,7 +86,7 @@ def delete_post(post_id):
 
 			# Grab all the posts from the database
 			posts = Post.query.order_by(Post.timestamp)
-			return render_template("posts.html", posts=posts)
+			return redirect('post.html', post_id=post.post_id)
 	else:
 		# Return a message
 		flash("You Aren't Authorized To Delete That Post!", 'danger')

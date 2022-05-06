@@ -80,10 +80,7 @@ def delete_post(post_id):
 
             # Return a message
             flash("Blog Post Was Deleted!", 'success')
-
-            # Grab all the posts from the database
-            posts = Post.query.order_by(Post.timestamp)
-            return redirect(url_for('forum_router.forum', posts=posts))
+            return redirect(url_for('forum_router.forum'))
 
         except:
             # Return an error message

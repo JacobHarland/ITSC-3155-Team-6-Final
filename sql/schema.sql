@@ -117,21 +117,45 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 -- -----------------------------------------------------
--- Table `final`.`likes`
+-- Table `final`.`post_like`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `final`.`post_like` (
+  `user_id` INT NOT NULL,
+  `post_id` INT NOT NULL,
+  `liked` BOOL NOT NULL DEFAULT TRUE,
+  PRIMARY KEY (`user_id`, `post_id`),
+  INDEX `fk_user_id_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_post_like_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `final`.`user` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  INDEX `fk_post_like_post_id_idx` (`post_id` ASC) VISIBLE,
+  CONSTRAINT `fk_post_like_post_id`
+    FOREIGN KEY (`post_id`)
+    REFERENCES `final`.`post` (`post_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -----------------------------------------------------
+-- Table `final`.`reply_like`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `final`.`reply_like` (
   `user_id` INT NOT NULL,
   `reply_id` INT NOT NULL,
   `liked` BOOL NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`user_id`, `reply_id`),
-  INDEX `fk_user_id_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_user_id`
+  INDEX `fk_reply_like_user_id_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_reply_like_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `final`.`user` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  INDEX `fk_reply_id_idx` (`reply_id` ASC) VISIBLE,
-  CONSTRAINT `fk_reply_id`
+  INDEX `fk_reply_like_reply_id_idx` (`reply_id` ASC) VISIBLE,
+  CONSTRAINT `fk_reply_like_reply_id`
     FOREIGN KEY (`reply_id`)
     REFERENCES `final`.`reply` (`reply_id`)
     ON DELETE CASCADE

@@ -92,9 +92,22 @@ active_page = 'forum' %} {% block body %}
                         <span class="text-secondary font-weight-bold">{{ post.timestamp }}</span>
                       </p>
                     </div>
-                    <div class="text-muted small text-center align-self-center">
-                      <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> {{ post.views }}</span>
-                      <span><i class="far fa-comment ms-2"></i> {{ post.replies | length }}</span>
+                    <div class="d-flex justify-content-center align-items-center">
+                      <button
+                        class="like btn btn-xs btn-outline-info text-muted me-3"
+                        data-post-id={{ post.post_id }}
+                      >
+                        <i
+                          class="{{ 'fa-solid' if current_user.is_authenticated and post.likes.filter_by(user_id=current_user.id).first().liked else 'fa-regular' }} fa-heart me-1"
+                          style="color: crimson;"
+                          aria-hidden="true"
+                        ></i>
+                        <span>{{ post.likes.filter_by(liked=True).all() | length }}</span>
+                      </button>
+                      <div class="text-muted small">
+                        <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> {{ post.views }}</span>
+                        <span><i class="far fa-comment ms-2"></i> {{ post.replies | length }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -126,5 +139,7 @@ active_page = 'forum' %} {% block body %}
     </div>
   </section>
 </section>
+
+<script src="/forum/post/static/js/liked.js"></script>
 
 {% endblock %}

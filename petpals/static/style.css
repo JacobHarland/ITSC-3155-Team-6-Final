@@ -150,3 +150,95 @@ a.hover-blue:hover {
 }
 
 /* end Forum Page CSS */
+
+.new_message {
+  background-color: white;
+  text-align: center;
+}
+
+.new_message_content {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.conversation-container {
+  height: 99.8%;
+  width: 99.8%;
+  margin: .1%;
+}
+
+.message-container {
+  height: 75%;
+  overflow: scroll;
+}
+
+.message-sender {
+  width: 100%;
+  height: 110px;
+}
+
+.message {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  width: 80%;
+  margin: 10px;
+}
+
+.sender {
+  float: left;
+}
+
+.recipient {
+  float: right;
+  text-align: right;
+}
+
+#sender-name {
+  color: #39c0ed;
+}
+
+#recipient-name {
+  color: #f07178;
+}
+
+#time {
+  font-size: small;
+}
+
+.message-link {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.message-card-body {
+  flex: auto;
+  min-height: 1px;
+  padding: 1rem;
+}
+
+.message-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0 solid rgba(0, 0, 0, .125);
+  border-radius: .25rem;
+}
+
+.message-main {
+  right: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}

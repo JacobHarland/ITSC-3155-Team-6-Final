@@ -46,6 +46,7 @@ from .forum.post.routes import router as post_router
 from .forum.routes import router as forum_router
 from .home.routes import router as home_router
 from .profile.routes import router as profile_router
+from .messaging.routes import router as messaging_router
 
 # Register Blueprints
 auth_router.register_blueprint(reset_password_router)
@@ -55,3 +56,4 @@ forum_router.register_blueprint(post_router)
 app.register_blueprint(forum_router)
 app.register_blueprint(home_router)
 app.register_blueprint(profile_router)
+app.register_blueprint(messaging_router)

@@ -1,0 +1,98 @@
+{% extends '_layout.html' %}
+{% block title %}Messages{% endblock %}
+{% set active_page = 'forum' %}
+
+{% block body %}
+
+        <section class="bg-white p-2">
+        <div class="text-center bg-info text-white border border-white border-6 p-3">
+            <h1>Messages</h1>
+        </div>
+
+        <section class="background-paws p-2">
+            <div class="container bg-info p-2">
+                <a href="/messages/new">
+                    <button class="btn btn-success btn-block" type="button">New Message</button>
+                </a>
+            <div>
+                <div class="forum-wrapper">
+                
+                <!-- Left Sidebar -->
+                
+
+                    <!-- end Left Sidebar Body -->
+            
+                <!-- end Left Sidebar -->
+
+                <!-- Main Section -->
+                <div class="message-main">
+                    <!-- Main Header -->
+                    <!--end Main Header-->
+
+                    <!-- Forum main body -->
+
+                    
+                    
+                    <!-- Forum List -->
+                    <div class="forum-main-body p-2 p-sm-3 collapse forum-content show">
+
+
+                    <!-- Populate Messages -->
+                    {% for message in recent_messages %}
+                    <a href="./conversation/{{ message.conversation_id }}" class="message-link">
+                    <div class="message-card mb-2">
+                        
+                        <!-- Create message thread here -->
+                        
+
+                            <div class="message-card-body">
+                                <div class="media forum-item">
+                                    <a
+                                        href=""
+                                        data-toggle="collapse"
+                                        data-target=".forum-content">
+                                    <img
+                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                        class="mr-3 rounded-circle"
+                                        width="50"
+                                        alt="User"/>
+                                </a>
+                                    <strong>
+                                        <a href="/" data-toggle="collapse" class="text-body">
+                                            {% if message.sender_username == current_user.username %}
+                                                {{ message.recipient_username }}
+                                            {% else %}
+                                                {{ message.sender_username }}
+                                            {% endif %}
+                                        </a>
+                                    </strong>
+                                    <div class="media-body">
+                                        <p class="text-primary">
+                                        {{ message.message }}
+                                        </p>
+                                        <p class="text-muted">
+                                            <span class="text-secondary font-weight-bold"> {{ message.time_sent }} </span>
+                                        </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                    {% endfor %}
+
+
+                </div>
+                <!--end Forum List -->
+
+                    <!-- /Forum main body -->
+                </div>
+                <!-- /Forum main -->
+                </div>
+
+                
+            </div>
+        </div>
+    </section>
+</section>
+
+{% endblock %}

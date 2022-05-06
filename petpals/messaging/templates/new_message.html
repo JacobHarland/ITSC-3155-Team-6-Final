@@ -1,0 +1,58 @@
+{% extends '_layout.html' %}
+{% block title %}New Message{% endblock %}
+{% set active_page = 'forum' %}
+
+{% block body %}
+
+<meta id="sender" data-name="{{sender}}">
+
+        <section class="bg-white p-2">
+
+        <div class="text-center bg-info text-white border border-white border-6 p-3">
+            <h1>New Message</h1>
+        </div>
+
+        <section class="background-paws p-2">
+            <div class="bg-info p-2 container">
+            
+                
+                    <form class="new_message">
+                        <!-- Name input -->
+                        <h3>Username</h3>
+                        <div class="form-outline mb-4 new_message_content">
+                            
+                            <select class="select" id="recipient" required>
+                                {% for username in usernames %}
+                                    <option value=`{{ username }}`> {{ username }} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Message input -->
+                        <h3>Message</h3>
+                        <div class="mb-4">
+                            <textarea class="form-control new_message_content" id="new_message" rows="10" required></textarea>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="button" class="btn btn-primary mb-4" id="submit">Send</button>
+                    </form>
+                    <a href="/messages">
+                        <button
+                            class="btn btn-info has-icon btn-block"
+                            type="button"
+                            data-toggle="modal"
+                        >
+                            Back
+                        </button>
+                    </a>
+                </div>
+                
+
+        </div>
+    </section>
+</section>
+
+<script src="/messaging/static/js/new_message.js"></script>
+
+{% endblock %}

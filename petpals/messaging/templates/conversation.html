@@ -1,0 +1,57 @@
+{% extends '_layout.html' %}
+{% block title %}Messages{% endblock %}
+{% set active_page = 'forum' %}
+
+{% block body %}
+
+        <meta id="conversation" data-sender="{{sender}}" data-conversation_id="{{conversation_id}}" data-recipient="{{recipient}}">
+
+        <section class="bg-white p-2">
+
+        <section class="background-paws p-2">
+            <div class="container bg-info p-2">
+                <div class="forum-wrapper">
+                
+
+                <!-- Main Section -->
+                <div class="conversation-container bg-white" id="conversation-container">
+                    <div class="text-center bg-info text-white border border-white border-6 p-3">
+                        <h1>{{ recipient }}</h1>
+                    </div>
+                    <div class="message-container bg-white" id="message-container">
+                        
+                            {% for message in messages %}
+                                {% if (message.sender_username == current_user.username) %}
+                                    <div class="message sender" id="sender">
+                                        <h2 id="sender-name">{{ current_user.username }}</h2>
+                                        <h4>{{ message.message }}</h4>
+                                        <p id="time">{{ message.time_sent }}</p>
+                                        <br>
+                                    </div>
+                                {% elif (message.recipient_username == current_user.username) %}
+                                    <div class="message recipient" id="recipient">
+                                        <h2 id="recipient-name">{{ message.sender_username }}</h2>
+                                        <h4>{{ message.message }}</h4>
+                                        <p id="time">{{ message.time_sent }}</p>
+                                        <br>
+                                    </div>    
+                                {% endif %}
+                            {% endfor %}
+                        
+                        
+                    </div> 
+                    
+                        <textarea type="text" class="message-sender" id="new_message"></textarea>
+                        <button class="btn btn-primary btn-block" id="submit">Send</button>
+                    
+                </div>
+
+                
+            </div>
+        </div>
+    </section>
+</section>
+
+<script src="/messaging/static/js/conversation_message.js"></script>
+
+{% endblock %}

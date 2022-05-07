@@ -5,79 +5,97 @@
 {% block body %}
 
 <section>
-  <div class="jumbotron background-paws pt-5 pb-5">
-    <div
-      class="container bg-white border border-6 border-info rounded text-center"
-    >
-      <img
-        class="rounded-circle z-depth-2 border border-info border-6 m-4"
-        height="250"
-        alt="100x100"
-        src="/static/images/logo/logo-icon.jpeg"
-      />
-      <h1 class="display-3 mt-3">Welcome to Pet Pals!</h1>
-      <h2 class="m-4">Find a new Pal for your Pet!</h2>
-      <p>
-        <a class="btn btn-info btn-lg" href="{{ url_for('home_router.faq') }}" role="button"
-          >Learn more &raquo;</a
-        >
-      </p>
+  <!--Beginning of Carousel-->
+  <div id="carouselExampleCaptions" class="carousel slide" data-mdb-ride="carousel">
+
+    <!--Carousel Indicators-->
+    <div class="carousel-indicators">
+      <button type="button" data-mdb-target="#carouselExampleCaptions" data-mdb-slide-to="0" class="active"
+        aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-mdb-target="#carouselExampleCaptions" data-mdb-slide-to="1"
+        aria-label="Slide 2"></button>
+      <button type="button" data-mdb-target="#carouselExampleCaptions" data-mdb-slide-to="2"
+        aria-label="Slide 3"></button>
+      <button type="button" data-mdb-target="#carouselExampleCaptions" data-mdb-slide-to="3"
+        aria-label="Slide 4"></button>
     </div>
+
+    <!--Beginning of Inner Carousel-->
+    <div class="carousel-inner">
+
+      <!--Item #1-->
+      <div class="carousel-item active">
+        <img src="/static/images/carousel/welcome.jpg" class="d-block w-100" />
+      </div>
+
+      <!--Item #2-->
+      <div class="carousel-item">
+        <img src="/static/images/carousel/profile.jpg" class="d-block w-100" alt="Camera" />
+        <!-- Mask -->
+        <div class="mask" style="background: linear-gradient(to bottom,hsla(0, 0%, 0%, 0) 50%, hsla(0, 0%, 0%, 0.5));">
+          <div class="p-4 bottom-0 d-flex align-items-end h-100 text-center justify-content-center">
+            <div>
+              <h1 class="fw-bold text-white mb-4">Create Profiles for You & Your Pets</h1>
+              <h5 class="fw-bold text-white mb-4">Here at Pet Pals, you can create a specialized profile page
+                for each of your pets right from your own profile!
+                </br> Show off their latest pictures or update their biography section! Don't forget to
+                check out other Pals' pets, too!</h5>
+              <button type="button" class="btn btn-info btn-lg mb-3">Become a Pal!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Item #3-->
+      <div class="carousel-item">
+        <img src="/static/images/carousel/meowdy.jpg" class="d-block w-100" alt="Exotic Fruits" />
+        <!-- Mask -->
+        <div class="mask" style="background: linear-gradient(to bottom,hsla(0, 0%, 0%, 0) 50%, hsla(0, 0%, 0%, 0.5));">
+          <div class="p-4 bottom-0 d-flex align-items-end h-100 text-center justify-content-center">
+            <div>
+              <h1 class="fw-bold text-white mb-4">Chat with Pals</h1>
+              <h5 class="fw-bold text-white mb-4">Try our direct messaging
+                feature to personally connect with other Pals!</h5>
+              <button type="button" class="btn btn-info btn-lg mb-3">Chat Now!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Item #4-->
+      <div class="carousel-item">
+        <img src="/static/images/carousel/forum.jpg" class="d-block w-100" alt="Exotic Fruits" />
+        <!-- Mask -->
+        <div class="mask" style="background: linear-gradient(to bottom,hsla(0, 0%, 0%, 0) 50%, hsla(0, 0%, 0%, 0.5));">
+          <div class="p-4 bottom-0 d-flex align-items-end h-100 text-center justify-content-center">
+            <div>
+              <h1 class="fw-bold text-white mb-4">Check Out Our Forum</h1>
+              <h5 class="fw-bold text-white mb-4">Community fuels the heart of Pet Pals. Visit our forum to
+                connect with other Pals!</h5>
+              <button type="button" class="btn btn-info btn-lg mb-3">Visit Our Forum</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Carousel Icons-->
+      <button class="carousel-control-prev" type="button" data-mdb-target="#carouselExampleCaptions"
+        data-mdb-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-mdb-target="#carouselExampleCaptions"
+        data-mdb-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+
+    </div>
+    <!--End of Inner Carousel-->
   </div>
+  <!--End of Carousel-->
 
-  <div class="container mt-5">
-    <!-- Example row of columns -->
-    <div class="row">
-      <div class="col-md-4">
-        <h2>Forum</h2>
-        <p>Who doesn't love sharing stuff about their pets?</p>
-        <p>Visit our forum to view user posts.</p>
-        <p>You might even find a new best friend in your area!</p>
-      </div>
-      <div class="col-md-4">
-        <h2>Our Story</h2>
-        <p>
-          We started Pet Pals as group project for our Software Engineering class.
-        </p>
-        <p>
-          To learn more about our story or how Pet Pals works, please click the link below.
-        </p>
-      </div>
-      <div class="col-md-4">
-        <h2>FAQs</h2>
-        <p>Of course you have questions.</p>
-        <p>We have answers!</p>
-        <p>
-          Click the link below to view answers to our most frequently asked questions.
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <p>
-          <a class="btn btn-secondary" href="/forum" role="button"
-            >View details &raquo;</a
-          >
-        </p>
-      </div>
 
-      <div class="col-md-4">
-        <p>
-          <a class="btn btn-secondary" href="/about" role="button"
-            >View details &raquo;</a
-          >
-        </p>
-      </div>
-
-      <div class="col-md-4">
-        <p>
-          <a class="btn btn-secondary" href="{{ url_for('home_router.faq') }}" role="button"
-            >View details &raquo;</a
-          >
-        </p>
-      </div>
-    </div>
-  </div>
   <!-- /container -->
 </section>
 

@@ -48,7 +48,7 @@
                 </button>
                 {% if post.user_id == current_user.id %}
                 <button class="btn btn-xs btn-outline-info">
-                  <a href="{{ url_for('forum_router.post_router.edit_post', post_id=post.post_id)}}">Edit Post</a>
+                  <a href="{{ url_for('forum_router.post_router.post_edit', post_id=post.post_id)}}">Edit Post</a>
                 </button>
                 {% endif %}
               </div>

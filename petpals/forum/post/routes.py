@@ -24,9 +24,9 @@ def post(post_id):
     return render_template('post.html', post=post)
 
 
-@router.route('/form', methods=['GET', 'POST'])
+@router.route('/create', methods=['GET', 'POST'])
 @login_required  # user must be logged into create a post
-def post_form():
+def post_new():
     form = NewPostForm()
     if form.validate_on_submit():
         poster = current_user.id
@@ -41,12 +41,12 @@ def post_form():
         return redirect(url_for('forum_router.forum'))
 
     elif request.method == 'GET':
-        return render_template('post_form.html', form=form)
+        return render_template('new_post.html', form=form)
 
 
 @router.route('/<int:post_id>/edit', methods=['GET', 'POST'])
 @login_required  # User must be logged in to edit a post
-def edit_post(post_id):
+def post_edit(post_id):
 
     # Locate Correct Post
     post = Post.query.get_or_404(post_id)
@@ -74,7 +74,7 @@ def edit_post(post_id):
 
 @router.post('/<int:post_id>/delete')
 @login_required
-def delete_post(post_id):
+def post_delete(post_id):
     post_to_delete = Post.query.get_or_404(post_id)
     id = current_user.id
     if id == post_to_delete.user_id:

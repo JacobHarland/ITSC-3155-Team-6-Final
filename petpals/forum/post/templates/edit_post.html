@@ -1,86 +1,30 @@
-{% extends '_layout.html' %}
+{% extends '_form_post.html' %}
 {% block title %}Edit Post{% endblock %}
 {% set active_page = 'edit_post' %}
 
-{% block body %}
+{% block delete %}
 
+<div class="text-center pt-1 mb-0 pb-0">
+  <button type="button" class="btn btn-danger btn-sm m-1" data-mdb-toggle="modal" data-mdb-target="#deleteModal">Delete Post</button>
 
-<section class="bg-image background-paws">
-  <div class="container py-5">
-    <div class="card rounded-3 border border-info border-6">
-      <div class="card-body p-md-5 mx-md-4">
-        <div class="text-center">
-          <img src="/static/images/logo.jpeg" alt="Pet Pals" class="mb-1" />
-          <h5 class="mb-4">Where your Pet meets new Pals</h5>
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel"> Delete Post?</h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <h1 class="text-center mb-5">Create New Post Form</h1>
-
-        <form method="POST">
-          {{ form.hidden_tag() }}
-          <!-- Title input -->
-          <div class="form-outline mb-4">
-            {{ form.title(class="form-control") }}
-            {{ form.title.label(class="form-label") }}
-          </div>
-
-          <!-- Content input -->
-          <div class="form-outline mb-3">
-            {{ form.content(class="form-control", rows="10") }}
-            {{ form.content.label(class="form-label") }}
-          </div>
-
-          <!--Disabling Attachment Function until implemented-->
-          <!--This may need to be deleted-->
-
-          <!-- Attachment input
-          <div class="form-group mb-4">
-            <label for="post-attachment" class="form-label">Attachment</label>
-            <input
-              name="post-attachment"
-              id="post-attachment"
-              type="file"
-              class="form-control"
-            />
-          </div> -->
-
-          <!-- Submit button -->
-          <div class="text-center">
-            {{ form.submit(class="btn btn-info btn-block mb-3") }}
-          </div>
-        </form>
-
-        <div class="text-center pt-1 mb-0 pb-0">
-          <button type="button" class="btn btn-danger btn-sm m-1" data-mdb-toggle="modal" data-mdb-target="#deleteModal">Delete Post</button>
-        
-          <!-- Modal -->
-          <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="deleteModalLabel"> Delete Post?</h5>
-                  <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">This is not reversible!!! Are you sure?</div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                  <form action="{{ url_for('forum_router.post_router.delete_post', post_id=post.post_id)}}" method="POST">
-                    <input class="btn btn-danger" type="submit" value="Delete">
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="modal-body">This is not reversible!!! Are you sure?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+          <form action="{{ url_for('forum_router.post_router.post_delete', post_id=post.post_id)}}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
         </div>
-
       </div>
     </div>
   </div>
-</section>
-
-<script>
-  document.querySelectorAll(".form-outline").forEach((formOutline) => {
-    new mdb.Input(formOutline).init();
-  });
-</script>
+</div>
 
 {% endblock %}

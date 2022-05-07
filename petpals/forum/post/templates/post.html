@@ -3,6 +3,8 @@
 {% block title %}Post{% endblock %}
 {% set active_page = 'post' %}
 
+{% import 'forum_macros.html' as macros %}
+
 {% block body %}
 
 <section class="bg-white p-2">
@@ -19,14 +21,10 @@
         <!--Original Post Body-->
         <div class="forum-card-body border border-6 border-light rounded">
           <div class="media forum-item m-3">
-            <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}" class="card-link">
-              <img src="{{ post.author.image_path }}" class="rounded-circle" width="50" />
-            </a>
-            <div class="media-body ml-3">
-              <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}"
-                class="text-secondary"> {{ post.author.username }} </a>
-              <small class="text-muted ml-2">{{ post.timestamp }}</small>
-              <h5 class="mt-1">{{ post.title }}</h5>
+            {{ macros.get_post_header(post) }}
+            <div class="media-body ms-3 mt-2">
+              <h5>{{ post.title }}</h5>
+              <hr />
               <div class="mt-3 font-size-sm">
                 {{ content_markup(post.content) }}
               </div>
@@ -74,14 +72,8 @@
           <div class="forum-card mt-2 mb-2 p-1 border border-3 border-light">
             <div class="forum-card-body">
               <div class="media forum-item">
-                <a href="{{ url_for('profile_router.profile_user', username=reply.author.username) }}"
-                  class="card-link">
-                  <img src="{{ reply.author.image_path }}" class="rounded-circle" width="50 " alt="User " />
-                </a>
-                <div class="media-body ml-3">
-                  <a href="{{ url_for('profile_router.profile_user', username=reply.author.username) }}"
-                    class="text-secondary">{{ reply.author.username }}</a>
-                  <small class="text-muted ml-2">{{ reply.timestamp }}</small>
+                {{ macros.get_post_header(reply) }}
+                <div class="media-body ms-3 mt-2">
                   <div class="mt-3 font-size-sm mb-4">
                     {{ content_markup(reply.content) }}
                   </div>

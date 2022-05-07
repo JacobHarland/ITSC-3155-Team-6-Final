@@ -1,0 +1,17 @@
+{% macro get_post_header(post) %}
+  <a
+  href="{{ url_for('profile_router.profile_user', username=post.author.username) }}"
+  class="text-secondary"
+  data-toggle="collapse"
+  data-target=".forum-content"
+  >
+    <img
+      src="{{ post.author.image_path }}"
+      class="rounded-circle"
+      width="50"
+      alt="Profile Picture"
+    />
+    {{ post.author.username }}
+  </a>
+  <small class="text-muted"> - {{ post.timestamp }}</small>
+{% endmacro %}

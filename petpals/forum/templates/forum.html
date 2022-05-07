@@ -1,5 +1,10 @@
-{% extends '_layout.html' %} {% block title %}Forum{% endblock %} {% set
-active_page = 'forum' %} {% block body %}
+{% extends '_layout.html' %}
+{% block title %}Forum{% endblock %}
+{% set active_page = 'forum' %}
+
+{% import 'forum_macros.html' as macros %}
+
+{% block body %}
 
 <section class="bg-white p-2">
   <div class="text-center bg-info text-white border border-white border-6 p-3">
@@ -88,21 +93,9 @@ active_page = 'forum' %} {% block body %}
               >
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
-                    <a
-                      href="{{ url_for('profile_router.profile_user', username=post.author.username) }}"
-                      data-toggle="collapse"
-                      data-target=".forum-content"
-                    >
-                      <img
-                        src="{{ post.author.image_path }}"
-                        class="mr-3 rounded-circle"
-                        width="50"
-                        alt="Profile Picture "
-                      />
-                        {{ post.author.username }}
-                      </a>
-                    <div class="media-body">
-                      <h6>
+                    {{ macros.get_post_header(post) }}
+                    <div class="media-body ms-3 mt-2">
+                      <h5>
                         <a
                           href="{{ j_post_link }}"
                           target="_blank"
@@ -112,16 +105,9 @@ active_page = 'forum' %} {% block body %}
                         >
                           {{ post.title }}
                         </a>
-                      </h6>
-
+                      </h5>
+                      <hr />
                       {{ content_markup(post.content) }}
-
-                      <p class="text-muted">
-                        <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}">{{
-                          post.author.username }}</a>
-                        posted
-                        <span class="text-secondary font-weight-bold">{{ post.timestamp }}</span>
-                      </p>
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
                       <button

@@ -162,20 +162,23 @@ a.hover-blue:hover {
   margin-right: 5%;
 }
 
+.new_message_textbox_container {
+  padding: 5%;
+}
+
 .conversation-container {
-  height: 99.8%;
-  width: 99.8%;
-  margin: .1%;
+  height: 80%;
 }
 
 .message-container {
-  height: 75%;
   overflow: scroll;
+  height: 98%;
+  width: 100%;
 }
 
 .message-sender {
   width: 100%;
-  height: 10%;
+  height: 20%;
   display: flex;
 }
 
@@ -242,4 +245,13 @@ a.hover-blue:hover {
   bottom: 0;
   display: flex;
   flex-direction: column;
+}
+
+.conversation-header-container {
+  height: 5%;
+  text-align: center;
+  font-size: 4vw;
+}
+.conversation-header {
+  font-size: 3vh;
 }

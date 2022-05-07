@@ -1,10 +1,10 @@
 {% extends '_layout.html' %}
 {% block title %}New Message{% endblock %}
-{% set active_page = 'forum' %}
+{% set active_page = 'messages' %}
 
 {% block body %}
 
-<meta id="sender" data-name="{{sender}}">
+<meta id="sender" data-name="{{sender}}" data-conversation_id="{{conversation_id}}">
 
         <section class="bg-white p-2">
 
@@ -14,8 +14,6 @@
 
         <section class="background-paws p-2">
             <div class="bg-info p-2 container">
-            
-                
                     <form class="new_message">
                         <!-- Name input -->
                         <h3>Username</h3>
@@ -30,16 +28,15 @@
 
                         <!-- Message input -->
                         <h3>Message</h3>
-                        <div class="mb-4">
-                            <textarea class="form-control new_message_content" id="new_message" rows="10" required></textarea>
+                        <div class="mb-4 new_message_textbox_container">
+                            <textarea class="form-control" id="new_message" rows="10" required></textarea>
                         </div>
 
-                        <!-- Submit button -->
-                        <button type="button" class="btn btn-primary mb-4" id="submit">Send</button>
                     </form>
+
                     <a href="/messages">
                         <button
-                            class="btn btn-info has-icon btn-block"
+                            class="btn btn-primary btn-block"
                             type="button"
                             data-toggle="modal"
                         >

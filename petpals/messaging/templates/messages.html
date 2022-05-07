@@ -1,6 +1,6 @@
 {% extends '_layout.html' %}
 {% block title %}Messages{% endblock %}
-{% set active_page = 'forum' %}
+{% set active_page = 'messages' %}
 
 {% block body %}
 
@@ -43,7 +43,7 @@
                     <div class="message-card mb-2">
                         
                         <!-- Create message thread here -->
-                        
+                        {% if recent_messages|length > 0 %}
                         <a href="./conversation/{{ message.conversation_id }}" class="message-link">
                             <div class="message-card-body">
                                 <div class="media forum-item">
@@ -76,6 +76,9 @@
                                 </div>
                             </div>
                         </div>
+                        {% else %}
+                            <h1>No messages to display!</h1>
+                        {% endif %}
                     </a>
                     </div>
                     {% endfor %}

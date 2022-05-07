@@ -61,6 +61,9 @@ def messages():
 
 @router.get('/new')
 def new_message():
+    next_conversation_id = (
+        int(db.session.query(func.max(Messages.conversation_id)).all()[0][0]) + 1
+    )
     usernames = []
     users = User.query.all()
     for user in users:
@@ -71,6 +74,7 @@ def new_message():
         usernames=sorted(usernames),
         sender=current_user.username,
         active_page=active_page,
+        conversation_id=next_conversation_id,
     )
 
 

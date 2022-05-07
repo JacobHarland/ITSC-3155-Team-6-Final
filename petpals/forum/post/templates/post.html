@@ -14,11 +14,6 @@
     <!--Page Container-->
 
     <div class="container bg-white border border-info border-6 rounded p-4">
-      <!--Back Button-->
-      <a href="{{ url_for('forum_router.forum') }}" class="btn btn-light btn-sm m-3 has-icon"><i
-          class="fa fa-arrow-left m-2"></i>Back to the Forum</a>
-      <!--end Back Button-->
-
       <!--Original Post Container-->
       <div class="forum-main-body p-0 collapse forum-content show bg-white mb-3">
         <!--Original Post Body-->
@@ -36,6 +31,17 @@
                 {{ content_markup(post.content) }}
               </div>
               <div class="text-center">
+                <button
+                  class="like btn btn-xs btn-outline-info text-muted has-icon me-1"
+                  data-post-id={{ post.post_id }}
+                >
+                  <i
+                    class="{{ 'fa-solid' if current_user.is_authenticated and post.likes.filter_by(user_id=current_user.id).first().liked else 'fa-regular' }} fa-heart me-1"
+                    style="color: crimson;"
+                    aria-hidden="true"
+                  ></i>
+                  <span>{{ post.likes.filter_by(liked=True).all() | length }}</span>
+                </button>
                 <button class="btn btn-xs btn-outline-info">
                   <a
                     href="{{ url_for('forum_router.post_router.reply_router.reply_new', post_id=post.post_id) }}">Reply</a>
@@ -104,6 +110,6 @@
   </section>
 </section>
 
-<script src="/forum/post/reply/static/js/liked.js"></script>
+<script src="/forum/post/static/js/liked.js"></script>
 
 {% endblock %}

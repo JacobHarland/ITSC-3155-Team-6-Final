@@ -44,6 +44,60 @@ def post_form():
         return render_template('post_form.html', form=form)
 
 
+@router.route('/<int:post_id>/edit', methods=['GET', 'POST'])
+@login_required  # User must be logged in to edit a post
+def edit_post(post_id):
+
+    # Locate Correct Post
+    post = Post.query.get_or_404(post_id)
+    form = NewPostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+
+        # Update Database
+        db.session.add(post)
+        db.session.commit()
+
+        # Success Message
+        flash('Post Has Been Updated!', 'success')
+        return redirect(url_for('forum_router.post_router.post', post_id=post.post_id))
+
+    if current_user.id == post.user_id:
+        form.title.data = post.title
+        form.content.data = post.content
+        return render_template('edit_post.html', form=form)
+    else:
+        flash("You Aren't Authorized To Edit This Post...", 'danger')
+        return redirect(url_for('forum_router.forum'))
+
+
+@router.route('/<int:post_id>/delete')
+@login_required
+def delete_post(post_id):
+    post_to_delete = Post.query.get_or_404(post_id)
+    id = current_user.id
+    if id == post_to_delete.user_id:
+        try:
+            db.session.delete(post_to_delete)
+            db.session.commit()
+
+            # Return a message
+            flash("Post Was Deleted!", 'success')
+            return redirect(url_for('forum_router.forum'))
+
+        except:
+            # Return an error message
+            flash("Whoops! There was a problem deleting post, try again...", 'warning')
+            return redirect(
+                url_for('forum_router.post_router.post', post_id=post.post_id)
+            )
+    else:
+        # Return a message
+        flash("You Aren't Authorized To Delete That Post!", 'danger')
+        return redirect(url_for('forum_router.forum'))
+
+
 @router.post('/like')
 def post_like():
     post = request.json.get('id')

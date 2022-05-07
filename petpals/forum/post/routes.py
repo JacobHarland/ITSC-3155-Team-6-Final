@@ -66,13 +66,13 @@ def edit_post(post_id):
     if current_user.id == post.user_id:
         form.title.data = post.title
         form.content.data = post.content
-        return render_template('edit_post.html', form=form)
+        return render_template('edit_post.html', form=form, post=post)
     else:
         flash("You Aren't Authorized To Edit This Post...", 'danger')
         return redirect(url_for('forum_router.forum'))
 
 
-@router.route('/<int:post_id>/delete')
+@router.post('/<int:post_id>/delete')
 @login_required
 def delete_post(post_id):
     post_to_delete = Post.query.get_or_404(post_id)

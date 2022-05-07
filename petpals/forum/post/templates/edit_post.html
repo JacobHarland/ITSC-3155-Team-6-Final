@@ -48,6 +48,30 @@
             {{ form.submit(class="btn btn-info btn-block mb-3") }}
           </div>
         </form>
+
+        <div class="text-center pt-1 mb-0 pb-0">
+          <button type="button" class="btn btn-danger btn-sm m-1" data-mdb-toggle="modal" data-mdb-target="#deleteModal">Delete Post</button>
+        
+          <!-- Modal -->
+          <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel"> Delete Post?</h5>
+                  <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">This is not reversible!!! Are you sure?</div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                  <form action="{{ url_for('forum_router.post_router.delete_post', post_id=post.post_id)}}" method="POST">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

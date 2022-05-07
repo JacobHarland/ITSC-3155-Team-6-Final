@@ -34,13 +34,13 @@
         <!-- Mask -->
         <div class="mask" style="background: linear-gradient(to bottom,hsla(0, 0%, 0%, 0) 50%, hsla(0, 0%, 0%, 0.5));">
           <div class="p-4 bottom-0 d-flex align-items-end h-100 text-center justify-content-center">
-            <div class="d-grid mb-3">
+            <div>
               <h1 class="fw-bold text-white mb-4">Create Profiles for You & Your Pets</h1>
               <h5 class="fw-bold text-white mb-4">Here at Pet Pals, you can create a specialized profile page
                 for each of your pets right from your own profile!
                 </br> Show off their latest pictures or update their biography section! Don't forget to
                 check out other Pals' pets, too!</h5>
-              <button type="button" class="btn btn-warning btn-rounded btn-largemb-3">
+              <button type="button" class="btn btn-warning btn-rounded btn-lg mb-3">
 
                 {% if current_user.is_authenticated %}
                 <a class="text-white" href="{{ url_for('profile_router.profile_user', username=current_user.username) }}">View My Profile</a>
@@ -63,8 +63,8 @@
               <h1 class="fw-bold text-white mb-4">Chat with Pals</h1>
               <h5 class="fw-bold text-white mb-4">Try our direct messaging
                 feature to personally connect with other Pals!</h5>
-              <button type="button" class="btn btn-info btn-lg mb-3">Chat Now!</button>
-            </div>
+                <button type="button" class="btn btn-info btn-lg mb-3 btn-warning btn-rounded"><a class="text-white" href="#">Chat Now!</a></button>
+              </div>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
               <h1 class="fw-bold text-white mb-4">Check Out Our Forum</h1>
               <h5 class="fw-bold text-white mb-4">Community fuels the heart of Pet Pals. Visit our forum to
                 connect with other Pals!</h5>
-              <button type="button" class="btn btn-info btn-lg mb-3">Visit Our Forum</button>
+              <button type="button" class="btn btn-info btn-lg mb-3 btn-warning btn-rounded"><a class="text-white" href="{{ url_for('forum_router.forum') }}">Visit Our Forum</a></button>
             </div>
           </div>
         </div>

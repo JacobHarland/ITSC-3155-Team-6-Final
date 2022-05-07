@@ -64,7 +64,7 @@ def edit_post(post_id):
         form.content.data = post.content
         return render_template('edit_post.html', form=form)
     else:
-        flash("You Aren't Authorized To Edit This Post...")
+        flash("You Aren't Authorized To Edit This Post...", 'danger')
         return redirect(url_for('forum_router.forum'))
 
 

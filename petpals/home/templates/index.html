@@ -45,7 +45,7 @@
                 {% if current_user.is_authenticated %}
                 <a class="text-white" href="{{ url_for('profile_router.profile_user', username=current_user.username) }}">View My Profile</a>
                 {% else %}
-                <a class="text-dark" href="{{ url_for('auth_router.signup') }}">Become a Pal!</a>
+                <a class="text-white" href="{{ url_for('auth_router.signup') }}">Become a Pal!</a>
                 {% endif %}
               </button>
             </div>

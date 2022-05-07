@@ -43,6 +43,7 @@ def post_form():
     elif request.method == 'GET':
         return render_template('post_form.html', form=form)
 
+
 @router.route('/<int:post_id>/edit', methods=['GET', 'POST'])
 @login_required  # User must be logged in to edit a post
 def edit_post(post_id):
@@ -70,6 +71,7 @@ def edit_post(post_id):
         flash("You Aren't Authorized To Edit This Post...", 'danger')
         return redirect(url_for('forum_router.forum'))
 
+
 @router.route('/<int:post_id>/delete')
 @login_required
 def delete_post(post_id):
@@ -94,7 +96,8 @@ def delete_post(post_id):
         # Return a message
         flash("You Aren't Authorized To Delete That Post!", 'danger')
         return redirect(url_for('forum_router.forum'))
-      
+
+
 @router.post('/like')
 def post_like():
     post = request.json.get('id')

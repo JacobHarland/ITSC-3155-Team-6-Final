@@ -2,7 +2,7 @@
 {% block title %}Forum{% endblock %}
 {% set active_page = 'forum' %}
 
-{% import 'forum_macros.html' as macros %}
+{% from '_macros_post.html' import post_header %}
 
 {% block body %}
 
@@ -93,7 +93,7 @@
               >
                 <div class="forum-card-body p-2 p-sm-3">
                   <div class="media forum-item">
-                    {{ macros.post_header(post) }}
+                    {{ post_header(post) }}
                     <div class="media-body ms-3 mt-2">
                       <h5>
                         <a

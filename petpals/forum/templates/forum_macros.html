@@ -1,4 +1,4 @@
-{% macro get_post_header(post) %}
+{% macro post_header(post) %}
   <a
   href="{{ url_for('profile_router.profile_user', username=post.author.username) }}"
   class="text-secondary"

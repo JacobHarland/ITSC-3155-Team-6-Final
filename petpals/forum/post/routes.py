@@ -84,7 +84,7 @@ def delete_post(post_id):
 
         except:
             # Return an error message
-            flash("Whoops! There was a problem deleting post, try again...")
+            flash("Whoops! There was a problem deleting post, try again...", 'warning')
             return redirect(
                 url_for('forum_router.post_router.post', post_id=post.post_id)
             )

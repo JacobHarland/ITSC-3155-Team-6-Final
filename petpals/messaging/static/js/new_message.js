@@ -1,7 +1,5 @@
 let messageSender = document.getElementById('new_message');
 
-
-
 messageSender.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         recipient = document.getElementById("recipient").value.replaceAll("`", "");
@@ -25,6 +23,6 @@ messageSender.addEventListener('keypress', function(event) {
 
     fetch("/messages/new/" + recipient, options);
     
-    window.location = "/messages/" + conversation_id
+    window.location = "/messages/conversation/" + conversation_id;
     }
 })

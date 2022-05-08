@@ -1,10 +1,11 @@
 from re import template
 from flask import Blueprint, redirect, render_template, url_for, request
 from flask_login import current_user, login_required
-from sqlalchemy import func, null
+from sqlalchemy import func, null, distinct
 from petpals import db, socket
 from petpals.models import Messages, User
 from datetime import datetime
+import time
 
 router = Blueprint(
     'message_router',
@@ -61,14 +62,34 @@ def messages():
 
 @router.get('/new')
 def new_message():
-    next_conversation_id = (
-        int(db.session.query(func.max(Messages.conversation_id)).all()[0][0]) + 1
-    )
     usernames = []
+    existing_conversations = []
+    next_conversation_id = 0
+
+    if len(db.session.query(func.max(Messages.conversation_id)).all()) == 0:
+        next_conversation_id = (
+            int(db.session.query(func.max(Messages.conversation_id)).all()[0][0]) + 1
+        )
+    else:
+        next_conversation_id = 1
+
     users = User.query.all()
+    messages = Messages.query.all()
+
     for user in users:
         if current_user.username != user.username:
             usernames.append(user.username)
+
+    for message in messages:
+        if current_user.username == message.sender_username:
+            if message.recipient_username in usernames:
+                usernames.remove(message.recipient_username)
+        elif current_user.username == message.recipient_username:
+            if message.sender_username in usernames:
+                usernames.remove(message.sender_username)
+
+    print(messages)
+
     return render_template(
         'new_message.html',
         usernames=sorted(usernames),
@@ -126,12 +147,16 @@ def send_new_message(recipient):
 
 @router.get("/conversation/<conversation_id>")
 def get_conversation(conversation_id):
-    messages = Messages.query.filter_by(conversation_id=conversation_id).all()
     recipient = ""
+
+    time.sleep(1)
+
+    messages = Messages.query.filter_by(conversation_id=conversation_id).all()
     if messages[0].sender_username == current_user.username:
         recipient = messages[0].recipient_username
     else:
         recipient = messages[0].sender_username
+
     return render_template(
         'conversation.html',
         recipient=recipient,

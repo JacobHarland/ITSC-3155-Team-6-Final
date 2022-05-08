@@ -1,9 +1,6 @@
 {% extends '_layout.html' %}
-{% block title %}New Post{% endblock %}
-{% set active_page = 'post_form' %}
 
 {% block body %}
-
 
 <section class="bg-image background-paws">
   <div class="container py-5">
@@ -13,8 +10,6 @@
           <img src="/static/images/logo/logoBlue.png" alt="Pet Pals" class="mb-1" width="500" />
         </div>
         <h1 class="text-center mb-5">Create New Post Form</h1>
-
-        {% if current_user.is_authenticated %}
 
         <form method="POST">
           {{ form.hidden_tag() }}
@@ -49,8 +44,7 @@
             {{ form.submit(class="btn btn-info btn-block mb-3") }}
           </div>
         </form>
-        {% endif %}
-
+        {% block delete %}{% endblock %}
       </div>
     </div>
   </div>

@@ -1,0 +1,34 @@
+{% macro post_header(post) %}
+  {% set j_user_link = url_for('profile_router.profile_user', username=post.author.username) %}
+  <div class="d-flex">
+    <div class="flex-column me-2">
+      <!-- Profile picture -->
+      <a href="{{ j_user_link }}">
+        <img
+          src="{{ post.author.image_path }}"
+          class="rounded-circle"
+          width="50"
+          alt="Profile Picture"
+        />
+      </a>
+    </div>
+    <div class="flex-column align-self-center">
+      <div class="d-flex">
+        <!-- Name -->
+        <div class="flex-column">
+          <div>
+            <a href="{{ j_user_link }}" class="text-secondary">{{ post.author.fullname }}</a>
+          </div>
+          <div class="small" style="margin-top: -0.4rem">
+            <a href="{{ j_user_link }}" class="text-muted">@{{ post.author.username}}</a>
+          </div>
+        </div>
+
+        <!-- Timestamp -->
+        <div class="flex-column ps-1">
+          <span class="text-muted small"> - {{ post.timestamp }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}

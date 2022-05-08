@@ -67,19 +67,19 @@
           <!-- Left links -->
           <div class="navbar-nav me-auto mb-2 mb-lg-0">
             <a
-              class="nav-link{{' active' if active_page == 'index'}}"
+              class="nav-link{{' active' if active_page == 'index'}} text-white mt-2"
               href="{{ url_for('home_router.index') }}"
             >
               Home
             </a>
             <a
-              class="nav-link{{' active' if active_page == 'forum'}}"
+              class="nav-link{{' active' if active_page == 'forum'}} text-white mt-2"
               href="{{ url_for('forum_router.forum') }}"
             >
               Forum
             </a>
             <a
-              class="nav-link{{' active' if active_page == 'about'}}"
+              class="nav-link{{' active' if active_page == 'about'}} text-white mt-2"
               href="{{ url_for('home_router.about') }}"
             >
               About Us

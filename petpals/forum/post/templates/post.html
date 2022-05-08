@@ -1,6 +1,5 @@
 {% extends '_layout.html' %}
-<!-- Set title to be the post's title -->
-{% block title %}Post{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 {% set active_page = 'post' %}
 
 {% import '_macros_post.html' as macros %}

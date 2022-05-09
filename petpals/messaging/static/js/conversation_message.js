@@ -1,5 +1,3 @@
-var submitButton = document.getElementById('submit');
-
 current_user = document.getElementById("conversation").dataset['current_user']
 
 

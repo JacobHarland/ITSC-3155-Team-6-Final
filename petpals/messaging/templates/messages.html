@@ -4,7 +4,7 @@
 
 {% block body %}
 
-        <section class="bg-white p-2">
+        <section class="p-2">
         <div class="text-center bg-info text-white border border-white border-6 p-3">
             <h1>Messages</h1>
         </div>
@@ -45,16 +45,11 @@
                         <a href="messages/conversation/{{ message.conversation_id }}" class="message-link">
                             <div class="message-card-body">
                                 <div class="media forum-item">
-                                    <a
-                                        href=""
-                                        data-toggle="collapse"
-                                        data-target=".forum-content">
                                     <img
                                         src="https://bootdey.com/img/Content/avatar/avatar2.png"
                                         class="mr-3 rounded-circle"
                                         width="50"
                                         alt="User"/>
-                                </a>
                                     <strong>
                                         <a href="/" data-toggle="collapse" class="text-body">
                                             {% if message.sender_username == current_user.username %}

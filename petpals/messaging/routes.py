@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
-from sqlalchemy import func
+from sqlalchemy import func, and_
 from petpals import db, socket
 from petpals.models import Messages, User
 from datetime import datetime
@@ -14,47 +14,30 @@ router = Blueprint(
     static_folder="static",
 )
 
-active_page = "messages"
-
 
 @login_required
 @router.get('')
 def render_message_page():
-    unique_conversation_ids = []
-    recent_conversations = []
-    recent_messages = []
-    sender_messages = (
-        Messages.query.filter_by(sender_username=current_user.username)
-        .order_by(Messages.time_sent.desc())
-        .all()
-    )
-    recipient_messages = (
-        Messages.query.filter_by(recipient_username=current_user.username)
-        .order_by(Messages.time_sent.desc())
-        .all()
+    subqry = (
+        db.session.query(func.max(Messages.time_sent).label("last_time"))
+        .outerjoin(User, User.username == Messages.sender_username)
+        .filter(User.id == current_user.id)
+        .group_by(Messages.conversation_id)
+        .subquery('t2')
     )
 
-    for message in sender_messages:
-        recent_conversations.append(message)
-        if message.conversation_id not in unique_conversation_ids:
-            unique_conversation_ids.append(message.conversation_id)
-
-    for message in recipient_messages:
-        recent_conversations.append(message)
-        if message.conversation_id not in unique_conversation_ids:
-            unique_conversation_ids.append(message.conversation_id)
-
-    for id in unique_conversation_ids:
-        for message in recent_conversations:
-            if message.conversation_id in unique_conversation_ids:
-                recent_messages.append(message)
-                unique_conversation_ids.remove(message.conversation_id)
+    msg_query = Messages.query.join(
+        subqry,
+        and_(
+            Messages.sender_username == current_user.username,
+            Messages.time_sent == subqry.c.last_time,
+        ),
+    )
 
     return render_template(
         'messages.html',
-        recent_messages=recent_messages,
+        recent_messages=msg_query,
         current_user=current_user,
-        active_page=active_page,
     )
 
 
@@ -66,9 +49,7 @@ def render_new_conversation_page():
     conversation_id_query = db.session.query(func.max(Messages.conversation_id)).all()
 
     if conversation_id_query[0][0] != None:
-        next_conversation_id = (
-            int(db.session.query(func.max(Messages.conversation_id)).all()[0][0]) + 1
-        )
+        next_conversation_id = int(conversation_id_query[0][0]) + 1
     else:
         next_conversation_id = 1
 
@@ -90,7 +71,6 @@ def render_new_conversation_page():
     return render_template(
         'new_message.html',
         usernames=sorted(usernames),
-        active_page=active_page,
         conversation_id=next_conversation_id,
     )
 
@@ -122,6 +102,8 @@ def create_new_conversation(recipient):
 @login_required
 @router.get("/conversation/<conversation_id>")
 def get_conversation(conversation_id):
+    time.sleep(1)
+
     messages = Messages.query.filter_by(conversation_id=conversation_id).all()
     if messages[0].sender_username == current_user.username:
         recipient = messages[0].recipient_username

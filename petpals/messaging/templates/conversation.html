@@ -1,5 +1,5 @@
 {% extends '_layout.html' %}
-{% block title %}Messages{% endblock %}
+{% block title %}{{recipient}}{% endblock %}
 {% set active_page = 'messages' %}
 
 {% block body %}
@@ -18,7 +18,7 @@
                     <h1 class="conversation-header">{{ recipient }}</h1>
                 </div>
                 <div class="conversation-container bg-white" id="conversation-container">
-                    <div class="message-container bg-white" id="message-container">
+                    <div class="message-container" id="message-container">
                             {% for message in messages %}
                                 {% if (message.sender_username == current_user.username) %}
                                     <div class="message sender" id="sender">

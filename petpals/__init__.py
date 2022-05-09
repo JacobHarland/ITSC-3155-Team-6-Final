@@ -18,7 +18,7 @@ db = SQLAlchemy(app)
 
 # Flask Secret Key
 # Protects against modifying cookies and crosssite request forgery attacks
-app.secret_key = os.getenv('SECRET_KEY')
+app.secret_key = os.getenv('SECRET_KEY', 'bOzIxQMWXaz0QxLmkjfIfzhwskdRUNL5')
 
 # Bcrypt
 bcrypt = Bcrypt(app)

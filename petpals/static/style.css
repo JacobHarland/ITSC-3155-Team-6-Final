@@ -160,6 +160,7 @@ a.hover-blue:hover {
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
+  padding-top: 3%;
 }
 
 .new_message_textbox_container {
@@ -254,4 +255,44 @@ a.hover-blue:hover {
 }
 .conversation-header {
   font-size: 3vh;
+}
+
+.list-group {
+  max-height: 75%;
+  overflow-y: scroll;
+  position: absolute;
+  z-index: 0;
+  margin: auto;
+  width: 50%;
+}
+
+.user-search {
+  margin: auto;
+  width: 50%;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-bottom: 10%;
+}
+
+.list-search {
+  border: 3px solid #39c0ed;
+  text-align: center;
+}
+
+.list-group-item {
+  font-weight: bolder;
+}
+
+.list-group-item:hover {
+  cursor: pointer;
+  background-color: #f07178;
+  color: white;
+}
+
+.search-username-header {
+  padding-top: 3%;
+}
+
+.no-message-cards {
+  text-align: center;
 }

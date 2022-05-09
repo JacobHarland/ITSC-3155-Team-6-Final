@@ -20,6 +20,7 @@ current_message = None
 active_page = "messages"
 
 
+@login_required
 @router.get('/')
 def messages():
     unique_conversation_ids = []
@@ -27,12 +28,12 @@ def messages():
     recent_messages = []
     sender_messages = (
         Messages.query.filter_by(sender_username=current_user.username)
-        .order_by(Messages.time_sent.desc())
+        .order_by(Messages.time_sent.asc())
         .all()
     )
     recipient_messages = (
         Messages.query.filter_by(recipient_username=current_user.username)
-        .order_by(Messages.time_sent.desc())
+        .order_by(Messages.time_sent.asc())
         .all()
     )
 
@@ -63,10 +64,10 @@ def messages():
 @router.get('/new')
 def new_message():
     usernames = []
-    existing_conversations = []
     next_conversation_id = 0
+    conversation_id_query = db.session.query(func.max(Messages.conversation_id)).all()
 
-    if len(db.session.query(func.max(Messages.conversation_id)).all()) == 0:
+    if conversation_id_query[0][0] != None:
         next_conversation_id = (
             int(db.session.query(func.max(Messages.conversation_id)).all()[0][0]) + 1
         )
@@ -87,8 +88,6 @@ def new_message():
         elif current_user.username == message.recipient_username:
             if message.sender_username in usernames:
                 usernames.remove(message.sender_username)
-
-    print(messages)
 
     return render_template(
         'new_message.html',

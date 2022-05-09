@@ -16,14 +16,20 @@
             <div class="bg-info p-2 container">
                     <form class="new_message">
                         <!-- Name input -->
-                        <h3>Username</h3>
+                        <h3 class="search-username-header">Username</h3>
                         <div class="form-outline mb-4 new_message_content">
                             
-                            <select class="select" id="recipient" required>
-                                {% for username in usernames %}
-                                    <option value=`{{ username }}`> {{ username }} </option>
-                                {% endfor %}
-                            </select>
+                            <!-- Search form -->
+                            <div class="container user-search">
+                                <div class="list-search">
+                                    <input class="form-control list-search" id="listSearch" type="text" placeholder="Search a Username Here...">
+                                </div>
+                                <ul class="list-group" id="myList">
+                                    {% for username in usernames %}
+                                        <li class="list-group-item" value=`{{ username }}`> {{ username }} </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
 
                         <!-- Message input -->

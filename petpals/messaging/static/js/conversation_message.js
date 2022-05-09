@@ -16,10 +16,10 @@ socket.connect('http://127.0.0.1:5000/messages/conversation/' + conversation_id)
 
 socket.on('message', function(message) {
     if (message['recipient'] == current_user && ((message['sender'] == recipient) || (message['recipient'] == recipient))) {
-        //let container = document.createElement("container");
-        //let header = document.createElement("header");
-        //let new_message = document.createElement("new_message");
-        //let time = document.createElement("time");
+        let container = document.createElement("container");
+        let header = document.createElement("header");
+        let new_message = document.createElement("new_message");
+        let time = document.createElement("time");
 
         container.innerHTML = "<div></div>"
 

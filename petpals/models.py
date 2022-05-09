@@ -152,8 +152,12 @@ class Pet(db.Model):
 class Messages(db.Model):
     message_id = db.Column(db.Integer, primary_key=True)
     conversation_id = db.Column(db.Integer, nullable=False)
-    sender_username = db.Column(db.String(18), db.ForeignKey("user.username"), nullable=False)
-    recipient_username = db.Column(db.String(18), db.ForeignKey("user.username"), nullable=False)
+    sender_username = db.Column(
+        db.String(18), db.ForeignKey("user.username"), nullable=False
+    )
+    recipient_username = db.Column(
+        db.String(18), db.ForeignKey("user.username"), nullable=False
+    )
     time_sent = db.Column(db.TIMESTAMP, nullable=False)
     message = db.Column(db.Text, nullable=False)
 

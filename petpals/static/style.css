@@ -154,6 +154,7 @@ a.hover-blue:hover {
 .new_message {
   background-color: white;
   text-align: center;
+  resize: none;
 }
 
 .new_message_content {

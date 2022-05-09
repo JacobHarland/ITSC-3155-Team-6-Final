@@ -6,7 +6,7 @@
 
 <meta id="sender" data-name="{{current_user.username}}" data-conversation_id="{{conversation_id}}">
 
-        <section class="bg-white p-2">
+        <section class="p-2">
 
         <div class="text-center bg-info text-white border border-white border-6 p-3">
             <h1>New Message</h1>
@@ -15,11 +15,8 @@
         <section class="background-paws p-2">
             <div class="bg-info p-2 container">
                     <form class="new_message">
-                        <!-- Name input -->
                         <h3 class="search-username-header">Username</h3>
                         <div class="form-outline mb-4 new_message_content">
-                            
-                            <!-- Search form -->
                             <div class="container user-search">
                                 <div class="list-search">
                                     <input class="form-control list-search" id="listSearch" type="text" placeholder="Search a Username Here..." required>
@@ -32,10 +29,9 @@
                             </div>
                         </div>
 
-                        <!-- Message input -->
                         <h3>Message</h3>
                         <div class="mb-4 new_message_textbox_container">
-                            <textarea class="form-control" id="new_message" rows="10" required></textarea>
+                            <textarea class="form-control new_message" id="new_message" rows="10" required></textarea>  
                         </div>
 
                     </form>

@@ -1,10 +1,8 @@
 from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
-from sqlalchemy import func, and_
+from sqlalchemy import func, and_, or_, desc
 from petpals import db, socket
 from petpals.models import Messages, User
-from datetime import datetime
-import time
 
 router = Blueprint(
     'message_router',
@@ -18,21 +16,32 @@ router = Blueprint(
 @login_required
 @router.get('')
 def render_message_page():
+
+    # This source was very useful: https://stackoverflow.com/a/45779686
+
     subqry = (
-        db.session.query(func.max(Messages.time_sent).label("last_time"))
-        .outerjoin(User, User.username == Messages.sender_username)
+        db.session.query(
+            Messages.conversation_id, func.max(Messages.time_sent).label("last_time")
+        )
+        .outerjoin(
+            User,
+            or_(
+                User.username == Messages.sender_username,
+                User.username == Messages.recipient_username,
+            ),
+        )
         .filter(User.id == current_user.id)
         .group_by(Messages.conversation_id)
-        .subquery('t2')
+        .subquery()
     )
 
     msg_query = Messages.query.join(
         subqry,
         and_(
-            Messages.sender_username == current_user.username,
+            Messages.conversation_id == subqry.c.conversation_id,
             Messages.time_sent == subqry.c.last_time,
         ),
-    )
+    ).order_by(desc(Messages.time_sent))
 
     return render_template(
         'messages.html',
@@ -45,11 +54,13 @@ def render_message_page():
 def render_new_conversation_page():
     usernames = []
     next_conversation_id = 0
-    conversation_id_query = db.session.query(func.max(Messages.conversation_id)).all()
+    conversation_id_query = db.session.query(
+        func.max(Messages.conversation_id).label("highest_convo")
+    )
 
-    if conversation_id_query[0][0] != None:
-        next_conversation_id = int(conversation_id_query[0][0]) + 1
-    else:
+    try:
+        next_conversation_id = int(conversation_id_query.first()['highest_convo']) + 1
+    except Exception:
         next_conversation_id = 1
 
     users = User.query.all()
@@ -75,34 +86,24 @@ def render_new_conversation_page():
 
 
 @login_required
-@router.post('/new/<recipient>')
-def create_new_conversation(recipient):
+@router.post('/new/<conversation_id>')
+def create_new_conversation(conversation_id):
     data = request.json
-    next_conversation_id = 0
     new_message = Messages()
-
-    try:
-        next_conversation_id = (
-            int(db.session.query(func.max(Messages.conversation_id)).all()[0][0]) + 1
-        )
-    except Exception:
-        next_conversation_id = 1
 
     new_message.recipient_username = data['recipient']
     new_message.sender_username = data['sender']
     new_message.message = data['message']
-    new_message.conversation_id = next_conversation_id
+    new_message.conversation_id = conversation_id
 
     db.session.add(new_message)
     db.session.commit()
-    return recipient
+    return {'convo_id': conversation_id}
 
 
 @login_required
 @router.get("/conversation/<conversation_id>")
 def get_conversation(conversation_id):
-    time.sleep(1)
-
     messages = Messages.query.filter_by(conversation_id=conversation_id).all()
     if messages[0].sender_username == current_user.username:
         recipient = messages[0].recipient_username
@@ -113,7 +114,6 @@ def get_conversation(conversation_id):
         'conversation.html',
         recipient=recipient,
         messages=messages,
-        current_user=current_user,
         conversation_id=conversation_id,
     )
 
@@ -130,4 +130,3 @@ def handle_message(message):
     db.session.commit()
 
     socket.send(message)
-    return message

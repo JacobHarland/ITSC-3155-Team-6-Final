@@ -151,7 +151,15 @@ CREATE TABLE IF NOT EXISTS `final`.`messages` (
 	time_sent TIMESTAMP DEFAULT current_timestamp NOT NULL,
 	message TEXT NOT NULL,
     FOREIGN KEY (sender_username) REFERENCES user (username),
-    FOREIGN KEY (recipient_username) REFERENCES user (username)
+    FOREIGN KEY (recipient_username) REFERENCES user (username),
+	CONSTRAINT `messages_ibfk_4` 
+		FOREIGN KEY (recipient_username) 
+		REFERENCES user (username) 
+		ON DELETE CASCADE,
+	CONSTRAINT `messages_ibfk_6` 
+		FOREIGN KEY (sender_username) 
+		REFERENCES user (username) 
+		ON DELETE CASCADE
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -162,17 +170,6 @@ ALTER TABLE pet AUTO_INCREMENT=0;
 ALTER TABLE post AUTO_INCREMENT=0;
 ALTER TABLE reply AUTO_INCREMENT=0;
 
-ALTER TABLE messages
-  ADD CONSTRAINT `messages_ibfk_4` 
-  FOREIGN KEY (recipient_username) 
-  REFERENCES user (username) 
-  ON DELETE CASCADE;
-  
-ALTER TABLE messages
-  ADD CONSTRAINT `messages_ibfk_6` 
-  FOREIGN KEY (sender_username) 
-  REFERENCES user (username) 
-  ON DELETE CASCADE;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

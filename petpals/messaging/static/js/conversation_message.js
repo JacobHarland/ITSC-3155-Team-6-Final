@@ -10,7 +10,7 @@ document.getElementById("message-container").scrollTop = document.getElementById
 
 // Socket IO
 socket = io()
-socket.connect('http://127.0.0.1:5000/messages/conversation/' + conversation_id)
+socket.connect('/messages/conversation/' + conversation_id)
 
 socket.on('message', function(message) {
     if (message['recipient'] == current_user && ((message['sender'] == recipient) || (message['recipient'] == recipient))) {

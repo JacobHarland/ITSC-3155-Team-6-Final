@@ -42,27 +42,39 @@ let recipient = '';
 
 messageSender.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
-        var sender = document.getElementById("sender").dataset["name"];
-        var message = document.getElementById("new_message").value.replaceAll("`", "");
-        var conversation_id = parseInt(document.getElementById("sender").dataset["conversation_id"]);
+        const sender = document.getElementById("sender").dataset["name"];
+        const message = document.getElementById("new_message").value.replaceAll("`", "");
+        const conversation_id = parseInt(document.getElementById("sender").dataset["conversation_id"]);
 
-    data = {
-        sender: sender,
-        recipient: recipient,
-        message: message
-    }
-
-    options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }
-
-
-    fetch("/messages/new/" + recipient, options);
+        if (recipient != '') {
+            data = {
+                sender: sender,
+                recipient: recipient,
+                message: message
+            }
+        
+            options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+            sendNewMessage(("/messages/new/" + conversation_id), options, conversation_id);
+        } else {
+            alert("Please enter a recipient!")
+        }
     
-    window.location = "/messages/conversation/" + conversation_id;
+    
     }
 })
+
+async function sendNewMessage(URL, options, conversation_id) {
+    await fetch(URL, options, {
+        options
+    })
+    .then (async (response) => {
+        window.location = "/messages/conversation/" + conversation_id;
+    }
+    )
+}

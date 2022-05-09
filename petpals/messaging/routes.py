@@ -1,7 +1,6 @@
-from re import template
-from flask import Blueprint, redirect, render_template, url_for, request
+from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
-from sqlalchemy import func, null, distinct
+from sqlalchemy import func
 from petpals import db, socket
 from petpals.models import Messages, User
 from datetime import datetime
@@ -14,8 +13,6 @@ router = Blueprint(
     template_folder='templates',
     static_folder="static",
 )
-
-current_message = None
 
 active_page = "messages"
 
@@ -92,7 +89,6 @@ def new_message():
     return render_template(
         'new_message.html',
         usernames=sorted(usernames),
-        sender=current_user.username,
         active_page=active_page,
         conversation_id=next_conversation_id,
     )
@@ -146,8 +142,6 @@ def send_new_message(recipient):
 
 @router.get("/conversation/<conversation_id>")
 def get_conversation(conversation_id):
-    recipient = ""
-
     time.sleep(1)
 
     messages = Messages.query.filter_by(conversation_id=conversation_id).all()
@@ -184,7 +178,6 @@ def handle_message(message):
     new_message.recipient_username = message['recipient']
     new_message.sender_username = message['sender']
     new_message.message = message['message']
-    new_message.time_sent = datetime.now()
 
     db.session.add(new_message)
     db.session.commit()

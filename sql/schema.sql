@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `final`.`messages` (
 	conversation_id INT NOT NULL,
 	sender_username VARCHAR(18) NOT NULL,
 	recipient_username VARCHAR(18) NOT NULL,
-	time_sent TIMESTAMP NOT NULL,
+	time_sent TIMESTAMP DEFAULT current_timestamp NOT NULL,
 	message TEXT NOT NULL,
     FOREIGN KEY (sender_username) REFERENCES user (username),
     FOREIGN KEY (recipient_username) REFERENCES user (username)

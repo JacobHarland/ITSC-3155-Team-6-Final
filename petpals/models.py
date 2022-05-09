@@ -158,8 +158,8 @@ class Messages(db.Model):
     recipient_username = db.Column(
         db.String(18), db.ForeignKey("user.username"), nullable=False
     )
-    time_sent = db.Column(db.TIMESTAMP, nullable=False)
     message = db.Column(db.Text, nullable=False)
+    time_sent = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return f"Message('{self.conversation_id}', '{self.sender_username}', '{self.recipient_username}', '{self.time_sent}', '{self.message}')"

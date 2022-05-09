@@ -59,14 +59,17 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
-    def __init__(self, id: int, fullname: str, username: str, email: str, _image_file: str, password: str) -> None:
-        self.id = id
+    def __init__(
+        self,
+        fullname: str,
+        username: str,
+        email: str,
+        password: str,
+    ) -> None:
         self.fullname = fullname
         self.username = username
         self.email = email
-        self._image_file = _image_file
         self.password = password
-
 
 
 class Post(db.Model):
@@ -82,13 +85,11 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.timestamp}')"
-        
-    def __init__(self, post_id: int, title: str, content: str, views: int, author: User) -> None:
-        self.post_id = post_id
+
+    def __init__(self, title: str, content: str, user_id: int) -> None:
         self.title = title
         self.content = content
-        self.views = views
-        self.author = author
+        self.user_id = user_id
 
 
 class Reply(db.Model):
@@ -104,12 +105,6 @@ class Reply(db.Model):
 
     def __repr__(self):
         return f"Reply('{self.content}', '{self.timestamp}')"
-
-    def __init__(self, reply_id: int, content: str, author: User, op: Post) -> None:
-        self.reply_id = reply_id
-        self.content = content
-        self.author = author
-        self.op = op
 
 
 class Pet(db.Model):
@@ -157,9 +152,20 @@ class Pet(db.Model):
     def __repr__(self):
         return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"
 
-    def __init__(self, pet_id: int, name: str, species: str, subspecies: str, owner: User) -> None:
-        self.pet_id = pet_id
+    def __init__(
+        self,
+        name: str,
+        species: str,
+        subspecies: str,
+        color: str,
+        tagline: str,
+        biography: str,
+        user_id: int,
+    ) -> None:
         self.name = name
         self.species = species
         self.subspecies = subspecies
-        self.owner = owner
+        self.color = color
+        self.tagline = tagline
+        self.biography = biography
+        self.user_id = user_id

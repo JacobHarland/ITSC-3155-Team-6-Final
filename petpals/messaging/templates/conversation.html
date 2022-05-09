@@ -4,7 +4,7 @@
 
 {% block body %}
 
-        <meta id="conversation" data-sender="{{sender}}" data-conversation_id="{{conversation_id}}" data-recipient="{{recipient}}" data-current_user="{{current_user.username}}">
+        <meta id="conversation" data-sender="{{current_user.username}}" data-conversation_id="{{conversation_id}}" data-recipient="{{recipient}}" data-current_user="{{current_user.username}}">
 
         <section class="bg-white p-2">
 

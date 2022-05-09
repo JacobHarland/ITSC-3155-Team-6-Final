@@ -1,10 +1,8 @@
-var recipient = null;
-
-
 let messageSender = document.getElementById('new_message');
 let listSearch = document.getElementById('listSearch');
 let list = document.getElementById('myList');
 let listItems = list.getElementsByTagName('li');
+let recipient = '';
 
     window.onload = function() {
         for (i = 0; i < listItems.length; i++) {

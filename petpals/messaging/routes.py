@@ -18,19 +18,19 @@ active_page = "messages"
 
 
 @login_required
-@router.get('/')
-def messages():
+@router.get('')
+def render_message_page():
     unique_conversation_ids = []
     recent_conversations = []
     recent_messages = []
     sender_messages = (
         Messages.query.filter_by(sender_username=current_user.username)
-        .order_by(Messages.time_sent.asc())
+        .order_by(Messages.time_sent.desc())
         .all()
     )
     recipient_messages = (
         Messages.query.filter_by(recipient_username=current_user.username)
-        .order_by(Messages.time_sent.asc())
+        .order_by(Messages.time_sent.desc())
         .all()
     )
 
@@ -58,8 +58,9 @@ def messages():
     )
 
 
+@login_required
 @router.get('/new')
-def new_message():
+def render_new_conversation_page():
     usernames = []
     next_conversation_id = 0
     conversation_id_query = db.session.query(func.max(Messages.conversation_id)).all()
@@ -94,56 +95,33 @@ def new_message():
     )
 
 
+@login_required
 @router.post('/new/<recipient>')
-def send_new_message(recipient):
+def create_new_conversation(recipient):
     data = request.json
-
-    sender_checker = (
-        Messages.query.with_entities(
-            Messages.sender_username,
-            Messages.recipient_username,
-            Messages.conversation_id,
-        )
-        .filter_by(sender_username=data['sender'], recipient_username=data['recipient'])
-        .all()
-    )
-    recipient_checker = (
-        Messages.query.with_entities(
-            Messages.sender_username,
-            Messages.recipient_username,
-            Messages.conversation_id,
-        )
-        .filter_by(sender_username=data['recipient'], recipient_username=data['sender'])
-        .all()
-    )
-
+    next_conversation_id = 0
     new_message = Messages()
 
-    if db.session.query(func.max(Messages.conversation_id)).all()[0][0] == None:
-        new_message.conversation_id = 1
-    elif len(sender_checker) > 0:
-        new_message.conversation_id = sender_checker[0][2]
-    elif len(recipient_checker) > 0:
-        new_message.conversation_id = recipient_checker[0][2]
-    else:
-        new_message.conversation_id = (
+    try:
+        next_conversation_id = (
             int(db.session.query(func.max(Messages.conversation_id)).all()[0][0]) + 1
         )
+    except Exception:
+        next_conversation_id = 1
 
     new_message.recipient_username = data['recipient']
     new_message.sender_username = data['sender']
     new_message.message = data['message']
-    new_message.time_sent = datetime.now()
+    new_message.conversation_id = next_conversation_id
 
     db.session.add(new_message)
     db.session.commit()
     return recipient
 
 
+@login_required
 @router.get("/conversation/<conversation_id>")
 def get_conversation(conversation_id):
-    time.sleep(1)
-
     messages = Messages.query.filter_by(conversation_id=conversation_id).all()
     if messages[0].sender_username == current_user.username:
         recipient = messages[0].recipient_username
@@ -156,19 +134,7 @@ def get_conversation(conversation_id):
         messages=messages,
         current_user=current_user,
         conversation_id=conversation_id,
-        sender=current_user.username,
     )
-
-
-@router.get("/conversation/<conversation_id>/<recipient>")
-def get_realtime_message(conversation_id, recipient):
-    return str(current_message)
-
-
-@router.post('/conversation/<conversation_id>/<recipient>')
-def post_realtime_message(conversation_id, recipient):
-    current_message = request.json
-    return str(current_message)
 
 
 @socket.on('message')

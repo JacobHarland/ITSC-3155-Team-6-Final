@@ -37,7 +37,6 @@ def render_message_page():
     return render_template(
         'messages.html',
         recent_messages=msg_query,
-        current_user=current_user,
     )
 
 

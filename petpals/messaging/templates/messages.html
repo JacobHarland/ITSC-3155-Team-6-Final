@@ -45,11 +45,13 @@
                         <a href="messages/conversation/{{ message.conversation_id }}" class="message-link">
                             <div class="message-card-body">
                                 <div class="media forum-item">
-                                    <img
-                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                        class="mr-3 rounded-circle"
-                                        width="50"
-                                        alt="User"/>
+                                    <a>
+                                        <img
+                                            src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                            class="mr-3 rounded-circle"
+                                            width="50"
+                                            alt="User"/>
+                                    </a>
                                     <strong>
                                         <a href="/" data-toggle="collapse" class="text-body">
                                             {% if message.sender_username == current_user.username %}

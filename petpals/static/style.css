@@ -305,6 +305,13 @@ a.hover-blue:hover {
   background-size: cover;
 }
 
+.card-img-left-login {
+  width: 45%;
+  /* Link to your background image using in the property below! */
+  background: scroll center url("/static/images/logo/kitten.jpeg");
+  background-size: cover;
+}
+
 .btn-login {
   font-size: 0.9rem;
   letter-spacing: 0.05rem;

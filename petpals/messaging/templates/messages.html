@@ -23,7 +23,7 @@
                     
                     {% for message in recent_messages %}
                     
-                    <div class="message-card mb-2">
+                    <div class="message-card mb-2 fw-bold">
                         
                         <a href="messages/conversation/{{ message.conversation_id }}" class="message-link">
                             <div class="message-card-body">
@@ -31,32 +31,31 @@
                                     {% if message.sender_username == current_user.username %}
                                         <a>
                                             <img
-                                                    src="{{ get_prof_pic(message.recipient_username) }}"
+                                                src="{{ get_prof_pic(message.recipient_username) }}"
                                                 class="mr-3 rounded-circle"
                                                 width="50"
                                                 alt="User"/>
                                         </a>
-                                        <strong>
                                         <a href="/" data-toggle="collapse" class="text-body">
                                                 {{ message.recipient_username }}
                                             
                                         </a>
                                     {% else %}
-                                            <a>
-                                                <img
-                                                    src="{{ get_prof_pic(message.sender_username) }}"
-                                                    class="mr-3 rounded-circle"
-                                                    width="50"
-                                                    alt="User"/>
-                                            </a>
-                                            <strong>
-                                            <a href="/" data-toggle="collapse" class="text-body">
-                                                    {{ message.sender_username }}
-                                                
-                                            </a>
+                                        <a>
+                                            <img
+                                                src="{{ get_prof_pic(message.sender_username) }}"
+                                                class="mr-3 rounded-circle"
+                                                width="50"
+                                                alt="User"/>
+                                        </a>
+                                        <a href="/" data-toggle="collapse" class="text-body">
+                                            {{ message.sender_username }}
+                                            
+                                        </a>
                                     {% endif %}
-                                    </strong>
+                                    
                                     <div class="media-body">
+                                        <br>
                                         <p class="text-primary">
                                         {{ message.message }}
                                         </p>

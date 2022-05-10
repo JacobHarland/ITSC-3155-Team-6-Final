@@ -1,11 +1,16 @@
-def test_homepage(test_app):
-    res = test_app.get('/')
+from petpals.models import User
+
+testuser = User('Ross', 'strongman18', 'email@gmail.com', 'password123')
+
+
+def test_about(test_app):
+    res = test_app.get('/about')
     assert res.status_code == 200
-    assert b'Pet Pals!' in res.data
+    assert b'Meet the Team' in res.data
 
 
 def test_forum_page(test_app):
-    res = test_app.get('', follow_redirects=True)
+    res = test_app.get('/forum')
     assert res.status_code == 200
     assert b'Forum' in res.data
 

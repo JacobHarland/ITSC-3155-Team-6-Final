@@ -182,7 +182,6 @@ class Pet(db.Model):
     def __repr__(self):
         return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"
 
-      
     def __init__(
         self,
         name: str,
@@ -201,7 +200,7 @@ class Pet(db.Model):
         self.biography = biography
         self.user_id = user_id
 
-        
+
 class Messages(db.Model):
     message_id = db.Column(db.Integer, primary_key=True)
     conversation_id = db.Column(db.Integer, nullable=False)
@@ -216,4 +215,3 @@ class Messages(db.Model):
 
     def __repr__(self):
         return f"Message('{self.conversation_id}', '{self.sender_username}', '{self.recipient_username}', '{self.time_sent}', '{self.message}')"
-

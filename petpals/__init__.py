@@ -6,6 +6,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO
 
 load_dotenv()
 
@@ -38,6 +39,9 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 mail = Mail(app)
 
+# Socket IO
+socket = SocketIO(app)
+
 
 from .auth.reset_password.routes import router as reset_password_router
 from .auth.routes import router as auth_router
@@ -46,8 +50,10 @@ from .forum.post.routes import router as post_router
 from .forum.routes import router as forum_router
 from .home.routes import router as home_router
 from .profile.routes import router as profile_router
+from .messaging.routes import router as messaging_router
 
 # Register Blueprints
+app.register_blueprint(messaging_router)
 auth_router.register_blueprint(reset_password_router)
 app.register_blueprint(auth_router)
 post_router.register_blueprint(reply_router)

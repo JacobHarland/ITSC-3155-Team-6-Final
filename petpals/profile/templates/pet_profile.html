@@ -1,12 +1,11 @@
 {% extends '_layout.html' %}
-<!-- Set title to be pet's name -->
 {% block title %}{{ pet.name }}'s Profile{% endblock %}
 {% set active_page = 'pet_profile' %}
 
 {% block body %}
 
 <!-- HACK: Used min-height style to stretch paws background -->
-<section class="h-200 background-paws" style="min-height: calc(100vh - 134px);">
+<section>
   <div class="container py-3 h-100">
     <div class="row py-1 px-2">
       <div class="col-md-8 mx-auto">
@@ -93,8 +92,9 @@
               <div class="col-md-4 mb-2 pr-lg-1">
                 <img
                   src="{{image}}"
-                  alt=""
-                  class="img-fluid rounded shadow-sm"
+                  onclick="window.open(this.src, '_blank');"
+                  class="img-fluid rounded hover-shadow"
+                  style="cursor:pointer"
                 />
               </div>
               {% endfor %}

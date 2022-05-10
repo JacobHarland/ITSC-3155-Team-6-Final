@@ -10,6 +10,7 @@ router = Blueprint('profile_router', __name__, template_folder='templates')
 
 
 @router.get('/user')
+@login_required
 def profile_current_user():
     return redirect(
         url_for('profile_router.profile_user', username=current_user.username)

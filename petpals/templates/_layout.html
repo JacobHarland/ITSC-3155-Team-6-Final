@@ -36,51 +36,127 @@
 
   <body>
     <nav
-      class="navbar navbar-expand-lg navbar-light bg-info bg-gradient shadow-5"
+      class="navbar navbar-expand-lg navbar-light bg-info"
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="{{ url_for('home_router.index') }}">
           <img
-            src="/static/images/logo/logo.jpeg"
-            class="rounded shadow-5"
+            src="/static/images/logo/logo.png"
+            class="rounded"
             height="50"
             alt="Pet Pals"
             loading="lazy"
           />
         </a>
+        <!-- Toggle button -->
         <button
           class="navbar-toggler"
           type="button"
           data-mdb-toggle="collapse"
-          data-mdb-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
+          data-mdb-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <i class="fas fa-bars"></i>
+          <i class="fa-solid fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Left links -->
           <div class="navbar-nav me-auto mb-2 mb-lg-0">
-            <a class="nav-link{{' active' if active_page == 'index'}}" {% if active_page == 'index' %}aria-current="page"{% endif %} href="/">Home</a>
-            <a class="nav-link{{' active' if active_page == 'forum'}}" {% if active_page == 'forum' %}aria-current="page"{% endif %} href="/forum">Forum</a>
-            <a class="nav-link{{' active' if active_page == 'about'}}" {% if active_page == 'about' %}aria-current="page"{% endif %} href="{{ url_for('home_router.about') }}">About Us</a>
+            <a
+              class="nav-link{{' active' if active_page == 'index'}} text-white mt-2"
+              href="{{ url_for('home_router.index') }}"
+            >
+              Home
+            </a>
+            <a
+              class="nav-link{{' active' if active_page == 'forum'}} text-white mt-2"
+              href="{{ url_for('forum_router.forum') }}"
+            >
+              Forum
+            </a>
+            <a
+              class="nav-link{{' active' if active_page == 'about'}} text-white mt-2"
+              href="{{ url_for('home_router.about') }}"
+            >
+              About Us
+            </a>
           </div>
+          <!-- Right elements -->
           <div class="d-flex align-items-center">
-            <!--If user is logged in only show logout, if not logged in show signup/login-->
             {% if current_user.is_authenticated %}
-              <button type="button" class="btn btn-link btn-outline-white me-3">
-                <a class="nav-item nav-link" href="{{ url_for('profile_router.profile_current_user') }}">My Profile</a>
-              </button>
-              <button type="button" class="btn btn-link btn-outline-white me-3">
-                <a class="nav-item nav-link" href="{{ url_for('auth_router.logout') }}">Logout</a>
-              </button>
+            <a
+              class="nav-link{{' active' if active_page == 'messages'}} text-white mt-2"
+              href="{{ url_for('message_router.render_message_page') }}"
+            >
+              <i class="fa-solid fa-comment-dots fa-2xl"></i>
+            </a>
+              <!-- Avatar -->
+              <div class="dropdown">
+                <a
+                  class="dropdown-toggle d-flex align-items-center text-body me-3"
+                  href="{{ url_for('profile_router.profile_user', username=current_user.username) }}"
+                  id="navbarDropdownMenuAvatar"
+                  role="button"
+                  data-mdb-toggle="dropdown"
+                  data-mdb-display="static"
+                  data-mdb-dropdown-animation="off"
+                  aria-expanded="false"
+                >
+                  <img
+                    src="{{ current_user.image_path }}"
+                    class="rounded-circle"
+                    height="50"
+                    alt="@{{ current_user.username }}"
+                    loading="lazy"
+                  />
+                </a>
+                <ul
+                  class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end"
+                  aria-labelledby="navbarDropdownMenuAvatar"
+                >
+                  <li>
+                    <a
+                    class="dropdown-item"
+                    href="{{ url_for('profile_router.profile_user', username=current_user.username) }}"
+                    >
+                    My Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="{{ url_for('profile_router.profile_user_edit') }}"
+                    >
+                      Edit Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="{{ url_for('auth_router.logout') }}"
+                    >
+                      Log Out
+                    </a>
+                  </li>
+                </ul>
+              </div>
             {% else %}
-              <button type="button" class="btn btn-link btn-outline-white me-3">
-                <a class="nav-item nav-link" href="{{ url_for('auth_router.signup') }}">Signup</a>
-              </button>
-              <button type="button" class="btn btn-link btn-outline-white me-3">
-                <a class="nav-item nav-link" href="{{ url_for('auth_router.login') }}">Login</a>
-              </button>
+              <a
+                class="btn btn-outline-dark btn-rounded me-3"
+                href="{{ url_for('auth_router.login') }}"
+              >
+                Log In
+              </a>
+              <a
+                class="btn btn-dark btn-rounded me-3"
+                href="{{ url_for('auth_router.signup') }}"
+              >
+                Sign Up
+              </a>
             {% endif %}
           </div>
         </div>
@@ -98,7 +174,7 @@
     {% endwith %}
     <!--End flash message-->
 
-    <div style="min-height: calc(100vh - 134px);">
+    <div class="background-paws" style="min-height: calc(100vh - 134px);">
       {% block body %}{% endblock %}
     </div>
     

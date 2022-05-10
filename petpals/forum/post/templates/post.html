@@ -1,48 +1,53 @@
 {% extends '_layout.html' %}
-<!-- Set title to be the post's title -->
-{% block title %}Post{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 {% set active_page = 'post' %}
+
+{% import '_macros_post.html' as macros %}
 
 {% block body %}
 
-<section class="bg-white p-2">
+<section>
   <div class="text-center bg-info text-white border border-white border-6 p-3">
     <h1>Post Discussion</h1>
   </div>
 
-  <section class="background-paws p-4">
+  <section>
     <!--Page Container-->
 
     <div class="container bg-white border border-info border-6 rounded p-4">
-      <!--Back Button-->
-      <a href="{{ url_for('forum_router.forum') }}" class="btn btn-light btn-sm m-3 has-icon"><i
-          class="fa fa-arrow-left m-2"></i>Back to the Forum</a>
-      <!--end Back Button-->
-
       <!--Original Post Container-->
       <div class="forum-main-body p-0 collapse forum-content show bg-white mb-3">
         <!--Original Post Body-->
         <div class="forum-card-body border border-6 border-light rounded">
           <div class="media forum-item m-3">
-            <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}" class="card-link">
-              <img src="{{ post.author.image_path }}" class="rounded-circle" width="50" />
-            </a>
-            <div class="media-body ml-3">
-              <a href="{{ url_for('profile_router.profile_user', username=post.author.username) }}"
-                class="text-secondary"> {{ post.author.username }} </a>
-              <small class="text-muted ml-2">{{ post.timestamp }}</small>
-              <h5 class="mt-1">{{ post.title }}</h5>
+            {{ macros.post_header(post) }}
+            <div class="media-body ms-3 mt-2">
+              <h5>{{ post.title }}</h5>
+              <hr />
               <div class="mt-3 font-size-sm">
-                {% if post.content %}
-                {% for line in content_markup(post.content).splitlines() %}
-                  <p class="mb-0">{{ line }}</p>
-                {% endfor %}
-              {% endif %}
+                {{ content_markup(post.content) }}
               </div>
               <div class="text-center">
-                <button class="btn btn-xs btn-outline-info">
-                  <a href="{{ url_for('forum_router.post_router.reply_router.reply_form', post_id=post.post_id) }}">Reply</a>
+                <button
+                  class="like btn btn-xs btn-outline-info text-muted has-icon me-1"
+                  data-post-id={{ post.post_id }}
+                >
+                  <i
+                    class="{{ 'fa-solid' if current_user.is_authenticated and post.likes.filter_by(user_id=current_user.id).first().liked else 'fa-regular' }} fa-heart me-1"
+                    style="color: crimson;"
+                    aria-hidden="true"
+                  ></i>
+                  <span>{{ post.likes.filter_by(liked=True).all() | length }}</span>
                 </button>
+                <button class="btn btn-xs btn-outline-info">
+                  <a
+                    href="{{ url_for('forum_router.post_router.reply_router.reply_new', post_id=post.post_id) }}">Reply</a>
+                </button>
+                {% if post.user_id == current_user.id %}
+                <button class="btn btn-xs btn-outline-info">
+                  <a href="{{ url_for('forum_router.post_router.post_edit', post_id=post.post_id)}}">Edit Post</a>
+                </button>
+                {% endif %}
               </div>
             </div>
             <div class="text-muted small text-center">
@@ -60,37 +65,39 @@
       <!--Replies Container-->
       <div class="container bg-info pt-2 pb-2 mb-2 rounded">
         {% for reply in post.replies %}
-          <!--Reply Cards Container-->
-          <div id="reply{{ reply.reply_id }}" class="container mt-0 bg-info border border-6 border-info p-0">
-            <!--Reply Content-->
-            <div class="forum-card mt-2 mb-2 p-1 border border-3 border-light">
-              <div class="forum-card-body">
-                <div class="media forum-item">
-                  <a href="{{ url_for('profile_router.profile_user', username=reply.author.username) }}" class="card-link">
-                    <img src="{{ reply.author.image_path }}" class="rounded-circle" width="50 "
-                      alt="User " />
-                  </a>
-                  <div class="media-body ml-3">
-                    <a href="{{ url_for('profile_router.profile_user', username=reply.author.username) }}" class="text-secondary">{{ reply.author.username }}</a>
-                    <small class="text-muted ml-2">{{ reply.timestamp }}</small>
-                    <div class="mt-3 font-size-sm mb-4">
-                      {% for line in reply.content.splitlines() %}
-                        <p class="mb-0">{{ line }}</p>
-                      {% endfor %}
-                    </div>
-                    <button class="btn btn-xs text-muted has-icon me-3">
-                      <i class="fa fa-heart" aria-hidden="true "></i>1
-                    </button>
-                    <a href="#" class="text-muted small">Reply (NOT AVAILABLE AS THIS TIME)</a>
+        <!--Reply Cards Container-->
+        <div id="reply{{ reply.reply_id }}" class="container mt-0 bg-info border border-6 border-info p-0">
+          <!--Reply Content-->
+          <div class="forum-card mt-2 mb-2 p-1 border border-3 border-light">
+            <div class="forum-card-body">
+              <div class="media forum-item">
+                {{ macros.post_header(reply) }}
+                <div class="media-body ms-3 mt-2">
+                  <div class="mt-3 font-size-sm mb-4">
+                    {{ content_markup(reply.content) }}
                   </div>
+                  <button class="like btn btn-xs text-muted has-icon me-3" data-reply-id={{ reply.reply_id }}>
+                    <i class="{{ 'fa-solid' if current_user.is_authenticated and reply.likes.filter_by(user_id=current_user.id).first().liked else 'fa-regular' }} fa-heart me-1"
+                      style="color: crimson;" aria-hidden="true"></i>
+                    <span>{{ reply.likes.filter_by(liked=True).all() | length }}</span>
+                  </button>
+                  {% if current_user.is_authenticated and current_user.id == reply.user_id %}
+                  <a href="{{ url_for('forum_router.post_router.reply_router.reply_edit', post_id=post.post_id, reply_id=reply.reply_id) }}"
+                    class="btn btn-sm text-muted">
+                    Edit Reply
+                  </a>
+                  {% endif %}
                 </div>
               </div>
             </div>
           </div>
+        </div>
         {% endfor %}
       </div>
     </div>
   </section>
 </section>
+
+<script src="/forum/post/static/js/liked.js"></script>
 
 {% endblock %}

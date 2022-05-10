@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<section class="h-100 background-paws" style="background-color: #eee">
+<section>
   <div class="container py-5 h-100">
     <div class="card rounded-3 text-black border border-info border-6">
       <div class="card-body p-md-5 mx-md-4">
@@ -89,10 +89,10 @@
           </div>
 
           <!--TODO Attatchment button-->
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="exampleFormControlFile1">Attachments</label>
             <input type="file" class="form-control-file" />
-          </div>
+          </div> -->
 
           <div class="border-top pt-3">
             <small class="text-muted">
@@ -105,7 +105,6 @@
           </div>
         </form>
 
-        {% if current_user %}
         <div class="text-center pt-1 mb-0 pb-0">
           <button type="button" class="btn btn-danger btn-sm m-1" data-mdb-toggle="modal" data-mdb-target="#deleteModal">Delete Account</button>
 
@@ -127,9 +126,8 @@
               </div>
             </div>
           </div>
-        </div>
-      {% endif %}
 
+        </div>
       </div>
     </div>
   </div>

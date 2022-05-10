@@ -26,6 +26,12 @@ class User(db.Model, UserMixin):
     )
     posts = db.relationship('Post', back_populates='author', cascade="all, delete")
     replies = db.relationship('Reply', back_populates='author', cascade="all, delete")
+    post_likes = db.relationship(
+        'PostLike', back_populates='user', cascade='all, delete'
+    )
+    reply_likes = db.relationship(
+        'ReplyLike', back_populates='user', cascade='all, delete'
+    )
 
     @property
     def image_file(self):
@@ -82,6 +88,9 @@ class Post(db.Model):
 
     author = db.relationship('User', back_populates='posts')
     replies = db.relationship('Reply', back_populates='op', cascade="all, delete")
+    likes = db.relationship(
+        'PostLike', back_populates='post', lazy='dynamic', cascade='all, delete'
+    )
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.timestamp}')"
@@ -90,6 +99,15 @@ class Post(db.Model):
         self.title = title
         self.content = content
         self.user_id = user_id
+
+
+class PostLike(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), primary_key=True)
+    liked = db.Column(db.Boolean, nullable=False, default=True)
+
+    user = db.relationship('User', back_populates='post_likes')
+    post = db.relationship('Post', back_populates='likes')
 
 
 class Reply(db.Model):
@@ -102,9 +120,21 @@ class Reply(db.Model):
 
     author = db.relationship('User', back_populates='replies')
     op = db.relationship('Post', back_populates='replies')
+    likes = db.relationship(
+        'ReplyLike', back_populates='reply', lazy='dynamic', cascade='all, delete'
+    )
 
     def __repr__(self):
         return f"Reply('{self.content}', '{self.timestamp}')"
+
+
+class ReplyLike(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    reply_id = db.Column(db.Integer, db.ForeignKey('reply.reply_id'), primary_key=True)
+    liked = db.Column(db.Boolean, nullable=False, default=True)
+
+    user = db.relationship('User', back_populates='reply_likes')
+    reply = db.relationship('Reply', back_populates='likes')
 
 
 class Pet(db.Model):
@@ -152,6 +182,7 @@ class Pet(db.Model):
     def __repr__(self):
         return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"
 
+      
     def __init__(
         self,
         name: str,
@@ -169,3 +200,20 @@ class Pet(db.Model):
         self.tagline = tagline
         self.biography = biography
         self.user_id = user_id
+
+        
+class Messages(db.Model):
+    message_id = db.Column(db.Integer, primary_key=True)
+    conversation_id = db.Column(db.Integer, nullable=False)
+    sender_username = db.Column(
+        db.String(18), db.ForeignKey("user.username"), nullable=False
+    )
+    recipient_username = db.Column(
+        db.String(18), db.ForeignKey("user.username"), nullable=False
+    )
+    message = db.Column(db.Text, nullable=False)
+    time_sent = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Message('{self.conversation_id}', '{self.sender_username}', '{self.recipient_username}', '{self.time_sent}', '{self.message}')"
+

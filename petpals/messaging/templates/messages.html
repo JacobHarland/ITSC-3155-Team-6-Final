@@ -1,0 +1,84 @@
+{% extends '_layout.html' %}
+{% block title %}Messages{% endblock %}
+{% set active_page = 'messages' %}
+
+{% block body %}
+
+        <section class="p-2">
+        <div class="text-center bg-info text-white border border-white border-6 p-3">
+            <h1>Messages</h1>
+        </div>
+
+        <section class="background-paws p-2">
+            <div class="container bg-info p-2">
+                <a href="/messages/new">
+                    <button class="btn btn-success btn-block" type="button">New Message</button>
+                </a>
+            <div>
+                <div class="forum-wrapper">
+                <div class="message-main">
+                    <div class="forum-main-body p-2 p-sm-3 collapse forum-content show">
+
+
+                    
+                    {% for message in recent_messages %}
+                    
+                    <div class="message-card mb-2 fw-bold">
+                        
+                        <a href="messages/conversation/{{ message.conversation_id }}" class="message-link">
+                            <div class="message-card-body">
+                                <div class="media forum-item">
+                                    {% if message.sender_username == current_user.username %}
+                                        <a>
+                                            <img
+                                                src="{{ get_prof_pic(message.recipient_username) }}"
+                                                class="mr-3 rounded-circle"
+                                                width="50"
+                                                alt="User"/>
+                                        </a>
+                                        <a href="/" data-toggle="collapse" class="text-body">
+                                                {{ message.recipient_username }}
+                                            
+                                        </a>
+                                    {% else %}
+                                        <a>
+                                            <img
+                                                src="{{ get_prof_pic(message.sender_username) }}"
+                                                class="mr-3 rounded-circle"
+                                                width="50"
+                                                alt="User"/>
+                                        </a>
+                                        <a href="/" data-toggle="collapse" class="text-body">
+                                            {{ message.sender_username }}
+                                            
+                                        </a>
+                                    {% endif %}
+                                    
+                                    <div class="media-body">
+                                        <br>
+                                        <p class="text-primary">
+                                        {{ message.message }}
+                                        </p>
+                                        <p class="text-muted">
+                                            <span class="text-secondary font-weight-bold"> {{ message.time_sent }} </span>
+                                        </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+                    {% endfor %}
+
+
+                </div>
+                </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </section>
+</section>
+
+<script src="/messages/static/js/messages.js"></script>
+{% endblock %}

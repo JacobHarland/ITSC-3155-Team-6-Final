@@ -1,5 +1,4 @@
 -- MySQL Workbench Forward Engineering
-
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -164,11 +163,38 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+-- -----------------------------------------------------
+-- Table `final`.`messages`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `final`.`messages` (
+	message_id INT AUTO_INCREMENT PRIMARY KEY,	
+	conversation_id INT NOT NULL,
+	sender_username VARCHAR(18) NOT NULL,
+	recipient_username VARCHAR(18) NOT NULL,
+	time_sent TIMESTAMP DEFAULT current_timestamp NOT NULL,
+	message TEXT NOT NULL,
+    INDEX `fk_recipient_usernamex` (`recipient_username` ASC) VISIBLE,
+	CONSTRAINT `fk_recipient_username` 
+		FOREIGN KEY (recipient_username) 
+		REFERENCES user (username) 
+		ON DELETE CASCADE,
+	INDEX `fk_sender_usernamex` (`sender_username` ASC) VISIBLE,
+	CONSTRAINT `fk_sender_username` 
+		FOREIGN KEY (sender_username) 
+		REFERENCES user (username) 
+		ON DELETE CASCADE
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
 ALTER TABLE user AUTO_INCREMENT=0;
 ALTER TABLE pet AUTO_INCREMENT=0;
 ALTER TABLE post AUTO_INCREMENT=0;
 ALTER TABLE reply AUTO_INCREMENT=0;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

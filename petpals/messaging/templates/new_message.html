@@ -1,0 +1,60 @@
+{% extends '_layout.html' %}
+{% block title %}New Message{% endblock %}
+{% set active_page = 'messages' %}
+
+{% block body %}
+
+<meta id="sender" data-name="{{current_user.username}}">
+
+        <section class="p-2">
+
+        <div class="text-center bg-info text-white border border-white border-6 p-3">
+            <h1>New Message</h1>
+        </div>
+
+        <section class="background-paws p-2">
+            <div class="bg-info p-2 container">
+                    <form class="new_message">
+                        <h3 class="search-username-header">Username</h3>
+                        <div class="form-outline mb-4 new_message_content">
+                            <div class="container user-search">
+                                <div class="list-search">
+                                    <input class="form-control list-search" id="listSearch" type="text" placeholder="Search a Username Here..." required>
+                                </div>
+                                <ul class="list-group" id="myList">
+                                    {% for username in usernames %}
+                                        <li class="list-group-item" value=`{{ username }}`> {{ username }} </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Message</h3>
+                        <div class="mb-4 new_message_textbox_container">
+                            <textarea class="form-control new_message" id="new_message" rows="10" required></textarea>  
+                        </div>
+
+                    </form>
+
+                    <a href="/messages">
+                        <button
+                            class="btn btn-primary btn-block"
+                            type="button"
+                            data-toggle="modal"
+                        >
+                            Back
+                        </button>
+                    </a>
+                </div>
+                
+                <div class="container">
+
+                </div>
+
+        </div>
+    </section>
+</section>
+
+<script src="/messages/static/js/new_message.js"></script>
+
+{% endblock %}

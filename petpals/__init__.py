@@ -13,13 +13,13 @@ load_dotenv()
 app = Flask(__name__)
 
 # SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI', 'sqlite:///test.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Flask Secret Key
 # Protects against modifying cookies and crosssite request forgery attacks
-app.secret_key = os.getenv('SECRET_KEY')
+app.secret_key = os.getenv('SECRET_KEY', 'bOzIxQMWXaz0QxLmkjfIfzhwskdRUNL5')
 
 # Bcrypt
 bcrypt = Bcrypt(app)

@@ -105,7 +105,9 @@ def create_new_conversation():
 @router.get("/conversation/<conversation_id>")
 def get_conversation(conversation_id):
     messages = Messages.query.filter_by(conversation_id=conversation_id).all()
-    if (messages[0].sender_username == current_user.username) or (
+    if len(messages) == 0:
+        abort(404)
+    elif (messages[0].sender_username == current_user.username) or (
         messages[0].recipient_username == current_user.username
     ):
         if messages[0].sender_username == current_user.username:

@@ -1,7 +1,7 @@
 def test_homepage(test_app):
     res = test_app.get('/')
     assert res.status_code == 200
-    assert b'Welcome to Pet Pals!' in res.data
+    assert b'Pet Pals!' in res.data
 
 
 def test_forum_page(test_app):

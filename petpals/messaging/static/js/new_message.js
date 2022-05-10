@@ -60,7 +60,9 @@ messageSender.addEventListener('keypress', function(event) {
                 },
                 body: JSON.stringify(data)
             }
-            sendNewMessage(("/messages/new/" + conversation_id), options, conversation_id);
+
+            sendNewMessage(("/messages/new" ), options);
+
         } else {
             alert("Please enter a recipient!")
         }
@@ -69,12 +71,15 @@ messageSender.addEventListener('keypress', function(event) {
     }
 })
 
-async function sendNewMessage(URL, options, conversation_id) {
+async function sendNewMessage(URL, options) {
     await fetch(URL, options, {
         options
     })
-    .then (async (response) => {
-        window.location = "/messages/conversation/" + conversation_id;
+    .then (async (response) => response.json())
+    .then ((data) => {
+        console.log(data)
+        window.location = "/messages/conversation/" + data['convo_id'];
+    })
+        
+        
     }
-    )
-}

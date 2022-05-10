@@ -150,13 +150,13 @@ CREATE TABLE IF NOT EXISTS `final`.`messages` (
 	recipient_username VARCHAR(18) NOT NULL,
 	time_sent TIMESTAMP DEFAULT current_timestamp NOT NULL,
 	message TEXT NOT NULL,
-    FOREIGN KEY (sender_username) REFERENCES user (username),
-    FOREIGN KEY (recipient_username) REFERENCES user (username),
-	CONSTRAINT `messages_ibfk_4` 
+    INDEX `fk_recipient_usernamex` (`recipient_username` ASC) VISIBLE,
+	CONSTRAINT `fk_recipient_username` 
 		FOREIGN KEY (recipient_username) 
 		REFERENCES user (username) 
 		ON DELETE CASCADE,
-	CONSTRAINT `messages_ibfk_6` 
+	INDEX `fk_sender_usernamex` (`sender_username` ASC) VISIBLE,
+	CONSTRAINT `fk_sender_username` 
 		FOREIGN KEY (sender_username) 
 		REFERENCES user (username) 
 		ON DELETE CASCADE

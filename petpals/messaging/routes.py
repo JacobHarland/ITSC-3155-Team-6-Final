@@ -53,15 +53,6 @@ def render_message_page():
 @router.get('/new')
 def render_new_conversation_page():
     usernames = []
-    next_conversation_id = 0
-    conversation_id_query = db.session.query(
-        func.max(Messages.conversation_id).label("highest_convo")
-    )
-
-    try:
-        next_conversation_id = int(conversation_id_query.first()['highest_convo']) + 1
-    except Exception:
-        next_conversation_id = 1
 
     users = User.query.all()
     messages = Messages.query.all()
@@ -81,24 +72,33 @@ def render_new_conversation_page():
     return render_template(
         'new_message.html',
         usernames=sorted(usernames),
-        conversation_id=next_conversation_id,
     )
 
 
 @login_required
-@router.post('/new/<conversation_id>')
-def create_new_conversation(conversation_id):
+@router.post('/new')
+def create_new_conversation():
     data = request.json
     new_message = Messages()
+
+    next_conversation_id = 0
+    conversation_id_query = db.session.query(
+        func.max(Messages.conversation_id).label("highest_convo")
+    )
+
+    try:
+        next_conversation_id = int(conversation_id_query.first()['highest_convo']) + 1
+    except Exception:
+        next_conversation_id = 1
 
     new_message.recipient_username = data['recipient']
     new_message.sender_username = data['sender']
     new_message.message = data['message']
-    new_message.conversation_id = conversation_id
+    new_message.conversation_id = next_conversation_id
 
     db.session.add(new_message)
     db.session.commit()
-    return {'convo_id': conversation_id}
+    return {'convo_id': next_conversation_id}
 
 
 @login_required

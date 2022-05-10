@@ -1,8 +1,3 @@
-from petpals.models import User
-
-testuser = User('Ross', 'strongman18', 'email@gmail.com', 'password123')
-
-
 def test_about(test_app):
     res = test_app.get('/about')
     assert res.status_code == 200

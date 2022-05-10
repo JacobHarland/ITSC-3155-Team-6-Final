@@ -1,8 +1,21 @@
-from petpals.models import Post, User, Pet, Reply
+from petpals.models import Post, User, Pet
 
-testuser = User('Ross', 'strongman18', 'email@gmail.com', 'password123')
-testpost = Post('Test title', 'Test content', 1)
-testpet = Pet('Garcia', 'Cat', 'Friend', 'Orange', 'Tagline', 'Bio', 1)
+testuser = User(
+    fullname='Ross',
+    username='strongman18',
+    email='email@gmail.com',
+    password='password123',
+)
+testpost = Post(title='Test title', content='Test content', user_id=1)
+testpet = Pet(
+    name='Garcia',
+    species='Cat',
+    subspecies='Friend',
+    color='Orange',
+    tagline='Tagline',
+    biography='Bio',
+    user_id=1,
+)
 
 
 def test_user_model():

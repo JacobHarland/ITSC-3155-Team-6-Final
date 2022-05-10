@@ -65,18 +65,6 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
-    def __init__(
-        self,
-        fullname: str,
-        username: str,
-        email: str,
-        password: str,
-    ) -> None:
-        self.fullname = fullname
-        self.username = username
-        self.email = email
-        self.password = password
-
 
 class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key=True)
@@ -94,11 +82,6 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.timestamp}')"
-
-    def __init__(self, title: str, content: str, user_id: int) -> None:
-        self.title = title
-        self.content = content
-        self.user_id = user_id
 
 
 class PostLike(db.Model):
@@ -181,24 +164,6 @@ class Pet(db.Model):
 
     def __repr__(self):
         return f"Profile('{self.name}', '{self.species}', '{self.subspecies}', '{self.color}', '{self.tagline}', '{self.biography}')"
-
-    def __init__(
-        self,
-        name: str,
-        species: str,
-        subspecies: str,
-        color: str,
-        tagline: str,
-        biography: str,
-        user_id: int,
-    ) -> None:
-        self.name = name
-        self.species = species
-        self.subspecies = subspecies
-        self.color = color
-        self.tagline = tagline
-        self.biography = biography
-        self.user_id = user_id
 
 
 class Messages(db.Model):

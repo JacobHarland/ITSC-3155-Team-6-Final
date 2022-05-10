@@ -13,8 +13,8 @@ router = Blueprint(
 )
 
 
-@login_required
 @router.get('')
+@login_required
 def render_message_page():
 
     # This source was very useful: https://stackoverflow.com/a/45779686
@@ -49,8 +49,8 @@ def render_message_page():
     )
 
 
-@login_required
 @router.get('/new')
+@login_required
 def render_new_conversation_page():
     usernames = []
 
@@ -75,8 +75,8 @@ def render_new_conversation_page():
     )
 
 
-@login_required
 @router.post('/new')
+@login_required
 def create_new_conversation():
     data = request.json
     new_message = Messages()
@@ -101,8 +101,8 @@ def create_new_conversation():
     return {'convo_id': next_conversation_id}
 
 
-@login_required
 @router.get("/conversation/<conversation_id>")
+@login_required
 def get_conversation(conversation_id):
     messages = Messages.query.filter_by(conversation_id=conversation_id).all()
     if len(messages) == 0:

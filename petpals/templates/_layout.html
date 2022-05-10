@@ -88,6 +88,12 @@
           <!-- Right elements -->
           <div class="d-flex align-items-center">
             {% if current_user.is_authenticated %}
+            <a
+              class="nav-link{{' active' if active_page == 'messages'}} text-white mt-2"
+              href="{{ url_for('message_router.render_message_page') }}"
+            >
+              Messages
+            </a>
               <!-- Avatar -->
               <div class="dropdown">
                 <a

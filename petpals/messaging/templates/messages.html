@@ -28,21 +28,33 @@
                         <a href="messages/conversation/{{ message.conversation_id }}" class="message-link">
                             <div class="message-card-body">
                                 <div class="media forum-item">
-                                    <a>
-                                        <img
-                                            src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                                            class="mr-3 rounded-circle"
-                                            width="50"
-                                            alt="User"/>
-                                    </a>
-                                    <strong>
-                                        <a href="/" data-toggle="collapse" class="text-body">
-                                            {% if message.sender_username == current_user.username %}
-                                                {{ message.recipient_username }}
-                                            {% else %}
-                                                {{ message.sender_username }}
-                                            {% endif %}
+                                    {% if message.sender_username == current_user.username %}
+                                        <a>
+                                            <img
+                                                    src="{{ get_prof_pic(message.recipient_username) }}"
+                                                class="mr-3 rounded-circle"
+                                                width="50"
+                                                alt="User"/>
                                         </a>
+                                        <strong>
+                                        <a href="/" data-toggle="collapse" class="text-body">
+                                                {{ message.recipient_username }}
+                                            
+                                        </a>
+                                    {% else %}
+                                            <a>
+                                                <img
+                                                    src="{{ get_prof_pic(message.sender_username) }}"
+                                                    class="mr-3 rounded-circle"
+                                                    width="50"
+                                                    alt="User"/>
+                                            </a>
+                                            <strong>
+                                            <a href="/" data-toggle="collapse" class="text-body">
+                                                    {{ message.sender_username }}
+                                                
+                                            </a>
+                                    {% endif %}
                                     </strong>
                                     <div class="media-body">
                                         <p class="text-primary">

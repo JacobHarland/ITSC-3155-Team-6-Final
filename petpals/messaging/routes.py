@@ -43,9 +43,12 @@ def render_message_page():
         ),
     ).order_by(desc(Messages.time_sent))
 
+    def get_prof_pic(username):
+        prof_pic_query = User.query.filter_by(username=username).first()
+        return prof_pic_query.image_path
+
     return render_template(
-        'messages.html',
-        recent_messages=msg_query,
+        'messages.html', recent_messages=msg_query, get_prof_pic=get_prof_pic
     )
 
 

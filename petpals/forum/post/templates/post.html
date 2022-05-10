@@ -39,14 +39,19 @@
                   ></i>
                   <span>{{ post.likes.filter_by(liked=True).all() | length }}</span>
                 </button>
-                <button class="btn btn-xs btn-outline-info">
-                  <a
-                    href="{{ url_for('forum_router.post_router.reply_router.reply_new', post_id=post.post_id) }}">Reply</a>
-                </button>
+                <a
+                  href="{{ url_for('forum_router.post_router.reply_router.reply_new', post_id=post.post_id) }}"
+                  class="btn btn-xs btn-outline-info"
+                >
+                  Reply
+                </a>
                 {% if post.user_id == current_user.id %}
-                <button class="btn btn-xs btn-outline-info">
-                  <a href="{{ url_for('forum_router.post_router.post_edit', post_id=post.post_id)}}">Edit Post</a>
-                </button>
+                  <a
+                    href="{{ url_for('forum_router.post_router.post_edit', post_id=post.post_id)}}"
+                    class="btn btn-xs btn-outline-info"
+                  >
+                    Edit Post
+                  </a>
                 {% endif %}
               </div>
             </div>

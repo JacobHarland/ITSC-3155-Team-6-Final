@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, abort
 from flask_login import current_user, login_required
 from sqlalchemy import func, and_, or_, desc
 from petpals import db, socket
@@ -105,10 +105,15 @@ def create_new_conversation():
 @router.get("/conversation/<conversation_id>")
 def get_conversation(conversation_id):
     messages = Messages.query.filter_by(conversation_id=conversation_id).all()
-    if messages[0].sender_username == current_user.username:
-        recipient = messages[0].recipient_username
+    if (messages[0].sender_username == current_user.username) or (
+        messages[0].recipient_username == current_user.username
+    ):
+        if messages[0].sender_username == current_user.username:
+            recipient = messages[0].recipient_username
+        else:
+            recipient = messages[0].sender_username
     else:
-        recipient = messages[0].sender_username
+        abort(403)
 
     return render_template(
         'conversation.html',

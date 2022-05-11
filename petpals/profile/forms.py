@@ -10,7 +10,7 @@ from petpals.form_validators import (
     password_validators,
 )
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, EqualTo, Length
 
 
 class UpdateAccountForm(FlaskForm):
@@ -43,6 +43,10 @@ class ChangePassword(FlaskForm):
     password = PasswordField('Current Password', password_validators)
     new_password = PasswordField('New Password', password_validators)
     confirm_password = PasswordField(
-        'Confirm New Password', confirm_password_validators
+        'Confirm New Password',
+        validators=[
+            DataRequired(),
+            EqualTo('new_password', 'Field must be equal to %(other_label)s.'),
+        ],
     )
     submit = SubmitField('Change Password')

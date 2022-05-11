@@ -65,7 +65,10 @@ def save_profile_picture(picture_data: FileStorage, pet=None) -> str:
         image.save(get_image_path(filename, rel_path), optimize=True)
 
     if profile.image_file != 'default.jpg':
-        os.remove(get_image_path(profile.image_file, rel_path))
+        try:
+            os.remove(get_image_path(profile.image_file, rel_path))
+        except OSError:
+            pass
 
     return filename
 
@@ -89,6 +92,9 @@ def save_recent_photo(picture_data: FileStorage, pet, id: int) -> str:
         image.save(get_image_path(filename, rel_path), optimize=True)
 
     if getattr(pet, f'img{id}_path'):
-        os.remove(get_image_path(getattr(pet, f'img{id}_path'), rel_path))
+        try:
+            os.remove(get_image_path(getattr(pet, f'img{id}_path'), rel_path))
+        except OSError:
+            pass
 
     return filename

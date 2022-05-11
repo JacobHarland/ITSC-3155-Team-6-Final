@@ -13,8 +13,11 @@ load_dotenv()
 app = Flask(__name__)
 
 # SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI', 'sqlite:///test.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'CLEARDB_DATABASE_URL', 'sqlite:///test.db'
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 60}
 db = SQLAlchemy(app)
 
 # Flask Secret Key

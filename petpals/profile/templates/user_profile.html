@@ -4,61 +4,45 @@
 
 {% block body %}
 
-<!-- HACK: Used min-height style to stretch paws background -->
 <section>
-  <div class="container py-3 h-100">
-    <div class="row py-1 px-2">
-      <div class="col-md-8 mx-auto">
-        <!-- Profile widget -->
-        <div class="bg-white shadow rounded overflow-hidden border border-6 border-info">
-          <!-- Profile Head -->
-          <div class="px-4 pt-4 pb-2 cover">
-            <div class="profile-head d-flex align-items-end">
-              <div class="me-3">
-                <img src="{{ user.image_path }}" width="130" class="rounded img-thumbnail" />
-              </div>
-              <div class="text-white me-3 mb-2">
-                <h4 class="mb-0">{{ user.fullname }}</h4>
+  <div>
+    <div class="row profile-margins mx-auto py-5">
+      <div class="col-sm-1 mx-auto bg-info rounded-2 profile-margins">
+        <div class="card flex-row my-3 mx-2 border-0 shadow rounded-3 overflow-hidden">
+          <div class="profile-left d-md-flex bg-gray">
+            <div class="row text-center my-auto">
+              <div class="mb-1 bg-w p-3">
+                <img class="border border-0 p-4" src="{{ user.image_path }}" width="300"
+                  class="rounded img-thumbnail" />
+                <h1 class="mt-2 text-white">{{ user.fullname }}</h1>
                 {% if current_user.is_authenticated and current_user.username == user.username %}
-                <div class="mb-4">
-                  <a href="{{ url_for('profile_router.profile_user_edit') }}"
+                <div>
+                  <a class="btn btn-warning btn-rounded btn-sm mb-3 text-white"
+                    href="{{ url_for('profile_router.profile_user_edit') }}"
                     class="btn btn-light hover-gray btn-outline-dark btn-sm">Edit profile</a>
+                  <a class="btn btn-warning btn-rounded btn-sm mb-3 text-white"
+                    href="{{ url_for('profile_router.profile_pet_new') }}">Add More Pets</a>
                 </div>
+                {% endif %}
+              </div>
+              <div class="text-white my-5">
+                {% if user.biography %}
+                {% for line in user.biography.splitlines() %}
+                <p class="mb-0">{{ line }}</p>
+                {% endfor %}
                 {% endif %}
               </div>
             </div>
           </div>
-          <!-- Profile Statistics -->
-          <div class="bg-dark profile-gray p-4 d-flex justify-content-end text-center">
-          </div>
-          <div class="px-4 py-3">
-            <h5 class="mb-0">About</h5>
-            <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-              {% if user.biography %}
-              {% for line in user.biography.splitlines() %}
-              <p class="mb-0">{{ line }}</p>
-              {% endfor %}
-              {% endif %}
+          <div class="card-body p-2 p-sm-4">
+            <div class="text-center mb-3 mt-2">
+              <h1>My Pets</h1>
             </div>
-          </div>
-          <div class="py-4 px-4">
-            <h5 class="mb-0">Pets</h5>
-            <div class="p-4 rounded shadow-sm bg-dark profile-gray">
-              <div class="row gy-3 ">
-                {% if current_user.is_authenticated and current_user.username == user.username %}
-                <div class="col-lg-3">
-                  <div class="card">
-                    <!-- Add Pet Page -->
-                    <a href="{{ url_for('profile_router.profile_pet_new') }}">
-                      <div class="card-body">
-                        <h5 class="card-title text-center">Add More Pets</h5>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                {% endif %}
+            <hr class="my-3">
+            <div id="carouselExampleControls" class="carousel slide" data-mdb-ride="carousel">
+              <div class="carousel-inner">
                 {% for pet in user.pets %}
-                <div class="col-lg-3">
+                <div class="carousel-item {% if loop.index == 1 %} active{% endif %}">
                   <a href="{{ url_for('profile_router.profile_pet', username=pet.owner.username, pet_name=pet.name) }}">
                     <div class="card">
                       <img src="{{ pet.image_path }}" class="card-img-top" />
@@ -70,6 +54,16 @@
                 </div>
                 {% endfor %}
               </div>
+              <button class="carousel-control-prev" type="button" data-mdb-target="#carouselExampleControls"
+                data-mdb-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-mdb-target="#carouselExampleControls"
+                data-mdb-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
           </div>
         </div>

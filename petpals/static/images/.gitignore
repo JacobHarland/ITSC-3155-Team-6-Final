@@ -1,5 +1,6 @@
 user/profile/*
 !user/profile/default.jpg
+!user/profile/tester*.jpg
 
 pet/profile/*
 !pet/profile/default.jpg

@@ -25,7 +25,7 @@ def forum():
     # desc: descending
     match sort_by:
         case 'newest':
-            post_query = post_query.order_by(Post.post_id.desc())
+            post_query = post_query.order_by(Post.timestamp.desc())
         case 'no_replies':
             post_query = post_query.outerjoin(Reply).filter_by(post_id=None)
         case 'most_replies':
